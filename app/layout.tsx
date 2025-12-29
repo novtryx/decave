@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import LatestTicket from "@/components/layout/latestTicket";
+import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +28,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-[#FAF8FF]`}
       >
+        <LatestTicket/>
+        
+        <div className="relative">
+
+        <div className="absolute top-2 left-0 right-0 z-50 px-6">
+          <div className="max-w-7xl mx-auto">
+            <Header/>
+          </div>
+        </div>
         {children}
+        
+        <Footer/>
+        </div>
       </body>
     </html>
   );
