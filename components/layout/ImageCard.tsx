@@ -59,7 +59,7 @@ const ImageCard = ({
   className = ''
 }: ImageCardProps) => {
   return (
-    <div className={`h-fit w-106 border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-sm transition-all duration-300 ${className}`}>
+    <div className={`h-fit w-106 border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-xl transition-all duration-300 ${className}`}>
         {/* Image Section */}
         <div className="relative h-72 w-full">
             <Image 
@@ -93,12 +93,12 @@ const ImageCard = ({
 
         {/* Content Section */}
         <div className='h-fit p-4 space-y-4'>
-            {/* Optional Icon (gradient circle) */}
+            {/* Optional Icon (gradient circle)
             {Icon && (
               <div className={`bg-linear-to-r from-${iconGradientFrom} to-${iconGradientTo} h-fit w-fit rounded-full p-2`}>
                 <Icon color='white' size={20} />
               </div>
-            )}
+            )} */}
             
             {/* Title */}
             <h2 className='font-semibold text-[32px]'>{title}</h2>
