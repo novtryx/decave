@@ -27,8 +27,8 @@ const LatestTicket = () => {
             <p className='font-normal text-lg'>AFROSPOOK - 2025</p>
             <div className="w-2 h-2 bg-white rounded-full"></div>
 
-            <Link href={"#"} className='underline hover:no-underline transition-all'>
-              Buy Ticket Now
+            <Link href={"#"} className='underline hover:no-underline uppercase transition-all'>
+              Buy Tickets Now
             </Link>
           </motion.div>
 
