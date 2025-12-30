@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Header from '../layout/header'
 import { GiDrippingStar } from "react-icons/gi";
 import { IoArrowForward } from "react-icons/io5";
+import Button from '../layout/Button';
 
 
 
@@ -44,13 +45,17 @@ const HeroSection = () => {
                         that celebrate African culture, elevate community, and redefine nightlife.</p>
                 </div>
                 <div className='flex items-center gap-6 pt-6'>
-                    <button className='bg-[radial-gradient(circle,var(--tw-gradient-stops))] bg-amber-300 from-[#FFD159] to-[#FFD159] px-8 py-2 rounded-full text-[#FFF7E4] flex items-center gap-4'>
-                       <p>View Event</p> 
-                       <IoArrowForward size={24} />
-                    </button>                
-                    <button className='rounded-full px-8 py-2 border border-[#CCA33A] text-[#CCA33A]'>
-                        Partner with us
-                    </button>
+                    <Button
+                        variant="primary" 
+                        icon={IoArrowForward}
+                        iconPosition="right"
+                        >
+                        View Event
+                        </Button>
+               
+                    <Button variant="outline">
+                            Partner with us
+                    </Button>
 
                 </div>
 
