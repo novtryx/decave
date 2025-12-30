@@ -1,11 +1,12 @@
+'use client'
 import React from 'react'
 import { IconType } from 'react-icons'
-
+import { IoArrowForward } from 'react-icons/io5'
 
 interface ButtonProps {
   variant?: 'primary' | 'outline'
   children: React.ReactNode
-  icon?: IconType
+  icon?: IconType | 'arrow' // Add named icon options
   iconPosition?: 'left' | 'right'
   iconSize?: number
   onClick?: () => void
@@ -17,7 +18,7 @@ interface ButtonProps {
 const Button = ({
   variant = 'primary',
   children,
-  icon: Icon,
+  icon,
   iconPosition = 'right',
   iconSize = 24,
   onClick,
@@ -34,6 +35,14 @@ const Button = ({
 
   const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
 
+  // Resolve icon
+  let IconComponent: IconType | null = null
+  if (icon === 'arrow') {
+    IconComponent = IoArrowForward
+  } else if (typeof icon !== 'string') {
+    IconComponent = icon as IconType
+  }
+
   return (
     <button
       type={type}
@@ -41,9 +50,9 @@ const Button = ({
       disabled={disabled}
       className={`${baseStyles} ${variants[variant]} ${disabledStyles} ${className}`}
     >
-      {Icon && iconPosition === 'left' && <Icon size={iconSize} />}
+      {IconComponent && iconPosition === 'left' && <IconComponent size={iconSize} />}
       <span>{children}</span>
-      {Icon && iconPosition === 'right' && <Icon size={iconSize} />}
+      {IconComponent && iconPosition === 'right' && <IconComponent size={iconSize} />}
     </button>
   )
 }

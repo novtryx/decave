@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode } from 'react'
 import Image from 'next/image'
 import Header from '../layout/header'
@@ -47,7 +48,7 @@ const HeroSection = () => {
                 <div className='flex items-center gap-6 pt-6'>
                     <Button
                         variant="primary" 
-                        icon={IoArrowForward}
+                        icon="arrow"
                         iconPosition="right"
                         >
                         View Event
