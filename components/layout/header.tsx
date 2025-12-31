@@ -51,6 +51,7 @@ const Header = () => {
                 {
                     navLinks?.map((item: NavType, index:number) => (
                         <Link 
+                        prefetch={true}
                             key={index} 
                             href={item.link} 
                             className='hover:text-[#CCA33A] transition-colors duration-300'
