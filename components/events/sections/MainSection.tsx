@@ -11,9 +11,12 @@ import ViewMoreButton from "@/components/layout/ViewMoreButton";
 import SectionHeader from "@/components/layout/sectionHeader";
 import CallToAction from "@/components/layout/CallToAction";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function MainSection() {
   const [activeTab, setActiveTab] = useState("all");
+  const router = useRouter();
+  
   return (
     <div className="">
       {/* Tab Navigation */}
@@ -70,11 +73,12 @@ export default function MainSection() {
           image="/events/afrospook-event-img.png"
           attendees="10K+"
           category="FESTIVAL"
+          label="UPCOMING"
           title="AfroSpook 2025"
           description="A 3-day celebration of African culture, music, and heritage. Experience the fire, water, rave arena and parade zones."
           dateRange="Aug 15 - 17, 2025"
           location="Eko Atlantic City, Lagos - Nigeria"
-          onViewDetails={() => alert("ok")}
+          onViewDetails={() => router.push('/event/afrospook-2025')}
         />
       </section>
 
