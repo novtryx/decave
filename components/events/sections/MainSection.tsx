@@ -165,14 +165,14 @@ export default function MainSection() {
         />
       </section>
 
-      {/* deCave image */}
+      {/* deCave image
       <div className="relative w-[90%] mx-auto mt-10 h-50">
         <Image 
             src="/events/deCaveBoldImg.png"
             fill
             alt="deCave image"
         />
-      </div>
+      </div> */}
     </div>
   );
 }
