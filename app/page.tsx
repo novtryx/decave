@@ -1,16 +1,15 @@
-"use client"
-import HeroSection from '@/components/home/heroSection'
-import Memories from '@/components/home/Memories'
-import OurPartners from '@/components/home/OurPartners'
-import ScrollContent from '@/components/home/scrollContent'
-import UpcomingEvents from '@/components/home/UpcomingEvents'
-import WhatWeStandFor from '@/components/home/WhatWeStandFor'
-import CallToAction from '@/components/layout/CallToAction'
-import React from 'react'
-import { PiHandshake } from 'react-icons/pi'
+"use client";
+import HeroSection from "@/components/home/heroSection";
+import Memories from "@/components/home/Memories";
+import OurPartners from "@/components/home/OurPartners";
+import ScrollContent from "@/components/home/scrollContent";
+import UpcomingEvents from "@/components/home/UpcomingEvents";
+import WhatWeStandFor from "@/components/home/WhatWeStandFor";
+import CallToAction from "@/components/layout/CallToAction";
+import React from "react";
+import { PiHandshake } from "react-icons/pi";
 
 const page = () => {
- 
   return (
     <div className=''>
               <HeroSection/>
@@ -40,7 +39,7 @@ const page = () => {
 />
 
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

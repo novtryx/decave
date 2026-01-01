@@ -95,3 +95,68 @@ export const pastEventsData = [
     },
     
 ]
+
+
+// lib/data.ts
+
+export interface TicketData {
+  id: number;
+  price: string;
+  originalPrice?: string;
+  title: string;
+  description: string;
+  personCount: string;
+  features: string[];
+  buttonText: string;
+  isPopular?: boolean;
+  isPrimary?: boolean;
+}
+
+export const afroTicketData: TicketData[] = [
+  {
+    id: 1,
+    price: "₦5,000",
+    originalPrice: "₦7,000",
+    title: "Early Bird/Standard",
+    description: "Discounted general admission for one.",
+    personCount: "1 Person",
+    features: ["Event Entry", "Digital Programs", "Access to Main Venues"],
+    buttonText: "Buy Early Bird",
+    isPopular: false,
+    isPrimary: false
+  },
+  {
+    id: 2,
+    price: "₦12,000",
+    title: "Couple",
+    description: "Ticket bundle for two people.",
+    personCount: "2 Persons",
+    features: ["2 Tickets", "Event Entry", "Digital Programs", "Access to Main Venues"],
+    buttonText: "Buy Couple",
+    isPopular: true,
+    isPrimary: true
+  },
+  {
+    id: 3,
+    price: "₦20,000",
+    title: "Group of 4",
+    description: "Discounted group package for four friends.",
+    personCount: "4 Persons",
+    features: ["Event Entry", "Digital Programs", "Access to Main Venues"],
+    buttonText: "Buy Group of 4",
+    isPopular: false,
+    isPrimary: false
+  },
+  {
+    id: 4,
+    price: "₦120,000",
+    originalPrice: "₦150,000",
+    title: "VIP Group of 4",
+    description: "Exclusive VIP table experience for four.",
+    personCount: "4 Persons",
+    features: ["4 VIP Tickets", "Reserved Table for 4", "One premium whiskey bottle", "Priority Entry"],
+    buttonText: "Buy VIP Group of 4",
+    isPopular: false,
+    isPrimary: false
+  }
+];

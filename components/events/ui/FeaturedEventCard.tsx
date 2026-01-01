@@ -1,8 +1,26 @@
-import React from 'react';
-import Image from 'next/image';
-import { LuUsers } from 'react-icons/lu';
-import { FaRegClock } from 'react-icons/fa';
-import { MdCalendarMonth } from 'react-icons/md';
+
+
+import { CountdownTimer } from "@/components/layout/CountdownTimer";
+import Image from "next/image";
+import { FaRegClock } from "react-icons/fa";
+import { LuUsers } from "react-icons/lu";
+import { MdCalendarMonth } from "react-icons/md";
+
+
+// // // Example usage
+// //       <EventCard
+// //         image="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80"
+// //         attendees="10K+"
+// //         category="FESTIVAL"
+// //         title="AfroSpook 2025"
+// //         eventDate?: Date;
+// //         label?: string;
+// //         description="A 3-day celebration of African culture, music, and heritage. Experience the fire, water, rave arena and parade zones."
+// //         dateRange="Aug 15 - 17, 2025"
+// //         location="Eko Atlantic City, Lagos - Nigeria"
+// //         onViewDetails={handleViewDetails}
+// //       />
+
 
 interface FeaturedEventCardProps {
   image: string;
@@ -13,6 +31,7 @@ interface FeaturedEventCardProps {
   description: string;
   dateRange?: string;
   location?: string;
+  eventDate?: Date;
   onViewDetails: () => void;
 }
 
@@ -22,6 +41,7 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
   category, 
   title, 
   label,
+  eventDate,
   description, 
   dateRange, 
   location, 
@@ -30,7 +50,7 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
   return (
     <div className="flex flex-col md:flex-row gap-6 bg-zinc-900 rounded-lg overflow-hidden max-w-7xl">
       {/* Image Section */}
-      <div className="relative md:w-1/2 min-h-75">
+      <div className="relative md:w-1/2 min-h-100">
         <Image 
           src={image} 
           alt={title}
@@ -49,13 +69,12 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
             <FaRegClock className='text-white' />
             <span className="text-white text-sm font-medium">{label}</span>
           </div>
-          )}
-        
+        )}
       </div>
 
       {/* Content Section */}
       <div className="md:w-1/2 py-20 px-14 flex flex-col justify-center">
-      <div className='bg-[#0854a7] h-0.5 w-15'></div>
+        <div className='bg-[#0854a7] h-0.5 w-16'></div>
         {category && (
           <div className="text-[#0854a7] mt-1 text-sm font-semibold uppercase tracking-wider mb-3">
             {category}
@@ -69,6 +88,12 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
         <p className="text-zinc-400 w-[96%] text-base leading-relaxed mb-6">
           {description}
         </p>
+
+        <div className="mb-2">
+          {eventDate && (
+            <CountdownTimer targetDate={eventDate} />
+          )}
+        </div>
 
         <div className="space-y-3 mb-8">
           {dateRange && (
@@ -102,15 +127,3 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
     </div>
   );
 };
-
-// // Example usage
-//       <EventCard
-//         image="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80"
-//         attendees="10K+"
-//         category="FESTIVAL"
-//         title="AfroSpook 2025"
-//         description="A 3-day celebration of African culture, music, and heritage. Experience the fire, water, rave arena and parade zones."
-//         dateRange="Aug 15 - 17, 2025"
-//         location="Eko Atlantic City, Lagos - Nigeria"
-//         onViewDetails={handleViewDetails}
-//       />
