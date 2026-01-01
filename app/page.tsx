@@ -20,6 +20,7 @@ const page = () => {
               <Memories/>
               <OurPartners/>
               <CallToAction
+              containerClassName='p-15 bg-[#151515]'
   backgroundImage="/dancers.jpg"
   overlay="bg-gradient-to-r from-black/30 to-[#2A2A2A]/90"
   icon={PiHandshake}
