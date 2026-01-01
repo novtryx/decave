@@ -7,6 +7,7 @@ import { MdCalendarMonth } from 'react-icons/md';
 interface FeaturedEventCardProps {
   image: string;
   attendees?: string;
+  label?: string;
   category?: string;
   title: string;
   description: string;
@@ -20,6 +21,7 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
   attendees, 
   category, 
   title, 
+  label,
   description, 
   dateRange, 
   location, 
@@ -42,11 +44,12 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
           </div>
         )}
 
-      
+        {label && (
           <div className="absolute top-4 left-4 bg-[#0854a7] backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2 z-10">
             <FaRegClock className='text-white' />
-            <span className="text-white text-sm font-medium">UPCOMING</span>
+            <span className="text-white text-sm font-medium">{label}</span>
           </div>
+          )}
         
       </div>
 
