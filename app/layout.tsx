@@ -34,8 +34,8 @@ export default function RootLayout({
         
         <div className="relative">
 
-        <div className="absolute top-2 left-0 right-0 z-50 px-6">
-          <div className="max-w-7xl mx-auto">
+        <div className="absolute top-2 left-0 right-0 z-50 lg:px-6">
+          <div className="max-w-full mx-auto">
             <Header/>
           </div>
         </div>
