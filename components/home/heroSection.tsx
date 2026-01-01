@@ -6,7 +6,7 @@ import { GiDrippingStar } from "react-icons/gi"
 
 const HeroSection = () => {
     return (
-        <div className='relative min-h-screen px-6 py-6 flex flex-col items-center'>
+        <div className='relative min-h-screen px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 flex flex-col items-center'>
             {/* Background Video */}
             <video
                 autoPlay
@@ -22,47 +22,53 @@ const HeroSection = () => {
             {/* Gradient Overlay */}
             <div className='absolute inset-0 bg-black/40 -z-10'></div>
 
-            <div className='relative min-h-screen flex flex-col items-center justify-center w-[50%]'>
+            <div className='relative min-h-[80vh] sm:min-h-screen flex flex-col items-center justify-center w-full sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] 2xl:w-[50%] px-4'>
                 {/* Hero Line Image */}
                 <Image
                     src="/hero-line.png"
                     alt="Hero background"
                     fill
-                    className='object-cover -z-10'
+                    className='object-contain -z-10 opacity-80'
                     priority
                 />
 
                 {/* Badge */}
-                <div className='bg-[#BC9229]/40 text-[#FFF7E4] border border-[#FFF7E4] w-fit px-6 py-1 rounded-full flex items-center gap-2'>
-                    <GiDrippingStar color='#FFF7E4' />
-                    <p>CULTURE. RHYTHM. COLOR</p>
+                <div className='bg-[#BC9229]/40 text-[#FFF7E4] border border-[#FFF7E4] w-fit px-4 sm:px-6 py-1 sm:py-1.5 rounded-full flex items-center gap-2 mb-4 sm:mb-6'>
+                    <GiDrippingStar color='#FFF7E4' className='w-4 h-4 sm:w-5 sm:h-5' />
+                    <p className='text-xs sm:text-sm md:text-base'>CULTURE. RHYTHM. COLOR</p>
                 </div>
 
                 {/* Title */}
-                <h1 className='text-[120px] font-bold'>deCave</h1>
+                <h1 className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[120px] font-bold text-center mb-4 sm:mb-6'>
+                    deCave
+                </h1>
 
                 {/* Subtitle & Description */}
-                <div className='text-lg text-center space-y-2'>
-                    <p className='text-[30px] italic'>
+                <div className='text-base sm:text-lg md:text-xl text-center space-y-3 sm:space-y-4 mb-6 sm:mb-8 max-w-3xl'>
+                    <p className='text-xl sm:text-2xl md:text-[30px] italic leading-relaxed'>
                         <span className='text-[#B3B3B3]'>Where</span> culture <span className='text-[#B3B3B3]'>meets</span> <span className='text-[#CCA33A]'>experience</span>
                     </p>
-                    <p className='text-[#B3B3B3]'>
+                    <p className='text-[#B3B3B3] text-sm sm:text-base md:text-lg leading-relaxed px-4 sm:px-0'>
                         We don't just host events — we create movements. Immersive experiences
                         that celebrate African culture, elevate community, and redefine nightlife.
                     </p>
                 </div>
 
                 {/* Buttons */}
-                <div className='flex items-center gap-6 pt-6'>
+                <div className='flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4 sm:pt-6 w-full sm:w-auto'>
                     <Button
                         variant="primary" 
                         icon="arrow"
                         iconPosition="right"
+                        className="w-full sm:w-auto"
                     >
                         View Event
                     </Button>
                
-                    <Button variant="outline">
+                    <Button 
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                    >
                         Partner with us
                     </Button>
                 </div>

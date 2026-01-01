@@ -8,7 +8,7 @@ import ViewMoreButton from '../layout/ViewMoreButton'
 
 const UpcomingEvents = () => {
   return (
-    <div className='py-16 px-6 w-full flex flex-col gap-12'>
+    <div className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-8 sm:gap-10 lg:gap-12'>
         <SectionHeader 
             icon={IoMusicalNotesSharp}
             iconColor="#7B3FE4"
@@ -18,8 +18,8 @@ const UpcomingEvents = () => {
         />
         
         {/* Centered grid container */}
-        <div className=" max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+        <div className="w-full max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 place-items-center sm:place-items-stretch">
                 <ImageCard 
                     image="/card-image.png"
                     title="Afro Pulse Sessions"
@@ -58,7 +58,8 @@ const UpcomingEvents = () => {
                 />
             </div>
         </div>
-            <ViewMoreButton text='View All Events'/>
+        
+        <ViewMoreButton text='View All Events'/>
     </div>
   )
 }

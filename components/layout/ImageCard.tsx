@@ -59,20 +59,20 @@ const ImageCard = ({
   className = ''
 }: ImageCardProps) => {
   return (
-    <div className={`h-fit w-106 border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-xl transition-all duration-300 ${className}`}>
+    <div className={`h-fit w-full sm:w-[340px] md:w-[380px] lg:w-106 border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-xl transition-all duration-300 ${className}`}>
         {/* Image Section */}
-        <div className="relative h-72 w-full">
+        <div className="relative h-56 sm:h-64 md:h-72 w-full">
             <Image 
               src={image} 
               alt={title} 
               fill 
-              className='object-cover rounded-t-sm' 
+              className='object-cover rounded-t-xl' 
             />
             
             {/* Optional Badge (top-left) */}
             {badge && (
               <div 
-                className={`absolute top-1 left-1 py-2 px-4 h-fit w-fit rounded-full text-sm`}
+                className={`absolute top-2 left-2 sm:top-3 sm:left-3 py-1.5 sm:py-2 px-3 sm:px-4 h-fit w-fit rounded-full text-xs sm:text-sm font-medium`}
                 style={{
                   backgroundColor: badge.bgColor || '#EEF6FFCC',
                   color: badge.textColor || '#001D3D'
@@ -84,38 +84,40 @@ const ImageCard = ({
             
             {/* Optional People Count (bottom-right) */}
             {peopleCount && (
-              <div className='absolute right-1 bottom-1 flex items-center gap-2 w-fit h-fit rounded-full px-4 py-2 bg-black/60 text-sm backdrop-blur-sm'>
-                <GoPeople color='#0854A7' size={20} /> 
+              <div className='absolute right-2 bottom-2 sm:right-3 sm:bottom-3 flex items-center gap-1.5 sm:gap-2 w-fit h-fit rounded-full px-3 sm:px-4 py-1.5 sm:py-2 bg-black/60 text-xs sm:text-sm backdrop-blur-sm'>
+                <GoPeople color='#0854A7' size={16} className='sm:w-5 sm:h-5' /> 
                 <p>{peopleCount}</p>
               </div>
             )}
         </div>
 
         {/* Content Section */}
-        <div className='h-fit p-4 space-y-4'>
-            {/* Optional Icon (gradient circle)
+        <div className='h-fit p-4 sm:p-5 md:p-6 space-y-3 sm:space-y-4'>
+            {/* Optional Icon (gradient circle) */}
             {Icon && (
-              <div className={`bg-linear-to-r from-${iconGradientFrom} to-${iconGradientTo} h-fit w-fit rounded-full p-2`}>
-                <Icon color='white' size={20} />
+              <div className={`bg-gradient-to-r from-${iconGradientFrom} to-${iconGradientTo} h-fit w-fit rounded-full p-2`}>
+                <Icon color='white' size={18} className='sm:w-5 sm:h-5' />
               </div>
-            )} */}
+            )}
             
             {/* Title */}
-            <h2 className='font-semibold text-[32px]'>{title}</h2>
+            <h2 className='font-semibold text-xl sm:text-2xl md:text-[28px] lg:text-[32px] leading-tight line-clamp-2'>
+              {title}
+            </h2>
             
             {/* Event Details (Date & Location) OR Description */}
             {(date || location) && (
               <div className='space-y-2'>
                 {date && (
                   <span className='flex items-center gap-2'>
-                    <FiCalendar size={20} color='#0854A7'/>
-                    <p className='text-sm text-[#B3B3B3]'>{date}</p>
+                    <FiCalendar size={18} className='sm:w-5 sm:h-5 flex-shrink-0' color='#0854A7'/>
+                    <p className='text-xs sm:text-sm text-[#B3B3B3]'>{date}</p>
                   </span>
                 )}
                 {location && (
                   <span className='flex items-center gap-2'>
-                    <SlLocationPin size={20} color='#0854A7'/>
-                    <p className='text-sm text-[#B3B3B3]'>{location}</p>
+                    <SlLocationPin size={18} className='sm:w-5 sm:h-5 flex-shrink-0' color='#0854A7'/>
+                    <p className='text-xs sm:text-sm text-[#B3B3B3] line-clamp-1'>{location}</p>
                   </span>
                 )}
               </div>
@@ -123,7 +125,9 @@ const ImageCard = ({
             
             {/* Description (alternative to date/location) */}
             {description && !date && !location && (
-              <p className='text-sm text-[#B3B3B3]'>{description}</p>
+              <p className='text-xs sm:text-sm text-[#B3B3B3] line-clamp-3 leading-relaxed'>
+                {description}
+              </p>
             )}
             
             {/* Optional Button */}
@@ -131,7 +135,7 @@ const ImageCard = ({
               <Button 
                 type='button' 
                 variant={buttonVariant} 
-                className='w-full'
+                className='w-full text-sm sm:text-base'
                 onClick={onButtonClick}
               >
                 {buttonText}
