@@ -54,7 +54,7 @@ const WhatWeStandFor = () => {
     ]
 
     return (
-        <div className='px-15 space-y-8 bg-[#151515] py-8'>
+        <div className='px-4 sm:px-6 lg:px-8 xl:px-15 space-y-6 sm:space-y-8 lg:space-y-10 bg-[#151515] py-8 sm:py-12 lg:py-16'>
             <SectionHeader
                 title='What We Stand For'
                 icon={BsStars}
@@ -63,11 +63,19 @@ const WhatWeStandFor = () => {
                 description='We want you to experience AfroSpook with complete peace of mind. Our comprehensive safety measures ensure a secure, well-organized event.'
             />
 
-            <div className='flex gap-6 pt-8'>
-                <div className='relative h-181.5 w-191.25'>
-                    <Image src={"/man-with-guitar.png"} alt="guitar-man" fill className='object-cover'/>
+            <div className='flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 pt-4 sm:pt-6 lg:pt-8'>
+                {/* Image Section */}
+                <div className='relative h-64 sm:h-96 md:h-[500px] lg:h-181.5 w-full lg:w-1/2 xl:w-191.25 rounded-xl overflow-hidden flex-shrink-0'>
+                    <Image 
+                        src={"/man-with-guitar.png"} 
+                        alt="guitar-man" 
+                        fill 
+                        className='object-cover'
+                    />
                 </div>
-                <div className='space-y-6'>
+
+                {/* Values Section */}
+                <div className='space-y-4 sm:space-y-5 lg:space-y-6 w-full lg:w-1/2'>
                     {
                         values?.map((item: ValueType, index: number) => (
                             <CardWithoutImage 
@@ -82,17 +90,20 @@ const WhatWeStandFor = () => {
             </div>
 
             {/* Animated counts with Framer Motion */}
-            <div ref={statsRef} className='flex items-center justify-center gap-8'>
+            <div 
+                ref={statsRef} 
+                className='grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8'
+            >
                 {stats.map((stat, index) => (
                     <motion.div
                         key={index}
-                        className='text-center px-4'
+                        className='text-center px-2 sm:px-4'
                         initial={{ opacity: 0, y: 20 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
                         <motion.h2 
-                            className='text-[48px] font-medium text-[#CCA33A]'
+                            className='text-3xl sm:text-4xl md:text-5xl lg:text-[48px] font-medium text-[#CCA33A]'
                             initial={{ opacity: 0 }}
                             animate={isInView ? { opacity: 1 } : {}}
                         >
@@ -103,12 +114,16 @@ const WhatWeStandFor = () => {
                             />
                             {stat.suffix}
                         </motion.h2>
-                        <p className='text-[#B3B3B3] text-lg'>{stat.label}</p>
+                        <p className='text-[#B3B3B3] text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2'>
+                            {stat.label}
+                        </p>
                     </motion.div>
                 ))}
             </div>
 
-            <ViewMoreButton text='Learn More About deCave'/>
+            <div className='pt-4 sm:pt-6'>
+                <ViewMoreButton text='Learn More About deCave'/>
+            </div>
         </div>
     )
 }

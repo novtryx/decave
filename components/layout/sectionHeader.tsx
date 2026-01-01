@@ -40,21 +40,25 @@ const SectionHeader = ({
   };
 
   return (
-    <div className={`w-full flex flex-col ${alignmentClasses[align]} my-4`}>
-        <div className={`flex flex-col ${alignmentClasses[align]}`} style={{ width }}>
+    <div className={`w-full flex flex-col ${alignmentClasses[align]} my-6 sm:my-8 lg:my-10 px-4 sm:px-6 lg:px-0`}>
+        <div className={`flex flex-col ${alignmentClasses[align]} w-full`} style={{ maxWidth: width }}>
             {(Icon || label) && (
-              <div className={`flex items-center gap-2 ${justifyClasses[align]} w-fit border-t-2 py-1`}
+              <div className={`flex items-center gap-2 ${justifyClasses[align]} w-fit border-t-2 py-1 mb-2 sm:mb-3`}
                 style={{borderTopColor: labelColor}}
               >
-                  {Icon && <Icon size={26} color={iconColor} />}
-                  {label && <p style={{color: labelColor}}>{label}</p>}
+                  {Icon && <Icon size={20} className='sm:w-6 sm:h-6 lg:h-6.5' color={iconColor} />}
+                  {label && <p className='text-sm sm:text-base lg:text-lg' style={{color: labelColor}}>{label}</p>}
               </div>
             )}
             
-            <h2 className='text-[40px] w-full lg:w-[50%] leading-tight mb-3 italic font-bold' style={{color: titleColor}}>{title}</h2>
+            <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-5xl italic font-bold leading-tight mb-3 sm:mb-4' style={{color: titleColor}}>
+              {title}
+            </h2>
             
             {description && (
-              <p className='text-lg w-full lg:w-[50%]' style={{color: descriptionColor}}>{description}</p>
+              <p className='text-sm sm:text-base lg:text-lg w-full md:w-[80%] lg:w-[70%] xl:w-[60%] leading-relaxed' style={{color: descriptionColor}}>
+                {description}
+              </p>
             )}
         </div>
     </div>
