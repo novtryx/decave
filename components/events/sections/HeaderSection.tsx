@@ -1,21 +1,3 @@
-// import Image from "next/image";
-
-
-// export default function HeaderSection() {
-//     return (
-//         <div>
-//             <Image
-//                 src="/events/hero-img.png"
-//                 width={400}
-//                 height={400}
-//                 alt="hero image"
-//             />
-//             <h2>Hi</h2>
-//         </div>
-//     )
-// }
-
-
 import Image from "next/image";
 
 export default function HeaderSection() {

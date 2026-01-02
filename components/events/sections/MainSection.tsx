@@ -20,7 +20,7 @@ export default function MainSection() {
   return (
     <div className="">
       {/* Tab Navigation */}
-      <div className="pt-14 pb-6 flex gap-3 items-center px-6 lg:px-32">
+      <div className="pt-14 pb-6 flex gap-3 items-center px-6 lg:px-16">
         <LuFilter className="text-[#ad46ff] text-2xl" />
 
         <div className="h-10 w-px bg-gray-600"></div>
@@ -60,10 +60,10 @@ export default function MainSection() {
       </div>
 
       {/* Event filter count */}
-      <p className="text-[#b3b3b3] px-6 lg:px-32 text-xl">10 Events found</p>
+      <p className="text-[#b3b3b3] px-6 lg:px-16 text-xl">10 Events found</p>
 
       {/* Featured Event */}
-      <section className="bg-[#0f0f0f] mt-10 px-6 lg:px-32 py-14">
+      <section className="bg-[#0f0f0f] mt-10 px-6 lg:px-16 py-14">
         <div className="flex gap-3 items-center mb-8 text-[#0854a7]">
           <FaRegStar />
           <h4>FEATURED EVENT</h4>
@@ -83,7 +83,7 @@ export default function MainSection() {
       </section>
 
       {/* Upcoming events */}
-      <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-32 py-14">
+      <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-16 py-14">
         <SectionHeader
           title="Upcoming Events"
           description="Don't miss out these upcoming experiences"
@@ -116,7 +116,7 @@ export default function MainSection() {
       </section>
 
       {/* Past events */}
-      <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-32 py-14">
+      <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-16 py-14">
         <SectionHeader
           title="Past Events"
           description="Relive the moments from our previous experiences"
