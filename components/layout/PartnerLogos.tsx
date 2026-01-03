@@ -12,10 +12,10 @@ const PartnerLogos = () => {
     ]
 
     return (
-        <div className='relative space-y-8 sm:space-y-10 md:space-y-12 lg:space-y-14 py-6 sm:py-8 md:py-10 bg-white w-full overflow-hidden'>
+        <div className='relative space-y-8 sm:space-y-10 md:space-y-12 lg:space-y-14 py-6 sm:py-8 md:py-10 bg-[#eef6ff] w-full overflow-hidden'>
             {/* White fade overlays - responsive widths */}
-            <div className='absolute left-0 top-0 bottom-0 w-20 sm:w-32 md:w-40 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none'></div>
-            <div className='absolute right-0 top-0 bottom-0 w-20 sm:w-32 md:w-40 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none'></div>
+            <div className='absolute left-0 top-0 bottom-0 w-20 sm:w-32 md:w-40 bg-linear-to-r from-[#eef6ff] via-[#eef6ff]/80 to-transparent z-10 pointer-events-none'></div>
+            <div className='absolute right-0 top-0 bottom-0 w-20 sm:w-32 md:w-40 bg-linear-to-l from-[#eef6ff] via-[#eef6ff]/80 to-transparent z-10 pointer-events-none'></div>
 
             {/* First logos - scroll left */}
             <div className='overflow-hidden'>

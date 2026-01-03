@@ -8,6 +8,7 @@ export default function Events() {
                 title="Events"
                 description="Discover immersive experiences hosted by deCave. Culture, music, and community - all in one place"
                 label="WHAT WE HAVE FOR YOU"
+                backgroundImage="/events/hero-img.png"
             />
             <MainSection />
         </div>

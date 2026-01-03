@@ -298,3 +298,75 @@ export const contactData = [
     subtext: "Open during festival hours"
   }
 ]
+
+
+
+export const galleryVideoData = [
+  {
+    id: 1,
+    thumbnail: "/gallery/video-thumbnail-2.png",
+    videoUrl: "#",
+    // runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 2,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 3,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 4,
+    thumbnail: "/gallery/video-thumbnail-5.png",
+    videoUrl: "#",
+    // runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 5,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 6,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+
+]
