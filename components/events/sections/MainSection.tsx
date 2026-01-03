@@ -12,52 +12,26 @@ import SectionHeader from "@/components/layout/sectionHeader";
 import CallToAction from "@/components/layout/CallToAction";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import TabNavigation from "@/components/layout/TabNavigation";
 
 export default function MainSection() {
   const [activeTab, setActiveTab] = useState("all");
   const router = useRouter();
+
+  const tabs = [
+    {id: "all", label: "All Events"},
+    {id: "upcoming", label: "Upcoming"},
+    {id: "past", label: "Past"},
+  ]
   
   return (
     <div className="">
       {/* Tab Navigation */}
-      <div className="pt-14 pb-6 flex gap-3 items-center px-6 lg:px-16">
-        <LuFilter className="text-[#ad46ff] text-2xl" />
-
-        <div className="h-10 w-px bg-gray-600"></div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setActiveTab("all")}
-            className={`${
-              activeTab === "all"
-                ? "bg-[#0854a7] text-white"
-                : "text-[#6f6f6f] border border-gray-200"
-            } tracking-wider py-2.25 px-4 text-lg w-auto min-w-30 cursor-pointer`}
-          >
-            All Events
-          </button>
-          <button
-            onClick={() => setActiveTab("upcoming")}
-            className={`${
-              activeTab === "upcoming"
-                ? "bg-[#0854a7] text-white"
-                : "text-[#6f6f6f] border border-gray-200"
-            } tracking-wider py-2.25 px-4 text-lg w-auto min-w-30 cursor-pointer`}
-          >
-            Upcoming
-          </button>
-          <button
-            onClick={() => setActiveTab("past")}
-            className={`${
-              activeTab === "past"
-                ? "bg-[#0854a7] text-white"
-                : "text-[#6f6f6f] border border-gray-200"
-            } tracking-wider py-2.25 px-4 text-lg w-auto min-w-30 cursor-pointer`}
-          >
-            Past
-          </button>
-        </div>
-      </div>
+      <TabNavigation 
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
 
       {/* Event filter count */}
       <p className="text-[#b3b3b3] px-6 lg:px-16 text-xl">10 Events found</p>

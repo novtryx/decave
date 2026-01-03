@@ -359,7 +359,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
               variant="primary"
               icon={"arrow"}
               onClick={() => console.log("clicked")}
-              className="w-fit lg:w-full sm:w-auto mt-2"
+              className="w-fit sm:w-auto mt-2"
             >
               Secure your spot now
             </Button>
