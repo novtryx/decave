@@ -9,7 +9,7 @@ interface TicketCardProps {
   originalPrice?: string;
   title: string;
   description: string;
-  personCount: string;
+  personCount?: string;
   features: string[];
   buttonText: string;
   onBuyClick?: () => void;
@@ -73,10 +73,13 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         <p className="text-[#b3b3b3] text-sm mb-6 italic">{description}</p>
 
         {/* Person Count */}
-        <div className="flex items-center gap-2 text-gray-400 mb-6 pb-6 border-b border-gray-800">
+        {personCount && (
+
+          <div className="flex items-center gap-2 text-gray-400 mb-6 pb-6 border-b border-gray-800">
           <LuUsers size={18} />
           <span className="text-sm">{personCount}</span>
         </div>
+        )}
 
         {/* Features */}
         <div className="space-y-3 mb-8">
