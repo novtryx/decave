@@ -3,8 +3,8 @@ import { FaRegHeart, FaRegQuestionCircle } from "react-icons/fa";
 import { FaArrowTrendUp, FaAward } from "react-icons/fa6";
 import { HiUsers } from "react-icons/hi";
 import { IoStatsChart } from "react-icons/io5";
-import { LuHeart, LuSparkles, LuSun, LuTarget, LuZap } from "react-icons/lu";
-import { MdOutlineShield } from "react-icons/md";
+import { LuGift, LuHeart, LuSparkles, LuSun, LuTarget, LuZap } from "react-icons/lu";
+import { MdOutlineMessage, MdOutlineShield } from "react-icons/md";
 import { TiGlobe } from "react-icons/ti";
 
 export const upcomingEventsData = [
@@ -477,5 +477,29 @@ export const sponsorshipData = [
     features: ["Category exclusivity", "Major logo placement across all materials", "Main stage branding", "Premium activation booth", "Branded content & press visibility", "VIP table package"],
     buttonText: "Get Platinum Package",
     isPopular: false
+  }
+]
+
+export const contactCardData = [
+  {
+    id: 1,
+    icon: MdOutlineMessage,
+    title: "Media Inquiries",
+    description: "Press credentials, interviews, and media partnership",
+    email: "media@decave.com"
+  },
+  {
+    id: 2,
+    icon: LuGift,
+    title: "Sponsorships & Partnerships",
+    description: "Brand partnerships, sponsorship opportunities, and collaborations",
+    email: "partnerships@decave.com"
+  },
+  {
+    id: 3,
+    icon: FaRegQuestionCircle,
+    title: "Ticket Support",
+    description: "Ticket issues, refunds, accessibility needs, and general questions",
+    email: "support@decave.com"
   }
 ]
