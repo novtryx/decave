@@ -1,8 +1,11 @@
 import { ListItem } from "@/components/event/RecommendList";
 import { FaRegHeart, FaRegQuestionCircle } from "react-icons/fa";
+import { FaArrowTrendUp, FaAward } from "react-icons/fa6";
 import { HiUsers } from "react-icons/hi";
-import { LuHeart, LuSparkles, LuSun, LuZap } from "react-icons/lu";
-import { MdOutlineShield } from "react-icons/md";
+import { IoStatsChart } from "react-icons/io5";
+import { LuGift, LuHeart, LuSparkles, LuSun, LuTarget, LuZap } from "react-icons/lu";
+import { MdOutlineMessage, MdOutlineShield } from "react-icons/md";
+import { TiGlobe } from "react-icons/ti";
 
 export const upcomingEventsData = [
     {
@@ -296,5 +299,207 @@ export const contactData = [
     title: "LOST AND FOUND",
     content: "Main Plaza Tent",
     subtext: "Open during festival hours"
+  }
+]
+
+
+
+export const galleryVideoData = [
+  {
+    id: 1,
+    thumbnail: "/gallery/video-thumbnail-2.png",
+    videoUrl: "#",
+    // runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 2,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 3,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 4,
+    thumbnail: "/gallery/video-thumbnail-5.png",
+    videoUrl: "#",
+    // runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 5,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+  {
+    id: 6,
+    thumbnail: "/gallery/video-thumbnail-1.png",
+    videoUrl: "#",
+    runtime: "4:15",
+    title: "Fire Zone Highlights",
+    year: "2026",
+    views: "876K",
+    onPlayClick: () => console.log("Video clicked"),
+    imageAlt: "video thumbnail"
+  },
+
+]
+
+export const audienceInsightData = [
+  {
+    id: 1,
+    icon: HiUsers,
+    value: "10,000+",
+    caption: "Projected Attendees",
+  },
+  {
+    id: 2,
+    icon: LuTarget,
+    value: "18 - 35",
+    caption: "Core Demographic",
+  },
+  {
+    id: 3,
+    icon: IoStatsChart,
+    value: "5M+",
+    caption: "Social Media Reach"
+  },
+  {
+    id: 4,
+    icon: FaArrowTrendUp,
+    value: "300%",
+    caption: "Year-over-Year Growth"
+  },
+  {
+    id: 5,
+    icon: TiGlobe,
+    value: "15+",
+    caption: "Countries Represented"
+  },
+  {
+    id: 6,
+    icon: FaAward,
+    value: "85%",
+    caption: "Brand Recall"
+  }
+]
+
+export const partnerAccordionData = [
+  {
+    id: 1,
+    accordionTitle: "Authentic Cultural Relevance",
+    description: "deCave is deeply rooted in music, lifestyle, and youth culture. Brands that partner with us don't interrupt culture — they become part of it, earning organic visibility and genuine audience trust."
+  },
+  {
+    id: 2,
+    accordionTitle: "Multi-Channel Visibility & Brand Amplification",
+    description: "Our platform ensures your brand is seen across multiple touchpoints — from social media and live events to digital campaigns — amplifying your message and creating meaningful engagement with a culturally tuned audience."
+  },
+  {
+    id: 3,
+    accordionTitle: "Immersive Experiential Activation Opportunities",
+    description: "Bring your brand to life through experiences that resonate. From live activations to interactive campaigns, we create moments that audiences don't just see — they feel and remember."
+  },
+  {
+    id: 4,
+    accordionTitle: "Strong Influencer & Content-Driven Ecosystem",
+    description: "Connect with influential voices and content creators who live and breathe culture. Our network drives authentic storytelling, ensuring your brand's presence is organic, relatable, and shareable."
+  },
+  {
+    id: 5,
+    accordionTitle: "Long-Term Partnership Potential",
+    description: "We focus on sustainable collaborations that evolve over time. Partnering with us builds a foundation for ongoing cultural impact, consistent visibility, and mutually beneficial growth."
+  }
+]
+
+export const sponsorshipData = [
+  {
+    id: 1,
+    price: "₦1 - 2 MILLION",
+    title: "BRONZE",
+    description: "Entry-level partnerships for emerging brands",
+    features: ["Social inclusion", "Sponsor listing", "Light visibility options"],
+    buttonText: "Get Bronze Package",
+    isPopular: false
+  },
+  {
+    id: 2,
+    price: "₦5 MILLION",
+    title: "SILVER",
+    description: "Enhanced visibility for growing brands",
+    features: ["Banner/logo placement", "Social media mentions", "Access to media content"],
+    buttonText: "Get Silver Package",
+    isPopular: false
+  },
+  {
+    id: 3,
+    price: "₦10 MILLION",
+    title: "GOLD",
+    description: "Premium partnership with stage presence",
+    features: ["Logo placement on select materials", "Activation space", "Digital promotion", "Press mentions"],
+    buttonText: "Get Gold Package",
+    isPopular: true
+  },
+  {
+    id: 4,
+    price: "₦25 MILLION",
+    title: "PLATINUM",
+    description: "Entry-level partnerships for emerging brands",
+    features: ["Category exclusivity", "Major logo placement across all materials", "Main stage branding", "Premium activation booth", "Branded content & press visibility", "VIP table package"],
+    buttonText: "Get Platinum Package",
+    isPopular: false
+  }
+]
+
+export const contactCardData = [
+  {
+    id: 1,
+    icon: MdOutlineMessage,
+    title: "Media Inquiries",
+    description: "Press credentials, interviews, and media partnership",
+    email: "media@decave.com"
+  },
+  {
+    id: 2,
+    icon: LuGift,
+    title: "Sponsorships & Partnerships",
+    description: "Brand partnerships, sponsorship opportunities, and collaborations",
+    email: "partnerships@decave.com"
+  },
+  {
+    id: 3,
+    icon: FaRegQuestionCircle,
+    title: "Ticket Support",
+    description: "Ticket issues, refunds, accessibility needs, and general questions",
+    email: "support@decave.com"
   }
 ]

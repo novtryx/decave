@@ -6,7 +6,7 @@ import PartnerLogos from '../layout/PartnerLogos'
 
 const OurPartners = () => {
   return (
-    <div className='bg-white py-8 flex flex-col items-center'>
+    <div className='bg-[#eef6ff] py-8 flex flex-col items-center'>
         <SectionHeader
             icon={PiShootingStarBold}
             iconColor='#7B3FE4'

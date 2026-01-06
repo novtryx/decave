@@ -52,46 +52,13 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
     { value: timeLeft.seconds, label: 'Seconds' }
   ];
 
-//   return (
-//     <div className="bg-transparent rounded-2xl shadow-lg p-8 max-w-2xl mx-auto">
-//       <div className="flex justify-between items-center gap-2">
-//         {timeUnits.map((unit, index) => (
-//           <React.Fragment key={unit.label}>
-//             <div className="flex flex-col items-center">
-//               <div className="relative w-20 h-20 mb-2">
-//                 <AnimatePresence mode="wait">
-//                   <motion.div
-//                     key={unit.value}
-//                     initial={{ y: -20, opacity: 0 }}
-//                     animate={{ y: 0, opacity: 1 }}
-//                     exit={{ y: 20, opacity: 0 }}
-//                     transition={{ duration: 0.3 }}
-//                     className="absolute inset-0 bg-[#2b2929] rounded-2xl border border-gray-700 flex flex-col items-center justify-center"
-//                   >
-//                     <span className="text-3xl font-bold text-gray-200">
-//                       {String(unit.value).padStart(2, '0')}
-//                     </span>
-
-//                     <span className="text-sm font-medium text-gray-200">
-//                         {unit.label}
-//                     </span>
-//                   </motion.div>
-//                 </AnimatePresence>
-//               </div>
-//             </div>
-//           </React.Fragment>
-//         ))}
-//       </div>
-//     </div>
-//   );
-
 return (
   <div className="bg-transparent">
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
       {timeUnits.map((unit, index) => (
         <React.Fragment key={unit.label}>
           <div className="flex flex-col items-center">
-            <div className="relative w-20 h-20 mb-2">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-2">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={unit.value}
@@ -99,13 +66,13 @@ return (
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: 20, opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute inset-0 bg-[#2b2929] rounded-2xl border border-gray-700 flex flex-col items-center justify-center"
+                  className="absolute inset-0 bg-[#2b2929] rounded-xl sm:rounded-2xl border border-gray-700 flex flex-col items-center justify-center"
                 >
-                  <span className="text-3xl font-bold text-gray-200">
+                  <span className="text-2xl sm:text-3xl font-bold text-gray-200">
                     {String(unit.value).padStart(2, '0')}
                   </span>
 
-                  <span className="text-sm font-medium text-gray-200">
+                  <span className="text-xs sm:text-sm font-medium text-gray-200">
                       {unit.label}
                   </span>
                 </motion.div>
@@ -117,4 +84,5 @@ return (
     </div>
   </div>
 );
-};
+
+}
