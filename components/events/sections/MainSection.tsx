@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { LuFilter } from "react-icons/lu";
 import { FeaturedEventCard } from "../ui/FeaturedEventCard";
 import { FaRegStar } from "react-icons/fa";
 import { pastEventsData, upcomingEventsData } from "@/lib/data";
@@ -10,7 +9,6 @@ import { GoPeople } from "react-icons/go";
 import ViewMoreButton from "@/components/layout/ViewMoreButton";
 import SectionHeader from "@/components/layout/sectionHeader";
 import CallToAction from "@/components/layout/CallToAction";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import TabNavigation from "@/components/layout/TabNavigation";
 
@@ -134,19 +132,10 @@ export default function MainSection() {
             icon: "arrow",
             onClick: () => console.log("Partner button clicked"),
           }}
-          height="h-[500px]"
+          // height="h-[500px]"
           containerClassName="w-full"
         />
       </section>
-
-      {/* deCave image
-      <div className="relative w-[90%] mx-auto mt-10 h-50">
-        <Image 
-            src="/events/deCaveBoldImg.png"
-            fill
-            alt="deCave image"
-        />
-      </div> */}
     </div>
   );
 }

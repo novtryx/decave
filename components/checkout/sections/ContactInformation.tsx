@@ -2,7 +2,6 @@ import Button from "@/components/layout/Button";
 import SectionHeader from "@/components/layout/sectionHeader";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { LuSend } from "react-icons/lu";
 import * as Yup from "yup";
 
 // Validation Schema

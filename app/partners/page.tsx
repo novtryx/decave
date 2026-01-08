@@ -46,7 +46,7 @@ export default function Partners() {
         overlay="bg-gradient-to-r from-black/30 to-[#2A2A2A]/60"
         title="Contact Information"
         description="For sponsorship inquiries"
-        height="h-[500px]"
+        // height="h-[500px]"
         containerClassName="w-full p-0"
       >
         <div className="flex flex-col items-center">
