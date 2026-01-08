@@ -26,11 +26,13 @@ interface CallToActionProps {
     icon?: 'arrow' 
     onClick?: () => void
     href?: string
+    external?: boolean
   }
   secondaryButton?: {
     text: string
     onClick?: () => void
     href?: string
+    external?: boolean
   }
   
   // Styling
@@ -98,7 +100,9 @@ const CallToAction = ({
                       {primaryButton && (
                         <Button 
                           variant='primary' 
-                          icon={"arrow"}
+                          icon={primaryButton.icon || "arrow"}
+                          href={primaryButton.href}
+                          external={primaryButton.external}
                           onClick={primaryButton.onClick}
                           className='w-full sm:w-auto'
                         >
@@ -109,6 +113,8 @@ const CallToAction = ({
                       {secondaryButton && (
                         <Button 
                           variant='outline'
+                          href={secondaryButton.href}
+                          external={secondaryButton.external}
                           onClick={secondaryButton.onClick}
                           className='w-full sm:w-auto'
                         >

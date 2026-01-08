@@ -30,6 +30,7 @@ const UpcomingEvents = () => {
                     location="Victoria Island, Lagos"
                     buttonText="View Event"
                     buttonVariant="outline"
+                    buttonHref="/event/afrospook-2025"
                     onButtonClick={() => console.log('View event')}
                 />
                 <ImageCard 
@@ -42,6 +43,7 @@ const UpcomingEvents = () => {
                     location="Victoria Island, Lagos"
                     buttonText="View Event"
                     buttonVariant="outline"
+                    buttonHref="/event/afrospook-2025"
                     onButtonClick={() => console.log('View event')}
                 />
                 <ImageCard 
@@ -54,12 +56,13 @@ const UpcomingEvents = () => {
                     location="Victoria Island, Lagos"
                     buttonText="View Event"
                     buttonVariant="outline"
+                    buttonHref="/event/afrospook-2025"
                     onButtonClick={() => console.log('View event')}
                 />
             </div>
         </div>
         
-        <ViewMoreButton text='View All Events'/>
+        <ViewMoreButton href='/events' text='View All Events'/>
     </div>
   )
 }

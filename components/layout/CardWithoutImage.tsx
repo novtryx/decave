@@ -82,7 +82,7 @@ const CardWithoutImage = ({
   description,
   className = '',
   iconSize = 24,
-  titleColor = '#000',
+  titleColor = '#fff',
   titleSize = 'md',
   children,  // Destructure children
 }: CardWithoutImageProps) => {

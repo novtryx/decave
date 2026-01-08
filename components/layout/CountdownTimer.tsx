@@ -54,35 +54,38 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) =>
 
 return (
   <div className="bg-transparent">
-    <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
-      {timeUnits.map((unit, index) => (
-        <React.Fragment key={unit.label}>
-          <div className="flex flex-col items-center">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-2">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={unit.value}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 bg-[#2b2929] rounded-xl sm:rounded-2xl border border-gray-700 flex flex-col items-center justify-center"
-                >
-                  <span className="text-2xl sm:text-3xl font-bold text-gray-200">
-                    {String(unit.value).padStart(2, '0')}
-                  </span>
-
-                  <span className="text-xs sm:text-sm font-medium text-gray-200">
-                      {unit.label}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+  <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
+    {timeUnits.map((unit) => (
+      <div key={unit.label} className="flex flex-col items-center">
+        {/* STATIC CONTAINER */}
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-2 bg-[#2b2929] rounded-xl sm:rounded-2xl border border-gray-700 flex flex-col items-center justify-center overflow-hidden">
+          
+          {/* ANIMATED NUMBER ONLY */}
+          <div className="relative h-8 sm:h-10 flex items-center justify-center">
+            <AnimatePresence mode="popLayout">
+              <motion.span
+                key={unit.value}
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="absolute text-2xl sm:text-3xl font-bold text-gray-200"
+              >
+                {String(unit.value).padStart(2, '0')}
+              </motion.span>
+            </AnimatePresence>
           </div>
-        </React.Fragment>
-      ))}
-    </div>
+
+          {/* LABEL (STATIC) */}
+          <span className="text-xs sm:text-sm font-medium text-gray-200 mt-1">
+            {unit.label}
+          </span>
+        </div>
+      </div>
+    ))}
   </div>
+</div>
+
 );
 
 }
