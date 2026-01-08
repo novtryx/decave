@@ -334,7 +334,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
           overlay="bg-gradient-to-r from-black/30 to-[#2A2A2A]/60"
           title="Your Presence is the Art"
           description=" "
-          height="h-[500px]"
+          // height="h-[500px]"
           containerClassName="w-full p-0"
         >
           <div className="flex flex-col items-center gap-4 sm:gap-6 px-4 sm:px-0">
