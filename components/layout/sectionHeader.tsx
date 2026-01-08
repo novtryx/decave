@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons';
 import { ReactNode } from 'react';
+import { formatTextWithBreaks } from '@/utils/functions';
 
 interface SectionHeaderProps {
   icon?: IconType;
@@ -40,7 +41,7 @@ const SectionHeader = ({
   };
 
   return (
-    <div className={`w-full flex flex-col ${alignmentClasses[align]} my-6 sm:my-8 lg:my-10 px-4 sm:px-6 lg:px-0`}>
+    <div className={`w-full flex flex-col ${alignmentClasses[align]} my-6 sm:my-8 lg:my-10 px-4 sm:px-6 lg:px-0 `}>
         <div className={`flex flex-col ${alignmentClasses[align]} w-full`} style={{ maxWidth: width }}>
             {(Icon || label) && (
               <div className={`flex items-center gap-2 ${justifyClasses[align]} w-fit border-t-2 py-1 mb-2 sm:mb-3`}
@@ -55,11 +56,18 @@ const SectionHeader = ({
               {title}
             </h2>
             
-            {description && (
-              <p className='text-sm sm:text-base lg:text-lg w-full md:w-[80%] lg:w-[70%] xl:w-[60%] leading-relaxed' style={{color: descriptionColor}}>
-                {description}
-              </p>
-            )}
+            {description &&
+  formatTextWithBreaks(description)
+    .split('\n\n')
+    .map((block, i) => (
+      <p
+        key={i}
+        className='text-sm sm:text-base lg:text-lg w-full   leading-relaxed mb-4'
+        style={{ color: descriptionColor }}
+      >
+        {block}
+      </p>
+    ))}
         </div>
     </div>
   )

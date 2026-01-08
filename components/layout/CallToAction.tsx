@@ -153,20 +153,26 @@ interface CallToActionProps {
   description: string;
 
   primaryButton?: {
-    text: string;
-    icon?: "arrow";
-    onClick?: () => void;
-    href?: string;
-  };
+    text: string
+    icon?: 'arrow' 
+    onClick?: () => void
+    href?: string
+    external?: boolean
+  }
   secondaryButton?: {
-    text: string;
-    onClick?: () => void;
-    href?: string;
-  };
-
-  containerClassName?: string;
-  contentClassName?: string;
-  children?: ReactNode;
+    text: string
+    onClick?: () => void
+    href?: string
+    external?: boolean
+  }
+  
+  // Styling
+  height?: string // e.g., 'h-92.25' or 'h-96'
+  containerClassName?: string
+  contentClassName?: string
+  
+  // Children (appears after buttons)
+  children?: ReactNode
 }
 
 const CallToAction = ({
@@ -229,31 +235,35 @@ const CallToAction = ({
             />
           </div>
 
-          {/* Buttons */}
-          {(primaryButton || secondaryButton) && (
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
-              {primaryButton && (
-                <Button
-                  variant="primary"
-                  icon="arrow"
-                  onClick={primaryButton.onClick}
-                  className="w-full sm:w-auto"
-                >
-                  {primaryButton.text}
-                </Button>
-              )}
-
-              {secondaryButton && (
-                <Button
-                  variant="outline"
-                  onClick={secondaryButton.onClick}
-                  className="w-full sm:w-auto"
-                >
-                  {secondaryButton.text}
-                </Button>
-              )}
-            </div>
-          )}
+                {/* Buttons */}
+                {(primaryButton || secondaryButton) && (
+                  <div className='flex flex-col sm:flex-row items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 w-full sm:w-auto justify-center mt-2 sm:mt-4'>
+                      {primaryButton && (
+                        <Button 
+                          variant='primary' 
+                          icon={primaryButton.icon || "arrow"}
+                          href={primaryButton.href}
+                          external={primaryButton.external}
+                          onClick={primaryButton.onClick}
+                          className='w-full sm:w-auto'
+                        >
+                          {primaryButton.text}
+                        </Button>
+                      )}
+                      
+                      {secondaryButton && (
+                        <Button 
+                          variant='outline'
+                          href={secondaryButton.href}
+                          external={secondaryButton.external}
+                          onClick={secondaryButton.onClick}
+                          className='w-full sm:w-auto'
+                        >
+                          {secondaryButton.text}
+                        </Button>
+                      )}
+                  </div>
+                )}
 
           {/* Children */}
           {children && (

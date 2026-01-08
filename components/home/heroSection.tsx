@@ -57,6 +57,7 @@ const HeroSection = () => {
                 {/* Buttons */}
                 <div className='flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-4 sm:pt-6 w-full sm:w-auto'>
                     <Button
+                        href='/events'
                         variant="primary" 
                         icon="arrow"
                         iconPosition="right"
@@ -66,6 +67,7 @@ const HeroSection = () => {
                     </Button>
                
                     <Button 
+                    href='/partners'
                         variant="outline"
                         className="w-full sm:w-auto"
                     >

@@ -122,7 +122,7 @@ const WhatWeStandFor = () => {
             </div>
 
             <div className='pt-4 sm:pt-6'>
-                <ViewMoreButton text='Learn More About deCave'/>
+                <ViewMoreButton href="/about" text='Learn More About deCave'/>
             </div>
         </div>
     )

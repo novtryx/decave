@@ -70,7 +70,7 @@ const Memories = () => {
             </div>
 
             <div className='pt-2 sm:pt-4'>
-                <ViewMoreButton text='View More Gallery' />
+                <ViewMoreButton href='/gallery' text='View More Gallery' />
             </div>
         </div>
     )

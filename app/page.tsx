@@ -30,11 +30,13 @@ const page = () => {
   primaryButton={{
     text: "Explore events",
     icon: "arrow",
-    onClick: () => console.log('Explore clicked')
+    onClick: () => console.log('Explore clicked'),
+    href:"/events",
   }}
   secondaryButton={{
     text: "Partner with Us",
-    onClick: () => console.log('Partner clicked')
+    onClick: () => console.log('Partner clicked'),
+    href:"/partners",
   }}
 />
 

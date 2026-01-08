@@ -19,7 +19,7 @@ const OurPartners = () => {
         />
 
         <PartnerLogos/>
-        <Button variant='outline'>
+        <Button href='/partners' variant='outline'>
             Become a Partner
         </Button>
     </div>
