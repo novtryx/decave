@@ -5,7 +5,7 @@ export default function Contact() {
     return (
         <div>
             <HeaderSection 
-                backgroundImage="/events/hero-img.png"
+                backgroundImage="/events/hero-img.jpg"
                 label="GET IN TOUCH"
                 title="We're Here to Help"
                 description="Whether you're a journalist, potential partner, or attendee, we'd love to hear from you."

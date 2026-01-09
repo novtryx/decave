@@ -81,7 +81,7 @@ export default function HeaderSection({
         )}
         
         {/* Title */}
-        <h2 className={`text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[85px] font-medium leading-tight sm:leading-tight md:leading-tight lg:leading-tight mb-4 sm:mb-5 lg:mb-6 w-full max-w-[95%] sm:max-w-[90%] lg:max-w-[85%] xl:max-w-[80%] wrap-break-word ${titleClassName}`}>
+        <h2 className={`text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[85px] font-medium leading-tight sm:leading-tight md:leading-tight lg:leading-20 mb-4 sm:mb-5 lg:mb-6 w-full max-w-[95%] sm:max-w-[90%] lg:max-w-[85%] xl:max-w-[80%] wrap-break-word ${titleClassName}`}>
           {title}
         </h2>
         
