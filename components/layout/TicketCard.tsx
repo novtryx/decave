@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { IconType } from "react-icons";
 import { FaRegStar } from "react-icons/fa";
 import { LuTicket, LuUsers, LuCheck } from "react-icons/lu";
@@ -16,6 +17,8 @@ interface TicketCardProps {
   icon?: IconType;
   isPopular?: boolean;
   isPrimary?: boolean;
+  ticketId?: number;
+  eventId?: string;
 }
 
 export const TicketCard: React.FC<TicketCardProps> = ({
@@ -30,6 +33,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   icon: Icon = LuTicket,
   isPopular = false,
   isPrimary = false,
+  ticketId,
+  eventId,
 }) => {
   return (
     <div className="relative">
@@ -50,7 +55,6 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           transition-all duration-300 hover:scale-105 hover:shadow-2xl
           border border-[#2a2a2a] hover:border-yellow-500
           min-h-130 h-auto
-        
         `}
       >
         {/* Icon */}
@@ -74,11 +78,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
         {/* Person Count */}
         {personCount && (
-
           <div className="flex items-center gap-2 text-gray-400 mb-6 pb-6 border-b border-gray-800">
-          <LuUsers size={18} />
-          <span className="text-sm">{personCount}</span>
-        </div>
+            <LuUsers size={18} />
+            <span className="text-sm">{personCount}</span>
+          </div>
         )}
 
         {/* Features */}
@@ -91,22 +94,22 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           ))}
         </div>
 
-        {/* button */}
-        <button
-          onClick={onBuyClick}
-          className={`
-                w-full py-4 px-6 rounded-full font-semibold 
-                transition-all duration-300 hover:scale-105
-                
-                    ${
-                    isPrimary
-                        ? "bg-linear-to-r from-[#E0A91B] to-[#EFBD3E] text-white hover:from-yellow-600 hover:to-yellow-700 hover:shadow-[inset_0_0_18px_rgba(255,255,255,0.95)]"
-                        : "bg-transparent border-2 border-gray-700 text-white hover:bg-gray-800"
-                    }
-                `}
-        >
-          {buttonText}
-        </button>
+        {/* Button with Link */}
+        <Link href="/checkout" onClick={onBuyClick}>
+          <button
+            className={`
+              w-full py-4 px-6 rounded-full font-semibold 
+              transition-all duration-300 hover:scale-105
+              ${
+                isPrimary
+                  ? "bg-linear-to-r from-[#E0A91B] to-[#EFBD3E] text-white hover:from-yellow-600 hover:to-yellow-700 hover:shadow-[inset_0_0_18px_rgba(255,255,255,0.95)]"
+                  : "bg-transparent border-2 border-gray-700 text-white hover:bg-gray-800"
+              }
+            `}
+          >
+            {buttonText}
+          </button>
+        </Link>
       </div>
     </div>
   );

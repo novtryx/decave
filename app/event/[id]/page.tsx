@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import ImageSlider from "@/components/event/ImageSlider";
 import { FeaturedEventCard } from "@/components/events/ui/FeaturedEventCard";
 import Button from "@/components/layout/Button";
@@ -29,10 +30,26 @@ import ContactCard from "@/components/event/ContactCard";
 import CallToAction from "@/components/layout/CallToAction";
 import { GoDotFill } from "react-icons/go";
 import { GrLocation } from "react-icons/gr";
+import { useRouter } from "next/navigation";
 
 const eventDate = new Date("2026-08-15T00:00:00");
 
-export default function EventPage({ params }: { params: { id: string } }) {
+export default function EventPage({ params }: { params: Promise<{ id: string }> }) {
+   const { id } = use(params);
+
+
+   const handleTicketPurchase = (ticket: typeof afroTicketData[0]) => {
+    // Store ticket data in sessionStorage before navigation
+    sessionStorage.setItem('selectedTicket', JSON.stringify({
+      ...ticket,
+      eventId: id, // Now using the unwrapped id
+      eventName: 'AfroSpook 2025',
+      eventDate: eventDate.toISOString(),
+      eventLocation: 'Eko Atlantic City, Lagos - Nigeria'
+    }));
+  };
+
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header Section */}
@@ -128,7 +145,9 @@ export default function EventPage({ params }: { params: { id: string } }) {
             <TicketCard
               key={ticket.id}
               {...ticket}
-              onBuyClick={() => console.log("Buy Ticket")}
+              onBuyClick={() => handleTicketPurchase(ticket)}
+              ticketId={ticket.id}
+              eventId={id}
             />
           ))}
         </div>

@@ -19,7 +19,7 @@ export default function Partners() {
         title="Invest in Culture. Amplify your Brand"
         description="Partner with West Africa's premier Afro-cultural festival and connect with 10,000+ culturally-engaged millenials and Gen Z consumers."
         showTopLine={true}
-        backgroundImage="/events/hero-img.png"
+        backgroundImage="/events/hero-img.jpg"
       >
         <div className="flex flex-col lg:flex-row justify-center gap-2">
           <Button icon={MdOutlineFileDownload} iconPosition="left">
