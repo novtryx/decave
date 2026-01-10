@@ -1,5 +1,7 @@
-import Button from "@/components/layout/Button";
+"use client"
+
 import SectionHeader from "@/components/layout/sectionHeader";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RiLockLine } from "react-icons/ri";
 
@@ -22,6 +24,7 @@ interface OrderSummaryProps {
 }
 
 export default function OrderSummary({ ticketData }: OrderSummaryProps) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
   const ticketPrice = parseFloat(ticketData.price.replace(/[^0-9.]/g, ""));
@@ -59,6 +62,19 @@ export default function OrderSummary({ ticketData }: OrderSummaryProps) {
   };
 
   const savings = calculateSavings();
+
+  const handleProceedToPayment = () => {
+  const orderData = {
+    ticket: ticketData,
+    quantity,
+    subtotal,
+    serviceFee,
+    total,
+  };
+
+  sessionStorage.setItem("orderData", JSON.stringify(orderData));
+  router.push("/checkout/success");
+};
 
   return (
     <div className="bg-[#151515] p-4 rounded-2xl sticky top-24">
@@ -119,7 +135,7 @@ export default function OrderSummary({ ticketData }: OrderSummaryProps) {
       </div>
 
       <div className="w-full mt-8">
-        <button className="bg-[#CCA33A] hover:bg-[#92752d] cursor-pointer text-white w-full p-3 flex justify-center items-center gap-3 rounded-lg">
+        <button onClick={handleProceedToPayment} className="bg-[#CCA33A] hover:bg-[#92752d] cursor-pointer text-white w-full p-3 flex justify-center items-center gap-3 rounded-lg">
           <span><RiLockLine /></span>
           Proceed to Payment
         </button>
