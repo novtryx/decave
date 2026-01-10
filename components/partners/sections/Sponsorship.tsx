@@ -16,7 +16,7 @@ export default function Sponsorship() {
         description="Flexible partnership options designed to meet your marketing objectives and budgets"
       />
 
-      <div className="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6 border-t border-[#2a2a2a]">
+      <div className="mt-10 grid grid-cols-1 pt-10 lg:grid-cols-3 gap-6 border-t border-[#2a2a2a]">
         {sponsorshipData.map((item) => (
           <TicketCard
             key={item.id}

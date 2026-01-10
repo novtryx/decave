@@ -54,7 +54,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           relative bg-[#1a1a1a] rounded-2xl p-6 
           transition-all duration-300 hover:scale-105 hover:shadow-2xl
           border border-[#2a2a2a] hover:border-yellow-500
-          min-h-130 h-auto
+          min-h-130 h-auto flex flex-col justify-between
         `}
       >
         {/* Icon */}
