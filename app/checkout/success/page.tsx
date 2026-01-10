@@ -52,7 +52,7 @@ export default function PaymentSuccess() {
           {/* Title */}
           <motion.h1
             variants={item}
-            className="text-[50px] lg:text-[100px] font-semibold text-[#F9F7F4] w-1/2 text-center leading-24 mt-6"
+            className="text-[50px] lg:text-[100px] font-semibold text-[#F9F7F4] w-full lg:w-1/2 text-center leading-18 lg:leading-24 mt-6"
           >
             Payment Successful
           </motion.h1>
