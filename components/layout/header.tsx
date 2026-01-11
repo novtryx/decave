@@ -23,10 +23,10 @@ const Header = () => {
             name: "Events",
             link: "/events"
         },
-        {
-            name: "Artists",
-            link: "/artists"
-        },
+        // {
+        //     name: "Artists",
+        //     link: "/artists"
+        // },
         {
             name: "Gallery",
             link: "/gallery"
