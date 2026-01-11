@@ -4,6 +4,7 @@ import "./globals.css";
 import LatestTicket from "@/components/layout/latestTicket";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import BackToTop from "@/components/layout/BackToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +41,7 @@ export default function RootLayout({
           </div>
         </div>
         {children}
-        
+          <BackToTop/>
         <Footer/>
         </div>
       </body>
