@@ -54,7 +54,7 @@ export default function PaymentSuccess() {
             variants={item}
             className="text-[50px] lg:text-[100px] font-semibold text-[#F9F7F4] w-full lg:w-1/2 text-center leading-18 lg:leading-24 mt-6"
           >
-            Payment Successful
+            Payment Successful!
           </motion.h1>
 
           {/* Subtitle */}
