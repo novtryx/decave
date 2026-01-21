@@ -5,6 +5,15 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { TbTicket } from "react-icons/tb";
 
 export default function Sponsorship() {
+  
+  const transformedData = sponsorshipData.map(item => ({
+    id: item.id?.toString(),
+    name: item.title, 
+    price: item.price,
+    features: item.features,
+    popular: item.isPopular, 
+  }));
+
   return (
     <section className="bg-[#0f0f0f] py-10 px-4 lg:px-16">
       <SectionHeader
@@ -17,15 +26,13 @@ export default function Sponsorship() {
       />
 
       <div className="mt-10 grid grid-cols-1 pt-10 lg:grid-cols-3 gap-6 border-t border-[#2a2a2a]">
-        {sponsorshipData.map((item) => (
+        {transformedData.map((item) => (
           <TicketCard
             key={item.id}
+            name={item.name}
             price={item.price}
-            title={item.title}
-            description={item.description}
             features={item.features}
-            buttonText={item.buttonText}
-            isPopular={item.isPopular}
+            popular={item.popular}
           />
         ))}
       </div>
@@ -38,7 +45,6 @@ export default function Sponsorship() {
           a single edition to long-term multi-event integrations
         </p>
       </div>
-
     </section>
   );
 }
