@@ -5,10 +5,92 @@
 // import { MdOutlineFileDownload } from "react-icons/md";
 // import { FaArrowRightLong } from "react-icons/fa6";
 // import { FiCheckCircle } from "react-icons/fi";
-// import { useRouter } from "next/navigation";
+// import { useRouter, useSearchParams } from "next/navigation";
+// import { useEffect, useState } from "react";
+// import { verifyPayment } from "@/app/actions/payment";
+// import DownloadReceiptButton from "@/components/payment/DownloadReceiptButton";
+
+// interface TransactionData {
+//   transaction: {
+//     _id: string;
+//     txnId: string;
+//     event: string;
+//     paystackId: string;
+//     ticket: string;
+//     buyers: {
+//       fullName: string;
+//       email: string;
+//       phoneNumber: string;
+//       ticketId: string;
+//       checkedIn: boolean;
+//       qrCode: string;
+//       _id: string;
+//     }[];
+//     status: string;
+//     createdAt: string;
+//     updatedAt: string;
+//     totalBuyers: number;
+//     checkedInCount: number;
+//   };
+//   event: {
+//     title: string;
+//     venue: string;
+//     address: string;
+//     startDate: string;
+//     endDate: string;
+//     theme: string;
+//   };
+//   ticket: {
+//     ticketName: string;
+//     price: number;
+//     currency: string;
+//   };
+//   success: boolean;
+// }
 
 // export default function PaymentSuccess() {
 //   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
+//   const [error, setError] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     const verifyTransaction = async () => {
+//       try {
+//         setIsLoading(true);
+//         const reference = searchParams.get("reference") || searchParams.get("trxref");
+        
+//         if (!reference) {
+//           console.error("No reference found in URL");
+//           router.push("/events");
+//           return;
+//         }
+
+//         console.log("Verifying payment with reference:", reference);
+        
+//         const data = await verifyPayment(reference);
+//         console.log("Verification response:", data);
+        
+//         if (data.success) {
+//           setTransactionData(data);
+          
+//           // Store transaction data in sessionStorage for OrderConfirmation
+//           sessionStorage.setItem("verifiedOrder", JSON.stringify(data));
+//         } else {
+//           setError("Payment verification failed");
+//         }
+//       } catch (err: any) {
+//         console.error("Verification error:", err);
+//         setError(err.message || "Failed to verify payment");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     verifyTransaction();
+//   }, [searchParams, router]);
+
 //   const container: Variants = {
 //     hidden: {},
 //     visible: {
@@ -29,6 +111,35 @@
 //       },
 //     },
 //   };
+
+//   if (isLoading) {
+//     return (
+//       <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
+//         <div className="text-center">
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CCA33A] mx-auto mb-4"></div>
+//           <p className="text-white">Verifying payment...</p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
+//         <div className="text-center">
+//           <FiCheckCircle className="text-red-500 text-5xl mx-auto mb-4" />
+//           <h1 className="text-3xl font-semibold text-[#F9F7F4]">Payment Verification Failed</h1>
+//           <p className="text-[#b3b3b3] mt-2">{error}</p>
+//           <button
+//             onClick={() => router.push("/events")}
+//             className="mt-6 bg-[#CCA33A] hover:bg-[#a88732] text-white px-6 py-3 rounded-lg"
+//           >
+//             Back to Events
+//           </button>
+//         </div>
+//       </div>
+//     );
+//   }
 
 //   return (
 //     <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20">
@@ -65,52 +176,60 @@
 //       </section>
 
 //       {/* Order Confirmation */}
-//       <OrderConfirmation />
+//       {transactionData && (
+//         <OrderConfirmation transactionData={transactionData} />
+//       )}
 
 //       {/* Action Buttons */}
 //       <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
-//         <button className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none">
-//           <MdOutlineFileDownload className="text-xl" />
-//           Download Receipt
-//         </button>
-//         <button onClick={() => router.push("/ticket")} className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold  w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none">
+//         {transactionData && (
+//           <DownloadReceiptButton 
+//             transactionData={transactionData}
+//           />
+//         )}
+        
+//         <button 
+//           onClick={() => router.push("/ticket")}
+//           className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none"
+//         >
 //           View your Ticket
 //           <FaArrowRightLong className="text-xl" />
 //         </button>
 //       </div>
 
 //       {/* What's next section */}
-//       <section className="mt-10 w-full max-w-3xl mx-auto border border-[#22C55E] bg-[#0F2A1A] p-4 rounded-lg">
-//         <h3 className="text-[#22C55E] text-xl">What's Next?</h3>
+//       {transactionData && transactionData.transaction.buyers.length > 0 && (
+//         <section className="mt-10 w-full max-w-3xl mx-auto border border-[#22C55E] bg-[#0F2A1A] p-4 rounded-lg">
+//           <h3 className="text-[#22C55E] text-xl">What's Next?</h3>
 
-//         <div className="mt-6 flex flex-col gap-3">
-//           <div className="flex items-center gap-3">
-//             <FiCheckCircle className="text-[#00C950]" />
-//             <p className="text-[#b3b3b3] text-sm lg:text-md">
-//               A confirmation email has been sent to{" "}
-//               <span className="font-semibold text-[#ffffff]">
-//                 your.email@example.com
-//               </span>
-//             </p>
+//           <div className="mt-6 flex flex-col gap-3">
+//             <div className="flex items-center gap-3">
+//               <FiCheckCircle className="text-[#00C950]" />
+//               <p className="text-[#b3b3b3] text-sm lg:text-md">
+//                 A confirmation email has been sent to{" "}
+//                 <span className="font-semibold text-[#ffffff]">
+//                   {transactionData.transaction.buyers[0].email}
+//                 </span>
+//               </p>
+//             </div>
+//             <div className="flex items-center gap-3">
+//               <FiCheckCircle className="text-[#00C950]" />
+//               <p className="text-[#b3b3b3] text-sm lg:text-md">
+//                 Your digital ticket with QR code is ready to download
+//               </p>
+//             </div>
+//             <div className="flex items-center gap-3">
+//               <FiCheckCircle className="text-[#00C950]" />
+//               <p className="text-[#b3b3b3] text-sm lg:text-md">
+//                 Present your QR code at the venue entrance for check-in
+//               </p>
+//             </div>
 //           </div>
-//           <div className="flex items-center gap-3">
-//             <FiCheckCircle className="text-[#00C950]" />
-//             <p className="text-[#b3b3b3] text-sm lg:text-md">
-//               Your digital ticket with QR code is ready to download
-//             </p>
-//           </div>
-//           <div className="flex items-center gap-3">
-//             <FiCheckCircle className="text-[#00C950]" />
-//             <p className="text-[#b3b3b3] text-sm lg:text-md">
-//               Present your QR code at the venue entrance for check-in
-//             </p>
-//           </div>
-//         </div>
-//       </section>
+//         </section>
+//       )}
 //     </div>
 //   );
 // }
-
 
 
 "use client";
@@ -121,9 +240,8 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FiCheckCircle } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { verifyPayment } from "@/app/actions/payment";
-import DownloadReceiptButton from "@/components/payment/DownloadReceiptButton";
 
 interface TransactionData {
   transaction: {
@@ -163,7 +281,8 @@ interface TransactionData {
   success: boolean;
 }
 
-export default function PaymentSuccess() {
+// Create a separate component that uses useSearchParams
+function PaymentSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -296,26 +415,26 @@ export default function PaymentSuccess() {
       )}
 
       {/* Action Buttons */}
-      {/* <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
-        <button className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none">
+      <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
+        {/* Download Receipt Button - Simplified without PDF */}
+        <button
+          onClick={() => {
+            // Simple download functionality
+            if (transactionData) {
+              const dataStr = JSON.stringify(transactionData, null, 2);
+              const dataBlob = new Blob([dataStr], { type: 'application/json' });
+              const url = URL.createObjectURL(dataBlob);
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = `receipt-${transactionData.transaction.txnId}.json`;
+              link.click();
+            }
+          }}
+          className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none hover:bg-[#151515]"
+        >
           <MdOutlineFileDownload className="text-xl" />
           Download Receipt
         </button>
-        <button 
-          onClick={() => router.push("/ticket")}
-          className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold  w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none"
-        >
-          View your Ticket
-          <FaArrowRightLong className="text-xl" />
-        </button>
-      </div> */}
-      {/* Action Buttons */}
-      <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
-        {transactionData && (
-          <DownloadReceiptButton 
-            transactionData={transactionData}
-          />
-        )}
         
         <button 
           onClick={() => router.push("/ticket")}
@@ -357,5 +476,21 @@ export default function PaymentSuccess() {
         </section>
       )}
     </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function PaymentSuccess() {
+  return (
+    <Suspense fallback={
+      <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CCA33A] mx-auto mb-4"></div>
+          <p className="text-white">Loading payment details...</p>
+        </div>
+      </div>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
