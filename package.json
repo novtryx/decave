@@ -11,6 +11,7 @@
   "dependencies": {
     "formik": "^2.4.9",
     "framer-motion": "^12.23.26",
+    "html5-qrcode": "^2.3.8",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
