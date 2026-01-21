@@ -1,4 +1,4 @@
-import { ListItem } from "@/components/event/RecommendList";
+import { ListItem } from "@/components/events/event/RecommendList";
 import { FaRegHeart, FaRegQuestionCircle } from "react-icons/fa";
 import { FaArrowTrendUp, FaAward } from "react-icons/fa6";
 import { HiUsers } from "react-icons/hi";

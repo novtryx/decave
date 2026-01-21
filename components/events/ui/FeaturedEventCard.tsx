@@ -114,7 +114,7 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
 
         <button 
           onClick={onViewDetails}
-          className="bg-[#cca33a] hover:bg-yellow-700 text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-colors duration-200 flex items-center justify-center gap-2 group text-sm sm:text-base w-full sm:w-auto"
+          className="bg-[#cca33a] cursor-pointer hover:bg-yellow-700 text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-colors duration-200 flex items-center justify-center gap-2 group text-sm sm:text-base w-full sm:w-auto xs:text-base active:scale-95 touch-manipulation select-none"
         >
           View Event Details
           <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

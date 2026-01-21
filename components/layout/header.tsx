@@ -41,11 +41,11 @@ const Header = () => {
         },
     ]
   return (
-    <div className='w-full px-4 sm:px-6 lg:px-8'>
+    <div className='w-full fixed px-4 sm:px-6 lg:px-8'>
         <div className='backdrop-blur-sm w-full rounded-2xl lg:rounded-full border border-white/20 shadow-lg'>
             <div className='flex justify-between items-center p-4 sm:p-5 lg:p-6'>
                 {/* logo */}
-                <div className='relative h-8 w-12 sm:h-10 sm:w-16 md:h-12 md:w-18 lg:h-13.5 lg:w-20.5 flex-shrink-0'>
+                <div className='relative h-8 w-12 sm:h-10 sm:w-16 md:h-12 md:w-18 lg:h-13.5 lg:w-20.5 shrink-0'>
                     <Image src={"/logo.svg"} alt="logo" fill className='object-contain' />
                 </div>
 
@@ -78,7 +78,7 @@ const Header = () => {
             </div>
 
             {/* Mobile menu */}
-            <nav className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            <nav className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-125 opacity-100' : 'max-h-0 opacity-0'}`}>
                 <div className='flex flex-col px-4 pb-4 space-y-1'>
                     {
                         navLinks?.map((item: NavType, index:number) => (
