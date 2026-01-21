@@ -3,6 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 import Button from '../layout/Button'
 import { GiDrippingStar } from "react-icons/gi"
+import BottomCards from './BottomCards'
 
 const HeroSection = () => {
     return (
@@ -75,6 +76,9 @@ const HeroSection = () => {
                     </Button>
                 </div>
             </div>
+
+            {/* Bottom Cards */}
+            <BottomCards />
         </div>
     )
 }

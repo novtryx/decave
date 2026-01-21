@@ -135,7 +135,7 @@ export default function OrderSummary({ ticketData }: OrderSummaryProps) {
       </div>
 
       <div className="w-full mt-8">
-        <button onClick={handleProceedToPayment} className="bg-[#CCA33A] hover:bg-[#92752d] cursor-pointer text-white w-full p-3 flex justify-center items-center gap-3 rounded-lg">
+        <button onClick={handleProceedToPayment} className="bg-[#CCA33A] hover:bg-[#92752d] cursor-pointer text-white w-full p-3 flex justify-center items-center gap-3 rounded-lg transition-all duration-300 font-medium text-sm xs:text-base active:scale-95 touch-manipulation select-none">
           <span><RiLockLine /></span>
           Proceed to Payment
         </button>

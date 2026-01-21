@@ -9,6 +9,7 @@ import { TbTicket } from "react-icons/tb";
 import Image from "next/image";
 import { MdOutlineFileDownload, MdOutlineLocationOn, MdOutlineMail, MdOutlineShare } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
+import ShareModal from "@/components/ticket/ShareModal";
 
 interface OrderData {
   ticket: any;
@@ -21,6 +22,7 @@ interface OrderData {
 export default function Ticket() {
   const router = useRouter();
   const [order, setOrder] = useState<OrderData | null>(null);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const storedOrder = sessionStorage.getItem("orderData");
 
@@ -184,7 +186,7 @@ export default function Ticket() {
                 <MdOutlineFileDownload size={24} />
                 Download
             </button>
-            <button className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-6 rounded-lg">
+            <button onClick={() => setOpen(true)} className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-6 rounded-lg">
                 Share
                 <MdOutlineShare />
             </button>
@@ -226,6 +228,42 @@ export default function Ticket() {
         </div>
       </div>
 
+      {/* Share Modal */}
+      {open && (
+        <ShareModal isOpen={open} onClose={() => setOpen(false)}>
+          <div className="flex flex-col justify-center items-center gap-3">
+            
+            <h3 className="text-[#F9F7F4] text-center font-semibold text-xl lg:text-2xl">Share with Friends</h3>
+            <p className="text-[#b3b3b3] font-semibold w-[90%] text-center">
+              Send tickets to other members of your group to join event
+            </p>
+            {/* form */}
+            <form className="mt-6 w-full flex flex-col gap-4">
+              {/* Name */}
+              <div>
+                <p className="text-sm text-[#b3b3b3] font-semibold mb-2">Full Name</p>
+                <input
+                  type="text"
+                  className="bg-[#0F0F0F] w-full p-2 font-semibold rounded-xl border border-[#2a2a2a] placeholder:text-[#6F6F6F]"
+                  placeholder="e.g, John Doe"
+                />
+              </div>
+              {/* Email Address */}
+              <div>
+                <p className="text-sm text-[#b3b3b3] font-semibold mb-2">Email Address</p>
+                <input
+                  type="text"
+                  className="bg-[#0F0F0F] w-full p-2 font-semibold rounded-xl border border-[#2a2a2a] placeholder:text-[#6F6F6F]"
+                  placeholder="e.g, Johndoe@gmail.com"
+                />
+              </div>
+              <div className="flex justify-end w-full">
+              <button className="bg-[#cca33a] py-2 px-8 w-1/2 text-white rounded-xl">Share</button>
+              </div>
+            </form>
+          </div>
+        </ShareModal>
+      )}
     </div>
   );
 }

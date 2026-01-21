@@ -69,11 +69,11 @@ export default function PaymentSuccess() {
 
       {/* Action Buttons */}
       <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
-        <button className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg">
+        <button className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none">
           <MdOutlineFileDownload className="text-xl" />
           Download Receipt
         </button>
-        <button onClick={() => router.push("/ticket")} className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold  w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg">
+        <button onClick={() => router.push("/ticket")} className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold  w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none">
           View your Ticket
           <FaArrowRightLong className="text-xl" />
         </button>
