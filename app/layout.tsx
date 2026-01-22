@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import LatestTicket from "@/components/layout/latestTicket";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import BackToTop from "@/components/layout/BackToTop";
@@ -31,7 +30,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-[#FAF8FF]`}
       >
-        <LatestTicket/>
         
         <div className="relative">
 

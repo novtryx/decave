@@ -12,10 +12,15 @@ import { useRouter } from "next/navigation";
 import TabNavigation from "@/components/layout/TabNavigation";
 import { getPublishedEvents, type Event } from "@/app/actions/events";
 
-export default function MainSection() {
+interface MainSectionProps {
+  initialEvents: Event[];
+}
+
+export default function MainSection({ initialEvents }: MainSectionProps) {
   const [activeTab, setActiveTab] = useState("all");
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [events, setEvents] = useState<Event[]>([]);
+    const [events] = useState<Event[]>(initialEvents);
+  // const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const tabs = [
@@ -24,23 +29,23 @@ export default function MainSection() {
     { id: "past", label: "Past" },
   ];
 
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        setLoading(true);
-        const response = await getPublishedEvents();
-        console.log("Events fetched successfully:", response);
-        setEvents(response.data);
-      } catch (error) {
-        console.error("Failed to fetch events:", error);
-        setEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchEvents() {
+  //     try {
+  //       setLoading(true);
+  //       const response = await getPublishedEvents();
+  //       console.log("Events fetched successfully:", response);
+  //       setEvents(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch events:", error);
+  //       setEvents([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
 
-    fetchEvents();
-  }, []);
+  //   fetchEvents();
+  // }, []);
 
   // Helper function to determine if event is past or upcoming
   const isUpcoming = (event: Event) => {
@@ -89,13 +94,13 @@ export default function MainSection() {
       : `${soldTickets}+`;
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-white text-xl">Loading events...</p>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen">
+  //       <p className="text-white text-xl">Loading events...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="">

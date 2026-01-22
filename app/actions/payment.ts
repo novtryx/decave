@@ -1,4 +1,6 @@
 // actions/payment.ts
+"use server"
+
 import { publicFetch } from "@/lib/publicFetch";
 
 export type Buyer = {
