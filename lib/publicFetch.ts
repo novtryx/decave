@@ -6,3 +6,4 @@ export function publicFetch<T>(
 ) {
   return fetcher<T>(url, options);
 }
+
