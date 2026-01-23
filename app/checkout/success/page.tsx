@@ -483,7 +483,7 @@ function PaymentSuccessContent() {
 export default function PaymentSuccess() {
   return (
     <Suspense fallback={
-      <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
+      <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-[70vh] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CCA33A] mx-auto mb-4"></div>
           <p className="text-white">Loading payment details...</p>

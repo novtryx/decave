@@ -34,7 +34,7 @@ export default function PaymentError() {
       };
     return (
         <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20">
-              <section className="py-30 flex flex-col justify-center items-center">
+              <section className="py-24 flex flex-col justify-center items-center">
                 <motion.div
                   variants={container}
                   initial="hidden"
