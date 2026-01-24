@@ -1,2 +1,9 @@
 @import "tailwindcss";
 
+body {
+  font-family: var(--font-philosopher), ui-sans-serif, system-ui, sans-serif;
+}
+
+button {
+    @apply cursor-pointer;
+  }

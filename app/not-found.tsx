@@ -1,17 +1,16 @@
 'use client'
-import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Button from '@/components/layout/Button'
 import { IoMusicalNotesSharp } from 'react-icons/io5'
 import { FiHome, FiCalendar } from 'react-icons/fi'
-import { HiOutlineArrowLeft } from 'react-icons/hi'
+
 
 const NotFound = () => {
   return (
     <div className='relative min-h-screen w-full bg-[#0A0A0A] flex items-center justify-center overflow-hidden py-30 lg:py-45 px-4 sm:px-6 lg:px-8'>
       {/* Animated background gradient */}
-      <div className='absolute inset-0 bg-gradient-to-br from-[#001D3D] via-[#0A0A0A] to-[#56410C] opacity-50'></div>
+      <div className='absolute inset-0 bg-linear-to-br from-[#001D3D] via-[#0A0A0A] to-[#56410C] opacity-50'></div>
       
       {/* Animated circles */}
       <motion.div
@@ -49,14 +48,14 @@ const NotFound = () => {
           className='relative mb-6 sm:mb-8 lg:mb-10'
         >
           <div className='relative backdrop-blur-sm bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl'>
-            <h1 className='text-8xl sm:text-9xl md:text-[180px] lg:text-[220px] font-extrabold text-transparent bg-gradient-to-r from-[#CCA33A] via-[#EEF6FF] to-[#0854A7] bg-clip-text leading-none drop-shadow-[0_0_30px_rgba(204,163,58,0.3)]'>
+            <h1 className='text-8xl sm:text-9xl md:text-[180px] lg:text-[220px] font-extrabold text-transparent bg-linear-to-r from-[#CCA33A] via-[#EEF6FF] to-[#0854A7] bg-clip-text leading-none drop-shadow-[0_0_30px_rgba(204,163,58,0.3)]'>
               404
             </h1>
           </div>
           
           {/* Floating musical note icon */}
           <motion.div
-            className='absolute -top-4 -right-4 sm:-top-6 sm:-right-6 bg-gradient-to-br from-[#7B3FE4] to-[#AD46FF] p-3 sm:p-4 rounded-full shadow-lg'
+            className='absolute -top-4 -right-4 sm:-top-6 sm:-right-6 bg-linear-to-br from-[#7B3FE4] to-[#AD46FF] p-3 sm:p-4 rounded-full shadow-lg'
             animate={{
               y: [0, -10, 0],
               rotate: [0, 5, -5, 0]
