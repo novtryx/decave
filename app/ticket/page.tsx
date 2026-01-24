@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { TbTicket } from "react-icons/tb";
 import { MdOutlineFileDownload, MdOutlineLocationOn, MdOutlineMail, MdOutlineShare } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
-import ShareModal from "@/components/ticket/ShareModal";
 import { verifyPayment } from "@/app/actions/payment";
 
 interface TicketData {
@@ -141,6 +140,184 @@ export default function Ticket() {
 
     loadTicketData();
   }, [router]);
+
+  const handleShareTicket = async (index: number) => {
+  try {
+    if (!ticketData) return;
+    
+    const currentTicket = ticketData.transaction.buyers[index];
+    const ticketId = currentTicket?.ticketId || "ticket";
+    
+    // Create the ticket image (same canvas code as download)
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    
+    canvas.width = 800;
+    canvas.height = 1200;
+    
+    // Background
+    ctx.fillStyle = "#0A0A0A";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Header with gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 100);
+    gradient.addColorStop(0, "#BA8703");
+    gradient.addColorStop(0.5, "#BC9229");
+    gradient.addColorStop(1, "#DFA91E");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, 180);
+    
+    // Event title
+    ctx.fillStyle = "#000000";
+    ctx.font = "bold 18px Arial";
+    ctx.fillText(ticketData.event.title.toUpperCase(), 40, 40);
+    
+    // Theme
+    ctx.font = "bold 42px Arial";
+    const themeName = ticketData.event.theme;
+    ctx.fillText(themeName.length > 20 ? themeName.substring(0, 20) + "..." : themeName, 40, 95);
+    
+    // Ticket type
+    ctx.font = "20px Arial";
+    ctx.fillText(ticketData.ticket.ticketName + " Ticket", 40, 140);
+    
+    // QR Code section
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 180, canvas.width, 350);
+    
+    // Load and draw QR code
+    if (currentTicket?.qrCode) {
+      const qrImage = new Image();
+      qrImage.crossOrigin = "anonymous";
+      
+      await new Promise((resolve, reject) => {
+        qrImage.onload = () => {
+          const qrSize = 280;
+          const qrX = (canvas.width - qrSize) / 2;
+          const qrY = 200;
+          ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+          resolve(null);
+        };
+        qrImage.onerror = () => {
+          ctx.fillStyle = "#E5E5E5";
+          const qrSize = 280;
+          const qrX = (canvas.width - qrSize) / 2;
+          const qrY = 200;
+          ctx.fillRect(qrX, qrY, qrSize, qrSize);
+          resolve(null);
+        };
+        qrImage.src = currentTicket.qrCode;
+      });
+    }
+    
+    // Ticket ID
+    ctx.fillStyle = "#999999";
+    ctx.font = "14px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(`Ticket ID: ${ticketId}`, canvas.width / 2, 500);
+    ctx.fillText(`Transaction: ${ticketData.transaction.txnId}`, canvas.width / 2, 520);
+    ctx.textAlign = "left";
+    
+    // Details section
+    let yPos = 570;
+    const leftMargin = 40;
+    const iconSize = 16;
+    
+    const drawDetail = (label: string, value: string, subValue?: string) => {
+      ctx.fillStyle = "#CCA33A";
+      ctx.beginPath();
+      ctx.arc(leftMargin + iconSize/2, yPos + iconSize/2, iconSize/2, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = "#999999";
+      ctx.font = "14px Arial";
+      ctx.fillText(label, leftMargin + 50, yPos + 5);
+      
+      ctx.fillStyle = "#F9F7F4";
+      ctx.font = "bold 20px Arial";
+      ctx.fillText(value, leftMargin + 50, yPos + 35);
+      
+      if (subValue) {
+        ctx.fillStyle = "#999999";
+        ctx.font = "14px Arial";
+        ctx.fillText(subValue, leftMargin + 50, yPos + 55);
+        yPos += 90;
+      } else {
+        yPos += 70;
+      }
+    };
+    
+    const formatDate = (isoDate: string) => {
+      return new Date(isoDate).toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    };
+    
+    const formatTime = (isoDate: string) => {
+      return new Date(isoDate).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    };
+    
+    drawDetail("Ticket Holder", currentTicket?.fullName || "N/A");
+    drawDetail("Email", currentTicket?.email || "N/A");
+    
+    const dateStr = formatDate(ticketData.event.startDate);
+    const timeStr = `${formatTime(ticketData.event.startDate)} - ${formatTime(ticketData.event.endDate)}`;
+    drawDetail("Event Date & Time", dateStr, timeStr);
+    
+    drawDetail("Venue", ticketData.event.venue, ticketData.event.address);
+    drawDetail("Phone Number", currentTicket?.phoneNumber || "N/A");
+    
+    const checkInStatus = currentTicket?.checkedIn ? "Checked In ✓" : "Not Checked In";
+    drawDetail("Check-in Status", checkInStatus);
+    
+    // Convert canvas to blob
+    const blob = await new Promise<Blob>((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(blob!);
+      }, "image/png");
+    });
+    
+    // Create file from blob
+    const file = new File([blob], `ticket-${ticketId}.png`, { type: "image/png" });
+    
+    // Check if Web Share API is supported
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          title: `${ticketData.event.title} - Ticket`,
+          text: `My ticket for ${ticketData.event.title}\nTicket ID: ${ticketId}`,
+          files: [file],
+        });
+        console.log("Ticket shared successfully");
+      } catch (error: any) {
+        // User cancelled the share or error occurred
+        if (error.name !== 'AbortError') {
+          console.error("Error sharing:", error);
+          // Fallback: download the image instead
+          const link = document.createElement("a");
+          link.download = `ticket-${ticketId}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        }
+      }
+    } else {
+      // Web Share API not supported, show your modal instead
+      setOpen(true);
+      console.log("Web Share API not supported, showing modal");
+    }
+    
+  } catch (error) {
+    console.error("Error sharing ticket:", error);
+    alert("Failed to share ticket. Please try again.");
+  }
+};
 
   const handleDownloadTicket = async (index: number) => {
   try {
@@ -452,7 +629,7 @@ export default function Ticket() {
           </button>
           
           <button 
-            onClick={() => setOpen(true)} 
+            onClick={() => handleShareTicket(currentTicketIndex)} 
             className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors"
           >
             Share
@@ -527,70 +704,6 @@ export default function Ticket() {
           </div>
         </div>
       </div>
-
-      {/* Share Modal */}
-      {open && (
-        <ShareModal isOpen={open} onClose={() => setOpen(false)}>
-          <div className="flex flex-col justify-center items-center gap-3">
-            <h3 className="text-[#F9F7F4] text-center font-semibold text-xl lg:text-2xl">Share with Friends</h3>
-            <p className="text-[#b3b3b3] font-semibold w-[90%] text-center">
-              Send tickets to other members of your group to join event
-            </p>
-            
-            {/* form */}
-            <form className="mt-6 w-full flex flex-col gap-4">
-              {/* Name */}
-              <div>
-                <p className="text-sm text-[#b3b3b3] font-semibold mb-2">Full Name</p>
-                <input
-                  type="text"
-                  className="bg-[#0F0F0F] w-full p-3 font-semibold rounded-xl border border-[#2a2a2a] placeholder:text-[#6F6F6F]"
-                  placeholder="e.g, John Doe"
-                  defaultValue={currentTicket?.fullName || ""}
-                />
-              </div>
-              
-              {/* Email Address */}
-              <div>
-                <p className="text-sm text-[#b3b3b3] font-semibold mb-2">Email Address</p>
-                <input
-                  type="email"
-                  className="bg-[#0F0F0F] w-full p-3 font-semibold rounded-xl border border-[#2a2a2a] placeholder:text-[#6F6F6F]"
-                  placeholder="e.g, Johndoe@gmail.com"
-                  defaultValue={currentTicket?.email || ""}
-                />
-              </div>
-              
-              {/* Ticket ID (read-only) */}
-              <div>
-                <p className="text-sm text-[#b3b3b3] font-semibold mb-2">Ticket ID</p>
-                <input
-                  type="text"
-                  className="bg-[#0F0F0F] w-full p-3 font-semibold rounded-xl border border-[#2a2a2a] text-[#CCA33A]"
-                  value={currentTicket?.ticketId || ""}
-                  readOnly
-                />
-              </div>
-              
-              <div className="flex justify-end w-full gap-3">
-                <button 
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  className="border border-[#2a2a2a] py-3 px-6 text-white rounded-xl hover:bg-[#151515] transition-colors"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit"
-                  className="bg-[#cca33a] hover:bg-[#b89332] py-3 px-6 text-white rounded-xl transition-colors"
-                >
-                  Share Ticket
-                </button>
-              </div>
-            </form>
-          </div>
-        </ShareModal>
-      )}
     </div>
   );
 }
