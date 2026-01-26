@@ -53,7 +53,6 @@
 //   const searchParams = useSearchParams();
 //   const [isLoading, setIsLoading] = useState(true);
 //   const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
-//   const [error, setError] = useState<string | null>(null);
 
 //   useEffect(() => {
 //     const verifyTransaction = async () => {
@@ -63,7 +62,8 @@
         
 //         if (!reference) {
 //           console.error("No reference found in URL");
-//           router.push("/events");
+//           // Redirect to error page with error message
+//           router.push("/checkout/error?reason=no-reference");
 //           return;
 //         }
 
@@ -78,11 +78,15 @@
 //           // Store transaction data in sessionStorage for OrderConfirmation
 //           sessionStorage.setItem("verifiedOrder", JSON.stringify(data));
 //         } else {
-//           setError("Payment verification failed");
+//           // Redirect to error page with error message
+//           const errorReason = encodeURIComponent(data.message || "Payment verification failed");
+//           router.push(`/checkout/error?reason=${errorReason}`);
 //         }
 //       } catch (err: any) {
 //         console.error("Verification error:", err);
-//         setError(err.message || "Failed to verify payment");
+//         // Redirect to error page with error message
+//         const errorReason = encodeURIComponent(err.message || "Failed to verify payment");
+//         router.push(`/checkout/error?reason=${errorReason}`);
 //       } finally {
 //         setIsLoading(false);
 //       }
@@ -114,7 +118,7 @@
 
 //   if (isLoading) {
 //     return (
-//       <div className="bg-[#0F0F0F] px-4 lg:px-16 py-16 lg:py-10 min-h-screen flex items-center justify-center">
+//       <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
 //         <div className="text-center">
 //           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CCA33A] mx-auto mb-4"></div>
 //           <p className="text-white">Verifying payment...</p>
@@ -123,19 +127,13 @@
 //     );
 //   }
 
-//   if (error) {
+//   // Only render success UI if we have transaction data
+//   if (!transactionData) {
 //     return (
 //       <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20 min-h-screen flex items-center justify-center">
 //         <div className="text-center">
-//           <FiCheckCircle className="text-red-500 text-5xl mx-auto mb-4" />
-//           <h1 className="text-3xl font-semibold text-[#F9F7F4]">Payment Verification Failed</h1>
-//           <p className="text-[#b3b3b3] mt-2">{error}</p>
-//           <button
-//             onClick={() => router.push("/events")}
-//             className="mt-6 bg-[#CCA33A] hover:bg-[#a88732] text-white px-6 py-3 rounded-lg"
-//           >
-//             Back to Events
-//           </button>
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CCA33A] mx-auto mb-4"></div>
+//           <p className="text-white">Redirecting...</p>
 //         </div>
 //       </div>
 //     );
@@ -143,7 +141,7 @@
 
 //   return (
 //     <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20">
-//       <section className="py-30 flex flex-col justify-center items-center">
+//       <section className="pt-24 pb-14 flex flex-col justify-center items-center">
 //         <motion.div
 //           variants={container}
 //           initial="hidden"
@@ -175,17 +173,11 @@
 //         </motion.div>
 //       </section>
 
-//       {/* Order Confirmation */}
-//       {transactionData && (
-//         <OrderConfirmation transactionData={transactionData} />
-//       )}
-
 //       {/* Action Buttons */}
-//       <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
-//         {/* Download Receipt Button - Simplified without PDF */}
+//       <div className="flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
+//         {/* Download Receipt Button */}
 //         <button
 //           onClick={() => {
-//             // Simple download functionality
 //             if (transactionData) {
 //               const dataStr = JSON.stringify(transactionData, null, 2);
 //               const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -211,8 +203,11 @@
 //         </button>
 //       </div>
 
+//       {/* Order Confirmation */}
+//       <OrderConfirmation transactionData={transactionData} />
+      
 //       {/* What's next section */}
-//       {transactionData && transactionData.transaction.buyers.length > 0 && (
+//       {transactionData.transaction.buyers.length > 0 && (
 //         <section className="mt-10 w-full max-w-3xl mx-auto border border-[#22C55E] bg-[#0F2A1A] p-4 rounded-lg">
 //           <h3 className="text-[#22C55E] text-xl">What's Next?</h3>
 
@@ -261,7 +256,6 @@
 //   );
 // }
 
-
 "use client";
 
 import { motion, Variants } from "framer-motion";
@@ -272,6 +266,8 @@ import { FiCheckCircle } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { verifyPayment } from "@/app/actions/payment";
+import { FaQrcode } from "react-icons/fa6";
+import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
 interface TransactionData {
   transaction: {
@@ -317,6 +313,7 @@ function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [transactionData, setTransactionData] = useState<TransactionData | null>(null);
+  const [currentTicketIndex, setCurrentTicketIndex] = useState(0);
 
   useEffect(() => {
     const verifyTransaction = async () => {
@@ -339,8 +336,11 @@ function PaymentSuccessContent() {
         if (data.success) {
           setTransactionData(data);
           
-          // Store transaction data in sessionStorage for OrderConfirmation
+          // Store transaction data in sessionStorage for OrderConfirmation and Ticket page
           sessionStorage.setItem("verifiedOrder", JSON.stringify(data));
+          
+          // Mark that payment has been verified to prevent re-verification
+          sessionStorage.setItem("paymentVerified", "true");
         } else {
           // Redirect to error page with error message
           const errorReason = encodeURIComponent(data.message || "Payment verification failed");
@@ -403,9 +403,20 @@ function PaymentSuccessContent() {
     );
   }
 
+  const totalTickets = transactionData.transaction.buyers.length;
+  const currentTicket = transactionData.transaction.buyers[currentTicketIndex];
+
+  const handlePrevTicket = () => {
+    setCurrentTicketIndex(prev => Math.max(0, prev - 1));
+  };
+
+  const handleNextTicket = () => {
+    setCurrentTicketIndex(prev => Math.min(totalTickets - 1, prev + 1));
+  };
+
   return (
     <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20">
-      <section className="py-30 flex flex-col justify-center items-center">
+      <section className="pt-24 pb-14 flex flex-col justify-center items-center">
         <motion.div
           variants={container}
           initial="hidden"
@@ -432,13 +443,124 @@ function PaymentSuccessContent() {
 
           {/* Subtitle */}
           <motion.p variants={item} className="text-[#b3b3b3] mt-4">
-            Your ticket has been confirmed
+            Your {totalTickets > 1 ? 'tickets have' : 'ticket has'} been confirmed
           </motion.p>
         </motion.div>
       </section>
 
+      {/* FIX #3: Ticket Slider - Show all purchased tickets */}
+      {totalTickets > 0 && (
+        <div className="w-full max-w-3xl mx-auto mb-10">
+          <div className="bg-[#151515] p-6 rounded-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-[#F9F7F4] text-xl font-semibold">
+                {totalTickets > 1 ? 'Your Tickets' : 'Your Ticket'}
+              </h3>
+              {totalTickets > 1 && (
+                <p className="text-[#b3b3b3] text-sm">
+                  Ticket {currentTicketIndex + 1} of {totalTickets}
+                </p>
+              )}
+            </div>
+
+            {/* Ticket Preview Card */}
+            <div className="bg-[#0F0F0F] border border-[#2a2a2a] rounded-xl overflow-hidden">
+              {/* Ticket Header */}
+              <div className="bg-[conic-gradient(from_45deg,#BA8703,#BC9229,#DFA91E)] p-4">
+                <p className="text-sm text-black font-semibold">
+                  {transactionData.event.title}
+                </p>
+                <h3 className="text-2xl text-black font-semibold mt-1">
+                  {transactionData.ticket.ticketName}
+                </h3>
+              </div>
+
+              {/* QR Code Preview */}
+              <div className="bg-white py-6 flex flex-col items-center">
+                {currentTicket?.qrCode ? (
+                  <div className="relative h-40 w-40">
+                    <img 
+                      src={currentTicket.qrCode} 
+                      alt="Ticket QR Code"
+                      className="w-full h-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative h-40 w-40 flex items-center justify-center bg-gray-100">
+                    <FaQrcode className="text-gray-400 text-4xl" />
+                  </div>
+                )}
+                <p className="text-[#999999] text-xs font-semibold mt-3">
+                  Ticket ID: {currentTicket?.ticketId || "N/A"}
+                </p>
+              </div>
+
+              {/* Ticket Holder Info */}
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[#b3b3b3] text-sm">Ticket Holder</p>
+                    <p className="text-[#F9F7F4] font-semibold mt-1">
+                      {currentTicket?.fullName || "N/A"}
+                    </p>
+                    <p className="text-[#b3b3b3] text-xs mt-1">
+                      {currentTicket?.email || "N/A"}
+                    </p>
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    currentTicket?.checkedIn 
+                      ? 'bg-[#1A3A1A] text-[#22C55E]' 
+                      : 'bg-[#2A2A1A] text-[#CCA33A]'
+                  }`}>
+                    {currentTicket?.checkedIn ? 'Checked In' : 'Not Checked In'}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Arrows - Only show if multiple tickets */}
+            {totalTickets > 1 && (
+              <div className="flex items-center justify-between mt-6">
+                <button
+                  onClick={handlePrevTicket}
+                  disabled={currentTicketIndex === 0}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#0F0F0F] border border-[#2a2a2a] rounded-lg hover:bg-[#1a1a1a] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <BiChevronLeft size={20} />
+                  Previous
+                </button>
+
+                {/* Dot indicators */}
+                <div className="flex gap-2">
+                  {transactionData.transaction.buyers.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentTicketIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        idx === currentTicketIndex 
+                          ? 'bg-[#CCA33A] w-6' 
+                          : 'bg-[#2a2a2a] hover:bg-[#3a3a3a]'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNextTicket}
+                  disabled={currentTicketIndex === totalTickets - 1}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#0F0F0F] border border-[#2a2a2a] rounded-lg hover:bg-[#1a1a1a] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Next
+                  <BiChevronRight size={20} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Action Buttons */}
-      <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
         {/* Download Receipt Button */}
         <button
           onClick={() => {
@@ -462,7 +584,7 @@ function PaymentSuccessContent() {
           onClick={() => router.push("/ticket")}
           className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none"
         >
-          View your Ticket
+          View All Tickets
           <FaArrowRightLong className="text-xl" />
         </button>
       </div>
@@ -479,22 +601,19 @@ function PaymentSuccessContent() {
             <div className="flex items-center gap-3">
               <FiCheckCircle className="text-[#00C950]" />
               <p className="text-[#b3b3b3] text-sm lg:text-md">
-                A confirmation email has been sent to{" "}
-                <span className="font-semibold text-[#ffffff]">
-                  {transactionData.transaction.buyers[0].email}
-                </span>
+                Confirmation emails have been sent to all ticket holders
               </p>
             </div>
             <div className="flex items-center gap-3">
               <FiCheckCircle className="text-[#00C950]" />
               <p className="text-[#b3b3b3] text-sm lg:text-md">
-                Your digital ticket with QR code is ready to download
+                {totalTickets > 1 ? 'All digital tickets' : 'Your digital ticket'} with QR {totalTickets > 1 ? 'codes are' : 'code is'} ready to download
               </p>
             </div>
             <div className="flex items-center gap-3">
               <FiCheckCircle className="text-[#00C950]" />
               <p className="text-[#b3b3b3] text-sm lg:text-md">
-                Present your QR code at the venue entrance for check-in
+                Present {totalTickets > 1 ? 'each' : 'your'} QR code at the venue entrance for check-in
               </p>
             </div>
           </div>
