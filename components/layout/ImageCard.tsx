@@ -63,7 +63,7 @@ const ImageCard = ({
   className = ''
 }: ImageCardProps) => {
   return (
-    <div className={`h-fit w-full border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-lg sm:rounded-xl transition-all duration-300 ${className}`}>
+    <div className={`h-auto w-full border-2 border-[#2A2A2A] hover:border-[#0854A7] rounded-lg sm:rounded-xl transition-all duration-300 ${className}`}>
         {/* Image Section */}
         <div className="relative h-48 xs:h-52 sm:h-56 md:h-64 lg:h-72 w-full">
             <Image 
@@ -97,10 +97,13 @@ const ImageCard = ({
         </div>
 
         {/* Content Section */}
-        <div className='h-fit p-3 xs:p-4 sm:p-5 md:p-6 space-y-2.5 xs:space-y-3 sm:space-y-4'>
+        {/* <div className='h-fit p-3 xs:p-4 sm:p-5 md:p-6 space-y-2.5 xs:space-y-3 sm:space-y-4'> */}
+        <div className='p-3 flex flex-col justify-between gap-8 mb-6'>
+          <div>
+
             {/* Optional Icon (gradient circle) */}
             {Icon && (
-              <div className={`bg-gradient-to-r from-${iconGradientFrom} to-${iconGradientTo} h-fit w-fit rounded-full p-1.5 xs:p-2 sm:p-2.5`}>
+              <div className={`bg-linear-to-r from-${iconGradientFrom} to-${iconGradientTo} h-fit w-fit rounded-full p-1.5 xs:p-2 sm:p-2.5`}>
                 <Icon color='white' size={16} className='xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5' />
               </div>
             )}
@@ -134,7 +137,9 @@ const ImageCard = ({
                 {description}
               </p>
             )}
-            
+          </div>
+
+          <div>
             {/* Optional Button */}
             {buttonText && (
               <Button 
@@ -148,6 +153,7 @@ const ImageCard = ({
                 {buttonText}
               </Button>
             )}
+            </div>  
         </div>
     </div>
   )

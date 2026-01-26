@@ -140,6 +140,7 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
               featuredEvent.eventDetails.endDate,
             )}
             location={`${featuredEvent.eventDetails.venue} - ${featuredEvent.eventDetails.address}`}
+            buttonText="View Event Details"
             // onViewDetails={() => `/events/eventTitle/${encodeURIComponent(featuredEvent.eventDetails.eventTitle)}`}
             onViewDetails={() =>
               router.push(
@@ -160,7 +161,7 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
             description="Don't miss out these upcoming experiences"
           />
 
-          <div className="my-14 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="my-14 grid grid-cols-1 lg:grid-cols-3 items-stretch gap-6">
             {upcomingEvents.slice(0, 6).map((event) => {
               const isSoldOut = event.tickets.every(
                 (ticket) => ticket.availableQuantity === 0,
@@ -210,7 +211,7 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
             description="Relive the moments from our previous experiences"
           />
 
-          <div className="my-14 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="my-14 grid grid-cols-1 lg:grid-cols-3 items-stretch gap-6">
             {pastEvents.slice(0, 6).map((event) => (
               <ImageCard
                 key={event.id}
@@ -231,7 +232,7 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
                   event.eventDetails.endDate,
                 )}
                 location={event.eventDetails.venue}
-                buttonText="View Recap"
+                // buttonText="View Recap"
                 buttonVariant="outline"
                 onButtonClick={() => router.push(`/events/${event.id}`)}
               />

@@ -437,9 +437,6 @@ function PaymentSuccessContent() {
         </motion.div>
       </section>
 
-      {/* Order Confirmation */}
-      <OrderConfirmation transactionData={transactionData} />
-
       {/* Action Buttons */}
       <div className="mt-10 flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
         {/* Download Receipt Button */}
@@ -470,6 +467,9 @@ function PaymentSuccessContent() {
         </button>
       </div>
 
+      {/* Order Confirmation */}
+      <OrderConfirmation transactionData={transactionData} />
+      
       {/* What's next section */}
       {transactionData.transaction.buyers.length > 0 && (
         <section className="mt-10 w-full max-w-3xl mx-auto border border-[#22C55E] bg-[#0F2A1A] p-4 rounded-lg">
