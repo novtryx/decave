@@ -11,6 +11,7 @@ import CallToAction from "@/components/layout/CallToAction";
 import { useRouter } from "next/navigation";
 import TabNavigation from "@/components/layout/TabNavigation";
 import { getPublishedEvents, type Event } from "@/app/actions/events";
+import { createSlug } from "@/utils/slugify";
 
 interface MainSectionProps {
   initialEvents: Event[];
@@ -19,7 +20,7 @@ interface MainSectionProps {
 export default function MainSection({ initialEvents }: MainSectionProps) {
   const [activeTab, setActiveTab] = useState("all");
   // const [events, setEvents] = useState<Event[]>([]);
-    const [events] = useState<Event[]>(initialEvents);
+  const [events] = useState<Event[]>(initialEvents);
   // const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -28,24 +29,6 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
     { id: "upcoming", label: "Upcoming" },
     { id: "past", label: "Past" },
   ];
-
-  // useEffect(() => {
-  //   async function fetchEvents() {
-  //     try {
-  //       setLoading(true);
-  //       const response = await getPublishedEvents();
-  //       console.log("Events fetched successfully:", response);
-  //       setEvents(response.data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch events:", error);
-  //       setEvents([]);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   fetchEvents();
-  // }, []);
 
   // Helper function to determine if event is past or upcoming
   const isUpcoming = (event: Event) => {
@@ -141,12 +124,16 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
             )}
             location={`${featuredEvent.eventDetails.venue} - ${featuredEvent.eventDetails.address}`}
             buttonText="View Event Details"
-            // onViewDetails={() => `/events/eventTitle/${encodeURIComponent(featuredEvent.eventDetails.eventTitle)}`}
+            // onViewDetails={() =>
+            //   router.push(
+            //     `/events/eventTitle/${encodeURIComponent(
+            //       featuredEvent.eventDetails.eventTitle,
+            //     )}`,
+            //   )
+            // }
             onViewDetails={() =>
               router.push(
-                `/events/eventTitle/${encodeURIComponent(
-                  featuredEvent.eventDetails.eventTitle,
-                )}`,
+                `/events/${createSlug(featuredEvent.eventDetails.eventTitle)}`,
               )
             }
           />
@@ -191,7 +178,8 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
                   location={event.eventDetails.venue}
                   buttonText={isSoldOut ? "Sold Out" : "View Event"}
                   buttonVariant="outline"
-                  onButtonClick={() => router.push(`/events/${event.id}`)}
+                  // onButtonClick={() => router.push(`/events/${event.id}`)}
+                  onButtonClick={() => router.push(`/events/${createSlug(event.eventDetails.eventTitle)}`)}
                 />
               );
             })}
