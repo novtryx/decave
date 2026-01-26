@@ -81,7 +81,11 @@ export default function EventDetails({ event }: EventDetailsProps) {
           description={event.eventDetails.supportingText}
           dateRange={formatDateRange()}
           location={`${event.eventDetails.venue}, ${event.eventDetails.address}`}
-          onViewDetails={() => {}}
+          buttonText="Buy Ticket"
+          onViewDetails={() => {
+            const section = document.getElementById("tickets-section");
+            section?.scrollIntoView({ behavior: "smooth" });
+          }}
         />
       </section>
 
