@@ -584,7 +584,7 @@ function PaymentSuccessContent() {
           onClick={() => router.push("/ticket")}
           className="bg-[#CCA33A] hover:bg-[#a88732] cursor-pointer font-semibold w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none"
         >
-          View All Tickets
+          {totalTickets > 1 ? "View All Tickets" : "View Ticket"}
           <FaArrowRightLong className="text-xl" />
         </button>
       </div>
@@ -601,7 +601,7 @@ function PaymentSuccessContent() {
             <div className="flex items-center gap-3">
               <FiCheckCircle className="text-[#00C950]" />
               <p className="text-[#b3b3b3] text-sm lg:text-md">
-                Confirmation emails have been sent to all ticket holders
+                {totalTickets > 1 ? "Confirmation emails have been sent to all ticket holders" : `A Confirmation email has been sent to ${transactionData.transaction.buyers[0].email}`}
               </p>
             </div>
             <div className="flex items-center gap-3">
