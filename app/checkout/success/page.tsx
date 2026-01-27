@@ -448,121 +448,10 @@ function PaymentSuccessContent() {
         </motion.div>
       </section>
 
-      {/* FIX #3: Ticket Slider - Show all purchased tickets
-      {totalTickets > 0 && (
-        <div className="w-full max-w-3xl mx-auto mb-10">
-          <div className="bg-[#151515] p-6 rounded-2xl">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-[#F9F7F4] text-xl font-semibold">
-                {totalTickets > 1 ? 'Your Tickets' : 'Your Ticket'}
-              </h3>
-              {totalTickets > 1 && (
-                <p className="text-[#b3b3b3] text-sm">
-                  Ticket {currentTicketIndex + 1} of {totalTickets}
-                </p>
-              )}
-            </div>
-
-      
-            <div className="bg-[#0F0F0F] border border-[#2a2a2a] rounded-xl overflow-hidden">
-            
-              <div className="bg-[conic-gradient(from_45deg,#BA8703,#BC9229,#DFA91E)] p-4">
-                <p className="text-sm text-black font-semibold">
-                  {transactionData.event.title}
-                </p>
-                <h3 className="text-2xl text-black font-semibold mt-1">
-                  {transactionData.ticket.ticketName}
-                </h3>
-              </div>
-
-  
-              <div className="bg-white py-6 flex flex-col items-center">
-                {currentTicket?.qrCode ? (
-                  <div className="relative h-40 w-40">
-                    <img 
-                      src={currentTicket.qrCode} 
-                      alt="Ticket QR Code"
-                      className="w-full h-full"
-                    />
-                  </div>
-                ) : (
-                  <div className="relative h-40 w-40 flex items-center justify-center bg-gray-100">
-                    <FaQrcode className="text-gray-400 text-4xl" />
-                  </div>
-                )}
-                <p className="text-[#999999] text-xs font-semibold mt-3">
-                  Ticket ID: {currentTicket?.ticketId || "N/A"}
-                </p>
-              </div>
-
-      
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[#b3b3b3] text-sm">Ticket Holder</p>
-                    <p className="text-[#F9F7F4] font-semibold mt-1">
-                      {currentTicket?.fullName || "N/A"}
-                    </p>
-                    <p className="text-[#b3b3b3] text-xs mt-1">
-                      {currentTicket?.email || "N/A"}
-                    </p>
-                  </div>
-                  <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    currentTicket?.checkedIn 
-                      ? 'bg-[#1A3A1A] text-[#22C55E]' 
-                      : 'bg-[#2A2A1A] text-[#CCA33A]'
-                  }`}>
-                    {currentTicket?.checkedIn ? 'Checked In' : 'Not Checked In'}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-           
-            {totalTickets > 1 && (
-              <div className="flex items-center justify-between mt-6">
-                <button
-                  onClick={handlePrevTicket}
-                  disabled={currentTicketIndex === 0}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#0F0F0F] border border-[#2a2a2a] rounded-lg hover:bg-[#1a1a1a] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  <BiChevronLeft size={20} />
-                  Previous
-                </button>
-
-     
-                <div className="flex gap-2">
-                  {transactionData.transaction.buyers.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentTicketIndex(idx)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        idx === currentTicketIndex 
-                          ? 'bg-[#CCA33A] w-6' 
-                          : 'bg-[#2a2a2a] hover:bg-[#3a3a3a]'
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleNextTicket}
-                  disabled={currentTicketIndex === totalTickets - 1}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#0F0F0F] border border-[#2a2a2a] rounded-lg hover:bg-[#1a1a1a] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  Next
-                  <BiChevronRight size={20} />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )} */}
-
       {/* Action Buttons */}
       <div className="flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
         {/* Download Receipt Button */}
-        <button
+        {/* <button
           onClick={() => {
             if (transactionData) {
               const dataStr = JSON.stringify(transactionData, null, 2);
@@ -578,7 +467,160 @@ function PaymentSuccessContent() {
         >
           <MdOutlineFileDownload className="text-xl" />
           Download Receipt
-        </button>
+        </button> */}
+        <button
+  onClick={() => {
+    if (!transactionData) return;
+    
+    // Create a formatted receipt canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    canvas.width = 800;
+    canvas.height = 1000;
+    
+    // Background
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Header
+    ctx.fillStyle = '#0A0A0A';
+    ctx.font = 'bold 32px Arial';
+    ctx.fillText('PAYMENT RECEIPT', 40, 60);
+    
+    // Transaction ID
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#666666';
+    ctx.fillText(`Transaction ID: ${transactionData.transaction.txnId}`, 40, 90);
+    ctx.fillText(`Date: ${new Date(transactionData.transaction.createdAt).toLocaleDateString()}`, 40, 110);
+    
+    // Divider
+    ctx.strokeStyle = '#E5E5E5';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(40, 130);
+    ctx.lineTo(760, 130);
+    ctx.stroke();
+    
+    let yPos = 170;
+    
+    // Event Details Section
+    ctx.fillStyle = '#0A0A0A';
+    ctx.font = 'bold 20px Arial';
+    ctx.fillText('Event Details', 40, yPos);
+    yPos += 35;
+    
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#333333';
+    ctx.fillText(`Event: ${transactionData.event.title}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Theme: ${transactionData.event.theme}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Venue: ${transactionData.event.venue}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Address: ${transactionData.event.address}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Date: ${new Date(transactionData.event.startDate).toLocaleDateString('en-US', { 
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+    })}`, 40, yPos);
+    yPos += 50;
+    
+    // Ticket Details Section
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#0A0A0A';
+    ctx.fillText('Ticket Details', 40, yPos);
+    yPos += 35;
+    
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#333333';
+    ctx.fillText(`Ticket Type: ${transactionData.ticket.ticketName}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Price per Ticket: ${transactionData.ticket.currency} ${transactionData.ticket.price.toLocaleString()}`, 40, yPos);
+    yPos += 30;
+    ctx.fillText(`Quantity: ${transactionData.transaction.totalBuyers}`, 40, yPos);
+    yPos += 50;
+    
+    // Buyers Section
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#0A0A0A';
+    ctx.fillText('Ticket Holders', 40, yPos);
+    yPos += 35;
+    
+    ctx.font = '14px Arial';
+    transactionData.transaction.buyers.forEach((buyer, index) => {
+      ctx.fillStyle = '#333333';
+      ctx.fillText(`${index + 1}. ${buyer.fullName}`, 40, yPos);
+      yPos += 25;
+      ctx.fillStyle = '#666666';
+      ctx.fillText(`   Email: ${buyer.email}`, 40, yPos);
+      yPos += 20;
+      ctx.fillText(`   Phone: ${buyer.phoneNumber}`, 40, yPos);
+      yPos += 30;
+    });
+    
+    yPos += 20;
+    
+    // Payment Summary
+    const subtotal = transactionData.ticket.price * transactionData.transaction.totalBuyers;
+    const serviceFee = subtotal * 0.05;
+    const total = subtotal + serviceFee;
+    
+    // Divider
+    ctx.strokeStyle = '#E5E5E5';
+    ctx.beginPath();
+    ctx.moveTo(40, yPos);
+    ctx.lineTo(760, yPos);
+    ctx.stroke();
+    yPos += 30;
+    
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#0A0A0A';
+    ctx.fillText('Payment Summary', 40, yPos);
+    yPos += 35;
+    
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#333333';
+    ctx.fillText(`Subtotal:`, 40, yPos);
+    ctx.fillText(`${transactionData.ticket.currency} ${subtotal.toLocaleString()}`, 600, yPos);
+    yPos += 30;
+    
+    ctx.fillText(`Service Fee (5%):`, 40, yPos);
+    ctx.fillText(`${transactionData.ticket.currency} ${serviceFee.toLocaleString()}`, 600, yPos);
+    yPos += 40;
+    
+    // Total with background
+    ctx.fillStyle = '#CCA33A';
+    ctx.fillRect(30, yPos - 25, 740, 45);
+    
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.fillText('TOTAL PAID:', 40, yPos);
+    ctx.fillText(`${transactionData.ticket.currency} ${total.toLocaleString()}`, 600, yPos);
+    yPos += 50;
+    
+    // Status
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#22C55E';
+    ctx.fillText(`✓ Payment Status: ${transactionData.transaction.status.toUpperCase()}`, 40, yPos);
+    
+    // Footer
+    yPos = canvas.height - 40;
+    ctx.font = '12px Arial';
+    ctx.fillStyle = '#999999';
+    ctx.fillText('Thank you for your purchase! For support, contact support@dcave.com', 40, yPos);
+    
+    // Download the canvas as PNG
+    const link = document.createElement('a');
+    link.download = `receipt-${transactionData.transaction.txnId}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }}
+  className="border font-semibold cursor-pointer border-[#F9F7F4] w-full px-6 py-3 flex justify-center gap-2 items-center rounded-lg transition-all duration-300 text-base active:scale-95 touch-manipulation select-none hover:bg-[#151515]"
+>
+  <MdOutlineFileDownload className="text-xl" />
+  Download Receipt
+</button>
         
         <button 
           onClick={() => router.push("/ticket")}
