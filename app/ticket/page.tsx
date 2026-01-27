@@ -1158,11 +1158,11 @@ export default function Ticket() {
         </motion.div>
 
         {/* Download and Share ticket */}
-        <div className="flex flex-col lg:flex-row justify-center gap-3 w-full">
+        <div className="mt-6 flex flex-col lg:flex-row justify-center gap-4 w-full">
           <button 
             onClick={() => handleDownloadTicket(currentTicketIndex)}
             disabled={isDownloading}
-            className="border flex gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="border flex  justify-center gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDownloading ? (
               <>
@@ -1179,7 +1179,7 @@ export default function Ticket() {
           
           <button 
             onClick={() => handleShareTicket(currentTicketIndex)} 
-            className="border flex gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors"
+            className="border flex justify-center gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors"
           >
             Share
             <MdOutlineShare size={20} />
@@ -1312,10 +1312,10 @@ export default function Ticket() {
       </section>
 
       {/* Pagination */}
+      {ticketData.transaction.buyers.length > 1 && (
       <div className="w-full flex flex-col lg:flex-row justify-end items-center border-b-2 pb-10 border-[#2a2a2a] lg:max-w-3xl mx-auto mt-10 gap-4">
         
         {/* Pagination */}
-        {ticketData.transaction.buyers.length > 1 && (
           <div className="flex gap-4 items-center">
             <button 
               onClick={() => setCurrentTicketIndex(prev => Math.max(0, prev - 1))}
@@ -1337,8 +1337,8 @@ export default function Ticket() {
               Next
             </button>
           </div>
-        )}
       </div>
+      )}
 
       {/* Important Information */}
       <div className="border-2 border-[#F59E0B] bg-[#2A1F0F] rounded-lg p-6 w-full lg:max-w-3xl mx-auto mt-10">   
