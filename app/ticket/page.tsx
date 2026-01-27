@@ -1157,6 +1157,36 @@ export default function Ticket() {
           </motion.p>
         </motion.div>
 
+        {/* Download and Share ticket */}
+        <div className="flex flex-col lg:flex-row justify-center gap-3 w-full">
+          <button 
+            onClick={() => handleDownloadTicket(currentTicketIndex)}
+            disabled={isDownloading}
+            className="border flex gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isDownloading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                Downloading...
+              </>
+            ) : (
+              <>
+                <MdOutlineFileDownload size={20} />
+                Download Ticket
+              </>
+            )}
+          </button>
+          
+          <button 
+            onClick={() => handleShareTicket(currentTicketIndex)} 
+            className="border flex gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors"
+          >
+            Share
+            <MdOutlineShare size={20} />
+          </button>
+        </div>
+
+
         {/* Theme Title and QR code */}
         <div className="mt-14 h-auto w-full border-2 border-[#27272A] mx-auto max-w-3xl rounded-lg overflow-hidden bg-[#0A0A0A]">
           {/* Event name */}
@@ -1281,37 +1311,9 @@ export default function Ticket() {
         </div>
       </section>
 
-      {/* Action Buttons and Pagination */}
-      <div className="w-full flex flex-col lg:flex-row justify-between items-center border-b-2 pb-10 border-[#2a2a2a] lg:max-w-3xl mx-auto mt-10 gap-4">
-        {/* Download and Share ticket */}
-        <div className="flex gap-3">
-          <button 
-            onClick={() => handleDownloadTicket(currentTicketIndex)}
-            disabled={isDownloading}
-            className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isDownloading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Downloading...
-              </>
-            ) : (
-              <>
-                <MdOutlineFileDownload size={20} />
-                Download Ticket
-              </>
-            )}
-          </button>
-          
-          <button 
-            onClick={() => handleShareTicket(currentTicketIndex)} 
-            className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors"
-          >
-            Share
-            <MdOutlineShare size={20} />
-          </button>
-        </div>
-
+      {/* Pagination */}
+      <div className="w-full flex flex-col lg:flex-row justify-end items-center border-b-2 pb-10 border-[#2a2a2a] lg:max-w-3xl mx-auto mt-10 gap-4">
+        
         {/* Pagination */}
         {ticketData.transaction.buyers.length > 1 && (
           <div className="flex gap-4 items-center">

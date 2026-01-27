@@ -416,7 +416,7 @@ function PaymentSuccessContent() {
 
   return (
     <div className="bg-[#0F0F0F] px-4 lg:px-16 py-20">
-      <section className="pt-24 pb-14 flex flex-col justify-center items-center">
+      <section className="pt-24 pb-8 lg:pb-14 flex flex-col justify-center items-center">
         <motion.div
           variants={container}
           initial="hidden"
@@ -448,7 +448,7 @@ function PaymentSuccessContent() {
         </motion.div>
       </section>
 
-      {/* FIX #3: Ticket Slider - Show all purchased tickets */}
+      {/* FIX #3: Ticket Slider - Show all purchased tickets
       {totalTickets > 0 && (
         <div className="w-full max-w-3xl mx-auto mb-10">
           <div className="bg-[#151515] p-6 rounded-2xl">
@@ -463,9 +463,9 @@ function PaymentSuccessContent() {
               )}
             </div>
 
-            {/* Ticket Preview Card */}
+      
             <div className="bg-[#0F0F0F] border border-[#2a2a2a] rounded-xl overflow-hidden">
-              {/* Ticket Header */}
+            
               <div className="bg-[conic-gradient(from_45deg,#BA8703,#BC9229,#DFA91E)] p-4">
                 <p className="text-sm text-black font-semibold">
                   {transactionData.event.title}
@@ -475,7 +475,7 @@ function PaymentSuccessContent() {
                 </h3>
               </div>
 
-              {/* QR Code Preview */}
+  
               <div className="bg-white py-6 flex flex-col items-center">
                 {currentTicket?.qrCode ? (
                   <div className="relative h-40 w-40">
@@ -495,7 +495,7 @@ function PaymentSuccessContent() {
                 </p>
               </div>
 
-              {/* Ticket Holder Info */}
+      
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -518,7 +518,7 @@ function PaymentSuccessContent() {
               </div>
             </div>
 
-            {/* Navigation Arrows - Only show if multiple tickets */}
+           
             {totalTickets > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <button
@@ -530,7 +530,7 @@ function PaymentSuccessContent() {
                   Previous
                 </button>
 
-                {/* Dot indicators */}
+     
                 <div className="flex gap-2">
                   {transactionData.transaction.buyers.map((_, idx) => (
                     <button
@@ -557,7 +557,7 @@ function PaymentSuccessContent() {
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Action Buttons */}
       <div className="flex flex-col lg:flex-row gap-4 w-full max-w-3xl mx-auto">
