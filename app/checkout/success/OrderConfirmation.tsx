@@ -199,17 +199,6 @@ export default function OrderConfirmation({ transactionData }: OrderConfirmation
             <p className="text-[#b3b3b3] text-xs">{order.event.address}</p>
           </div>
         </div>
-        
-        {/* Event Theme
-        <div className="flex gap-4 items-center">
-          <div className="w-5 h-5 flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-[#CCA33A]"></div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <p className="text-[#b3b3b3] text-sm">Event Theme</p>
-            <p className="text-white font-semibold">{order.event.theme}</p>
-          </div>
-        </div> */}
       </div>
     </div>
   );

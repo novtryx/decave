@@ -277,6 +277,7 @@ export interface ContactInfo {
 export default function Checkout() {
   const router = useRouter();
   const [ticketData, setTicketData] = useState<TicketData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
     firstName: "",
@@ -322,7 +323,8 @@ export default function Checkout() {
   }, [quantity]);
 
   useEffect(() => {
-    const loadTicketData = () => {
+    const loadTicketData = async() => {
+      const startTime = Date.now();
       try {
         const storedTicket = sessionStorage.getItem("selectedTicket");
         
@@ -345,7 +347,15 @@ export default function Checkout() {
           };
           
           console.log("Loaded ticket:", ticket);
+
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(0, 3000 - elapsedTime); // 3 seconds minimum
+          
+          // Wait for remaining time before hiding spinner
+          await new Promise(resolve => setTimeout(resolve, remainingTime));
+
           setTicketData(ticket);
+          setIsLoading(false);
         } else {
           router.push("/events");
         }

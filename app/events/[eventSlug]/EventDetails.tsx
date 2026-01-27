@@ -308,7 +308,9 @@ export default function EventDetails({ event }: EventDetailsProps) {
       })
     );
 
-    router.push(`/checkout?ticket=${ticket._id}`);
+    // setTimeout(() => {
+      router.push(`/checkout?ticket=${ticket._id}`);
+    // }, 3000)
   };
 
   return (

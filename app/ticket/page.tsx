@@ -987,61 +987,196 @@ export default function Ticket() {
     }
   };
 
+  // const handleDownloadTicket = async (index: number) => {
+  //   try {
+  //     setIsDownloading(true);
+      
+  //     if (!ticketData) return;
+      
+  //     const currentTicket = ticketData.transaction.buyers[index];
+  //     const ticketId = currentTicket?.ticketId || "ticket";
+      
+  //     if (currentTicket?.qrCode) {
+  //       // Download the QR code directly
+  //       const link = document.createElement("a");
+  //       link.download = `ticket-${ticketId}.png`;
+  //       link.href = currentTicket.qrCode;
+  //       link.click();
+  //     } else {
+  //       // Create a simple ticket download
+  //       const canvas = document.createElement("canvas");
+  //       const ctx = canvas.getContext("2d");
+  //       if (!ctx) return;
+        
+  //       canvas.width = 600;
+  //       canvas.height = 400;
+        
+  //       // Simple design
+  //       ctx.fillStyle = "#0A0A0A";
+  //       ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+  //       // Ticket text
+  //       ctx.fillStyle = "#CCA33A";
+  //       ctx.font = "bold 24px Arial";
+  //       ctx.fillText("DIGITAL TICKET", 50, 50);
+        
+  //       ctx.fillStyle = "#FFFFFF";
+  //       ctx.font = "18px Arial";
+  //       ctx.fillText(`Event: ${ticketData.event.title}`, 50, 100);
+  //       ctx.fillText(`Ticket: ${ticketData.ticket.ticketName}`, 50, 130);
+  //       ctx.fillText(`Holder: ${currentTicket?.fullName || "N/A"}`, 50, 160);
+  //       ctx.fillText(`ID: ${ticketId}`, 50, 190);
+  //       ctx.fillText(`Date: ${formatDate(ticketData.event.startDate)}`, 50, 220);
+        
+  //       // Convert and download
+  //       const link = document.createElement("a");
+  //       link.download = `ticket-${ticketId}.png`;
+  //       link.href = canvas.toDataURL("image/png");
+  //       link.click();
+  //     }
+      
+  //   } catch (error) {
+  //     console.error("Error downloading ticket:", error);
+  //     alert("Failed to download ticket. Please try again.");
+  //   } finally {
+  //     setIsDownloading(false);
+  //   }
+  // };
   const handleDownloadTicket = async (index: number) => {
-    try {
-      setIsDownloading(true);
+  try {
+    setIsDownloading(true);
+    
+    if (!ticketData) return;
+    
+    const currentTicket = ticketData.transaction.buyers[index];
+    const ticketId = currentTicket?.ticketId || "ticket";
+    
+    // Create the full ticket image (same as share function)
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    
+    canvas.width = 800;
+    canvas.height = 1200;
+    
+    // Background
+    ctx.fillStyle = "#0A0A0A";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Header with gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 100);
+    gradient.addColorStop(0, "#BA8703");
+    gradient.addColorStop(0.5, "#BC9229");
+    gradient.addColorStop(1, "#DFA91E");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, 180);
+    
+    // Event title
+    ctx.fillStyle = "#000000";
+    ctx.font = "bold 18px Arial";
+    ctx.fillText(ticketData.event.title.toUpperCase(), 40, 40);
+    
+    // Theme
+    ctx.font = "bold 42px Arial";
+    const themeName = ticketData.event.theme;
+    ctx.fillText(themeName.length > 20 ? themeName.substring(0, 20) + "..." : themeName, 40, 95);
+    
+    // Ticket type
+    ctx.font = "20px Arial";
+    ctx.fillText(ticketData.ticket.ticketName + " Ticket", 40, 140);
+    
+    // QR Code section
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 180, canvas.width, 350);
+    
+    // Load and draw QR code
+    if (currentTicket?.qrCode) {
+      const qrImage = new Image();
+      qrImage.crossOrigin = "anonymous";
       
-      if (!ticketData) return;
-      
-      const currentTicket = ticketData.transaction.buyers[index];
-      const ticketId = currentTicket?.ticketId || "ticket";
-      
-      if (currentTicket?.qrCode) {
-        // Download the QR code directly
-        const link = document.createElement("a");
-        link.download = `ticket-${ticketId}.png`;
-        link.href = currentTicket.qrCode;
-        link.click();
-      } else {
-        // Create a simple ticket download
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-        
-        canvas.width = 600;
-        canvas.height = 400;
-        
-        // Simple design
-        ctx.fillStyle = "#0A0A0A";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Ticket text
-        ctx.fillStyle = "#CCA33A";
-        ctx.font = "bold 24px Arial";
-        ctx.fillText("DIGITAL TICKET", 50, 50);
-        
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "18px Arial";
-        ctx.fillText(`Event: ${ticketData.event.title}`, 50, 100);
-        ctx.fillText(`Ticket: ${ticketData.ticket.ticketName}`, 50, 130);
-        ctx.fillText(`Holder: ${currentTicket?.fullName || "N/A"}`, 50, 160);
-        ctx.fillText(`ID: ${ticketId}`, 50, 190);
-        ctx.fillText(`Date: ${formatDate(ticketData.event.startDate)}`, 50, 220);
-        
-        // Convert and download
-        const link = document.createElement("a");
-        link.download = `ticket-${ticketId}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      }
-      
-    } catch (error) {
-      console.error("Error downloading ticket:", error);
-      alert("Failed to download ticket. Please try again.");
-    } finally {
-      setIsDownloading(false);
+      await new Promise((resolve, reject) => {
+        qrImage.onload = () => {
+          const qrSize = 280;
+          const qrX = (canvas.width - qrSize) / 2;
+          const qrY = 200;
+          ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+          resolve(null);
+        };
+        qrImage.onerror = () => {
+          ctx.fillStyle = "#E5E5E5";
+          const qrSize = 280;
+          const qrX = (canvas.width - qrSize) / 2;
+          const qrY = 200;
+          ctx.fillRect(qrX, qrY, qrSize, qrSize);
+          resolve(null);
+        };
+        qrImage.src = currentTicket.qrCode;
+      });
     }
-  };
+    
+    // Ticket ID
+    ctx.fillStyle = "#999999";
+    ctx.font = "14px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(`Ticket ID: ${ticketId}`, canvas.width / 2, 500);
+    ctx.fillText(`Transaction: ${ticketData.transaction.txnId}`, canvas.width / 2, 520);
+    ctx.textAlign = "left";
+    
+    // Details section
+    let yPos = 570;
+    const leftMargin = 40;
+    const iconSize = 16;
+    
+    const drawDetail = (label: string, value: string, subValue?: string) => {
+      ctx.fillStyle = "#CCA33A";
+      ctx.beginPath();
+      ctx.arc(leftMargin + iconSize/2, yPos + iconSize/2, iconSize/2, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = "#999999";
+      ctx.font = "14px Arial";
+      ctx.fillText(label, leftMargin + 50, yPos + 5);
+      
+      ctx.fillStyle = "#F9F7F4";
+      ctx.font = "bold 20px Arial";
+      ctx.fillText(value, leftMargin + 50, yPos + 35);
+      
+      if (subValue) {
+        ctx.fillStyle = "#999999";
+        ctx.font = "14px Arial";
+        ctx.fillText(subValue, leftMargin + 50, yPos + 55);
+        yPos += 90;
+      } else {
+        yPos += 70;
+      }
+    };
+    
+    drawDetail("Ticket Holder", currentTicket?.fullName || "N/A");
+    drawDetail("Email", currentTicket?.email || "N/A");
+    
+    const dateStr = formatDate(ticketData.event.startDate);
+    const timeStr = `${formatTime(ticketData.event.startDate)} - ${formatTime(ticketData.event.endDate)}`;
+    drawDetail("Event Date & Time", dateStr, timeStr);
+    
+    drawDetail("Venue", ticketData.event.venue, ticketData.event.address);
+    drawDetail("Phone Number", currentTicket?.phoneNumber || "N/A");
+    
+    const checkInStatus = currentTicket?.checkedIn ? "Checked In ✓" : "Not Checked In";
+    drawDetail("Check-in Status", checkInStatus);
+    
+    // Convert and download
+    const link = document.createElement("a");
+    link.download = `ticket-${ticketData.event.title}-${ticketId}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    
+  } catch (error) {
+    console.error("Error downloading ticket:", error);
+    alert("Failed to download ticket. Please try again.");
+  } finally {
+    setIsDownloading(false);
+  }
+};
 
   const formatDate = (isoDate: string) => {
     return new Date(isoDate).toLocaleDateString("en-US", {
@@ -1158,7 +1293,7 @@ export default function Ticket() {
         </motion.div>
 
         {/* Download and Share ticket */}
-        <div className="mt-10 flex flex-col lg:flex-row justify-center gap-4 w-full max-w-3xl">
+        <div className="mt-10flex flex-col lg:flex-row justify-center gap-4 w-full max-w-3xl">
           <button 
             onClick={() => handleDownloadTicket(currentTicketIndex)}
             disabled={isDownloading}
