@@ -1158,7 +1158,7 @@ export default function Ticket() {
         </motion.div>
 
         {/* Download and Share ticket */}
-        <div className="mt-6 flex flex-col lg:flex-row justify-center gap-4 w-full">
+        <div className="mt-10 flex flex-col lg:flex-row justify-center gap-4 w-full max-w-3xl">
           <button 
             onClick={() => handleDownloadTicket(currentTicketIndex)}
             disabled={isDownloading}
