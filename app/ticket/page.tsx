@@ -1293,11 +1293,11 @@ export default function Ticket() {
         </motion.div>
 
         {/* Download and Share ticket */}
-        <div className="mt-10flex flex-col lg:flex-row justify-center gap-4 w-full max-w-3xl">
+        <div className="mt-10 flex flex-col lg:flex-row justify-center gap-4 w-full max-w-3xl">
           <button 
             onClick={() => handleDownloadTicket(currentTicketIndex)}
             disabled={isDownloading}
-            className="border flex  justify-center gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="border flex justify-center gap-2 w-full cursor-pointer items-center border-[#F9F7F4] text-sm py-3 px-6 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDownloading ? (
               <>
