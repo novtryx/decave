@@ -7,37 +7,26 @@ import Button from './Button';
 import { IconType } from 'react-icons';
 
 interface ImageCardProps {
-  // Required
   image: string;
   title: string;
-  
-  // Optional badges/tags
   badge?: {
     text: string;
     bgColor?: string;
     textColor?: string;
   };
-  
-  // Optional people count
   peopleCount?: string | number;
-  
-  // Optional icon (top-left gradient circle)
   icon?: IconType;
   iconGradientFrom?: string;
   iconGradientTo?: string;
-  
-  // Event details (date, location) - can show either or both
   date?: string;
   location?: string;
-  
-  // Or description instead of date/location
   description?: string;
   
   // Optional button
   buttonText?: string;
   buttonVariant?: 'primary' | 'outline';
-  buttonHref?: string; // Add href for button navigation
-  buttonExternal?: boolean; // For external links
+  buttonHref?: string;
+  buttonExternal?: boolean;
   onButtonClick?: () => void;
   
   // Optional custom styling
@@ -118,13 +107,13 @@ const ImageCard = ({
               <div className='space-y-1.5 xs:space-y-2'>
                 {date && (
                   <span className='flex items-center gap-1.5 xs:gap-2'>
-                    <FiCalendar size={16} className='xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5 flex-shrink-0' color='#0854A7'/>
+                    <FiCalendar size={16} className='xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5 shrink-0' color='#0854A7'/>
                     <p className='text-[11px] xs:text-xs sm:text-sm text-[#B3B3B3]'>{date}</p>
                   </span>
                 )}
                 {location && (
                   <span className='flex items-center gap-1.5 xs:gap-2'>
-                    <SlLocationPin size={16} className='xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5 flex-shrink-0' color='#0854A7'/>
+                    <SlLocationPin size={16} className='xs:w-[18px] xs:h-[18px] sm:w-5 sm:h-5 shrink-0' color='#0854A7'/>
                     <p className='text-[11px] xs:text-xs sm:text-sm text-[#B3B3B3] line-clamp-1'>{location}</p>
                   </span>
                 )}

@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import SectionHeader from '../layout/sectionHeader'
 import { PiShootingStarBold } from 'react-icons/pi'

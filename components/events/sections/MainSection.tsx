@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FeaturedEventCard } from "../ui/FeaturedEventCard";
 import { FaRegStar } from "react-icons/fa";
 import ImageCard from "@/components/layout/ImageCard";
@@ -77,14 +77,6 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
       : `${soldTickets}+`;
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <p className="text-white text-xl">Loading events...</p>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="">
       {/* Tab Navigation */}
@@ -124,13 +116,6 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
             )}
             location={`${featuredEvent.eventDetails.venue} - ${featuredEvent.eventDetails.address}`}
             buttonText="View Event Details"
-            // onViewDetails={() =>
-            //   router.push(
-            //     `/events/eventTitle/${encodeURIComponent(
-            //       featuredEvent.eventDetails.eventTitle,
-            //     )}`,
-            //   )
-            // }
             onViewDetails={() =>
               router.push(
                 `/events/${createSlug(featuredEvent.eventDetails.eventTitle)}`,
@@ -178,7 +163,6 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
                   location={event.eventDetails.venue}
                   buttonText={isSoldOut ? "Sold Out" : "View Event"}
                   buttonVariant="outline"
-                  // onButtonClick={() => router.push(`/events/${event.id}`)}
                   onButtonClick={() => router.push(`/events/${createSlug(event.eventDetails.eventTitle)}`)}
                 />
               );

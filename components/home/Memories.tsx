@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+
 import { PiShootingStarBold } from "react-icons/pi";
 import SectionHeader from '../layout/sectionHeader';
 import HoverImage from './ui/HoverImage';

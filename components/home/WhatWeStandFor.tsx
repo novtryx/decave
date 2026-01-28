@@ -65,7 +65,7 @@ const WhatWeStandFor = () => {
 
             <div className='flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-10 pt-4 sm:pt-6 lg:pt-8'>
                 {/* Image Section */}
-                <div className='relative h-64 sm:h-96 md:h-[500px] lg:h-181.5 w-full lg:w-1/2 xl:w-191.25 rounded-xl overflow-hidden flex-shrink-0'>
+                <div className='relative h-64 sm:h-96 md:h-125 lg:h-181.5 w-full lg:w-1/2 xl:w-191.25 rounded-xl overflow-hidden shrink-0'>
                     <Image 
                         src={"/man-with-guitar.png"} 
                         alt="guitar-man" 
