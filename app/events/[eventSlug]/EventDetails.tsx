@@ -261,9 +261,11 @@ import { TicketCard } from "@/components/layout/TicketCard";
 import RecommendedList from "@/components/events/event/RecommendList";
 import ContactCard from "@/components/events/event/ContactCard";
 import CallToAction from "@/components/layout/CallToAction";
+import { features } from "@/lib/data";
 
 import { safetyData, slides, recommendedItems, notAllowedItems } from "@/lib/data";
 import { type Event } from "@/app/actions/events";
+import ImageFeatureTimeline from "@/components/layout/ImageFeatureTimeline";
 
 interface EventDetailsProps {
   event: Event;
@@ -342,7 +344,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
       </section>
 
       {/* About */}
-      <section className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-16 bg-[#151515] py-12 sm:py-16 lg:py-20">
+      <section className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-16 bg-[#070606] py-12 sm:py-16 lg:py-20">
         <div>
           <SectionHeader title={`About ${event.eventDetails.eventTitle}`} icon={BsStars} label={event.eventDetails.eventTheme.toUpperCase()} align="left" />
           <p className="text-[#b3b3b3] text-sm sm:text-base leading-relaxed">{event.eventDetails.supportingText}</p>
@@ -376,12 +378,14 @@ export default function EventDetails({ event }: EventDetailsProps) {
 
       {/* Tickets */}
       {event.tickets.length > 0 && (
-        <section id="tickets-section" className="px-4 sm:px-6 lg:px-16 py-10 sm:py-12 lg:py-16 bg-[#121111]">
+        <section id="tickets-section" className="px-4 sm:px-6 lg:px-16 py-10 sm:py-12 lg:py-16 bg-[#070606]">
           <div className="flex flex-col items-center">
             <SectionHeader 
               title={isEventPast ? "Event Tickets" : "Get Your Tickets"} 
               icon={isEventPast ? MdEventBusy : LuTicket} 
               label={isEventPast ? "EVENT ENDED" : "SECURE YOUR SPOT"} 
+              labelColor="#0854A7"
+              iconColor="#0854A7"
               description={isEventPast 
                 ? `This event took place on ${formatDateRange()}. Tickets are no longer available.`
                 : `Select the perfect package for ${event.eventDetails.eventTitle}`
@@ -436,12 +440,28 @@ export default function EventDetails({ event }: EventDetailsProps) {
       )}
 
       {/* Venue Experience */}
-      <section className="px-4 sm:px-6 lg:px-16 py-10 sm:py-12 lg:py-16 bg-[#121111]">
-        <SectionHeader title="Event Experience" label="Venue" labelColor={event.eventDetails.brandColor.primaryColor} description={`Experience ${event.eventDetails.eventTitle} at ${event.eventDetails.venue}`} />
+      <section className="px-4 sm:px-6 lg:px-16 py-10 sm:py-12 lg:py-16 bg-[#070606]">
+        <SectionHeader title="Event Experience" label="Venue Experience" labelColor="#0854A7" description={`Experience ${event.eventDetails.eventTitle} at ${event.eventDetails.venue}`} />
         <div className="mt-10 sm:mt-12 lg:mt-16">
           <ImageSlider slides={slides} />
         </div>
       </section>
+
+      {/* Dress Code & Vibe */}
+      <div className='lg:px-16 py-12 bg-[#151515] px-4'>
+        <SectionHeader
+            title="Come As You Are. Be Yourself Fully."
+            label='Dress Code & Vibe'
+            labelColor="#0854A7"
+            description='deCave is built on the pillars of music, community, expression, and celebration. We create spaces where:'
+        />
+
+         <ImageFeatureTimeline
+            image="/event/dress-code-img.png"
+            imageAlt="Afrocentric fashion"
+            features={features}
+          />
+    </div>
 
       {/* Safety & Contacts */}
       {event.emergencyContact && (
