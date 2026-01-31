@@ -13,7 +13,7 @@ const OurCulture = () => {
             label='OUR CULTURE'
             icon={IoMusicalNotesSharp}
             iconColor='#7B3FE4'
-            description='deCave is built on the pillars of music, community, expression, and celebration. We create spaces where:'
+            description='deCave is built on the pillars of music, community, expression, and celebration. We create spaces where:'
         />
 
          <ImageFeatureTimeline
