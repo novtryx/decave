@@ -1321,6 +1321,34 @@ export default function Ticket() {
           </button>
         </div>
 
+        {/* Pagination */}
+      {ticketData.transaction.buyers.length > 1 && (
+      <div className="w-full flex flex-col lg:flex-row justify-end items-center border-b-2 pb-10 border-[#2a2a2a] lg:max-w-3xl mx-auto mt-10 gap-4">
+        
+        {/* Pagination */}
+          <div className="flex gap-4 items-center">
+            <button 
+              onClick={() => setCurrentTicketIndex(prev => Math.max(0, prev - 1))}
+              disabled={currentTicketIndex === 0}
+              className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-4 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            
+            <p className="text-[#FFFFFF]">
+              {currentTicketIndex + 1} of {ticketData.transaction.buyers.length}
+            </p>
+            
+            <button 
+              onClick={() => setCurrentTicketIndex(prev => Math.min(ticketData.transaction.buyers.length - 1, prev + 1))}
+              disabled={currentTicketIndex === ticketData.transaction.buyers.length - 1}
+              className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-4 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+      </div>
+      )}
 
         {/* Theme Title and QR code */}
         <div className="mt-14 h-auto w-full border-2 border-[#27272A] mx-auto max-w-3xl rounded-lg overflow-hidden bg-[#0A0A0A]">
@@ -1446,34 +1474,7 @@ export default function Ticket() {
         </div>
       </section>
 
-      {/* Pagination */}
-      {ticketData.transaction.buyers.length > 1 && (
-      <div className="w-full flex flex-col lg:flex-row justify-end items-center border-b-2 pb-10 border-[#2a2a2a] lg:max-w-3xl mx-auto mt-10 gap-4">
-        
-        {/* Pagination */}
-          <div className="flex gap-4 items-center">
-            <button 
-              onClick={() => setCurrentTicketIndex(prev => Math.max(0, prev - 1))}
-              disabled={currentTicketIndex === 0}
-              className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-4 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-            
-            <p className="text-[#FFFFFF]">
-              {currentTicketIndex + 1} of {ticketData.transaction.buyers.length}
-            </p>
-            
-            <button 
-              onClick={() => setCurrentTicketIndex(prev => Math.min(ticketData.transaction.buyers.length - 1, prev + 1))}
-              disabled={currentTicketIndex === ticketData.transaction.buyers.length - 1}
-              className="border flex gap-2 cursor-pointer items-center border-[#F9F7F4] text-sm py-2 px-4 rounded-lg hover:bg-[#151515] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Next
-            </button>
-          </div>
-      </div>
-      )}
+      
 
       {/* Important Information */}
       <div className="border-2 border-[#F59E0B] bg-[#2A1F0F] rounded-lg p-6 w-full lg:max-w-3xl mx-auto mt-10">   
