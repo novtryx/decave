@@ -50,6 +50,10 @@ interface OrderConfirmationProps {
 export default function OrderConfirmation({ transactionData }: OrderConfirmationProps) {
   const router = useRouter();
   const [order, setOrder] = useState<TransactionData | null>(null);
+
+  console.log('transactionData prop:', transactionData);
+  console.log('sessionStorage verifiedOrder:', sessionStorage.getItem("verifiedOrder"));
+  
   
   useEffect(() => {
     if (transactionData) {
@@ -91,9 +95,14 @@ export default function OrderConfirmation({ transactionData }: OrderConfirmation
     });
   };
 
-  const totalAmount = order.ticket.price * order.transaction.totalBuyers;
-  const serviceFee = totalAmount * 0.05;
-  const grandTotal = totalAmount + serviceFee;
+  // const totalAmount = order.ticket.price * order.transaction.totalBuyers;
+  // const serviceFee = totalAmount * 0.05;
+  // const grandTotal = totalAmount + serviceFee;
+
+const totalBuyers = order.transaction.buyers?.length || 0;  // This will be 1
+const totalAmount = (Number(order.ticket.price) || 0) * totalBuyers;  // 2000 * 1 = 2000
+const serviceFee = totalAmount * 0.05;  // 2000 * 0.05 = 100
+const grandTotal = totalAmount + serviceFee;  // 2000 + 100 = 2100
 
   return (
     <div className="bg-[#151515] w-full max-w-3xl mx-auto p-4 lg:p-6 rounded-xl">
