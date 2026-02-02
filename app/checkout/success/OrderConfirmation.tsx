@@ -99,10 +99,10 @@ export default function OrderConfirmation({ transactionData }: OrderConfirmation
   // const serviceFee = totalAmount * 0.05;
   // const grandTotal = totalAmount + serviceFee;
 
-const totalBuyers = order.transaction.buyers?.length || 0;  // This will be 1
-const totalAmount = (Number(order.ticket.price) || 0) * totalBuyers;  // 2000 * 1 = 2000
-const serviceFee = totalAmount * 0.05;  // 2000 * 0.05 = 100
-const grandTotal = totalAmount + serviceFee;  // 2000 + 100 = 2100
+  const totalBuyers = order.transaction.buyers?.length || 0; 
+  const totalAmount = (Number(order.ticket.price) || 0) * totalBuyers; 
+  const serviceFee = totalAmount * 0.05;  
+  const grandTotal = totalAmount + serviceFee;  
 
   return (
     <div className="bg-[#151515] w-full max-w-3xl mx-auto p-4 lg:p-6 rounded-xl">
