@@ -420,7 +420,7 @@ export default function Checkout() {
     try {
       // Calculate amounts (same as in OrderSummary)
       const subtotal = ticketData.price * qty;
-      const serviceFee = subtotal * 0.05;
+      const serviceFee = subtotal * 0.00;
       const total = subtotal + serviceFee;
       
       console.log("Payment calculations:", {

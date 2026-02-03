@@ -101,7 +101,7 @@ export default function OrderConfirmation({ transactionData }: OrderConfirmation
 
   const totalBuyers = order.transaction.buyers?.length || 0; 
   const totalAmount = (Number(order.ticket.price) || 0) * totalBuyers; 
-  const serviceFee = totalAmount * 0.05;  
+  const serviceFee = totalAmount * 0.00;  
   const grandTotal = totalAmount + serviceFee;  
 
   return (
@@ -173,7 +173,7 @@ export default function OrderConfirmation({ transactionData }: OrderConfirmation
           <p className="text-[#F9F7F4]">₦{totalAmount.toLocaleString()}</p>
         </div>
         <div className="flex justify-between mb-2">
-          <p className="text-[#b3b3b3]">Service Fee (5%)</p>
+          <p className="text-[#b3b3b3]">Service Fee (0%)</p>
           <p className="text-[#F9F7F4]">₦{serviceFee.toLocaleString()}</p>
         </div>
         <div className="flex justify-between pt-4 border-t border-[#2a2a2a]">
