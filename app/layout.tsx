@@ -61,6 +61,7 @@ import "./globals.css";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import BackToTop from "@/components/layout/BackToTop";
+import { NewsletterModal } from "@/components/layout/NewsletterModal";
 
 const philosopher = Philosopher({
   weight: ['400', '700'],
@@ -94,6 +95,7 @@ export default function RootLayout({
         </div>
         {children}
           <BackToTop/>
+          <NewsletterModal />
         <Footer/>
         </div>
       </body>
