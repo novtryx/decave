@@ -195,7 +195,7 @@ export default function TicketScanner() {
                     </svg>
                   </div>
                 )}
-                <h2 className={`text-2xl font-bold ${ticket.checkedIn ? 'text-orange-600' : 'text-green-600'}`}>
+                <h2 className={`text-2xl font-bold ${ticket?.checkedIn ? 'text-orange-600' : 'text-green-600'}`}>
                   {ticket.checkedIn ? 'Already Checked In' : 'Valid Ticket'}
                 </h2>
               </div>
@@ -204,27 +204,27 @@ export default function TicketScanner() {
               <div className="space-y-4 mb-6">
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Event</p>
-                  <p className="font-semibold text-gray-800">{ticket.event.eventDetails.eventTitle}</p>
+                  <p className="font-semibold text-gray-800">{ticket?.event?.eventDetails?.eventTitle}</p>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Ticket ID</p>
-                  <p className="font-mono font-semibold text-gray-800">{ticket.ticketId}</p>
+                  <p className="font-mono font-semibold text-gray-800">{ticket?.ticketId}</p>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Attendee Name</p>
-                  <p className="font-semibold text-gray-800">{ticket.fullName}</p>
+                  <p className="font-semibold text-gray-800">{ticket?.fullName}</p>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Email</p>
-                  <p className="text-gray-800">{ticket.email}</p>
+                  <p className="text-gray-800">{ticket?.email}</p>
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Phone Number</p>
-                  <p className="text-gray-800">{ticket.phoneNumber}</p>
+                  <p className="text-gray-800">{ticket?.phoneNumber}</p>
                 </div>
               </div>
 
