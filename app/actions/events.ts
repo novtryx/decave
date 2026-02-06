@@ -55,6 +55,34 @@ export type EmergencyContact = {
   supportingInfo: string;
 };
 
+// export type Event = {
+//   _id: string;
+//   id: string;
+//   stage: number;
+//   published: boolean;
+//   eventDetails: EventDetails;
+//   tickets: Ticket[];
+//   artistLineUp: Artist[];
+//   emergencyContact?: EmergencyContact;
+//   isEventActive: boolean;
+//   createdAt: string;
+//   updatedAt: string;
+//   __v: number;
+// };
+
+
+export type AboutEventContent = {
+  subTitle: string;
+  sectionContent: string;
+  supportingImage: string;
+};
+
+export type AboutEvent = {
+  heading: string;
+  description: string;
+  content: AboutEventContent[];
+};
+
 export type Event = {
   _id: string;
   id: string;
@@ -64,11 +92,13 @@ export type Event = {
   tickets: Ticket[];
   artistLineUp: Artist[];
   emergencyContact?: EmergencyContact;
+  aboutEvent?: AboutEvent; // ✅ ADD THIS
   isEventActive: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
 };
+
 
 export type Pagination = {
   total: number;
