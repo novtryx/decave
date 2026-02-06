@@ -114,7 +114,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "deCave | Exclusive Events & Premium Experiences",
     description:
-      "Step into deCave’s world of curated luxury events and premium nightlife experiences.",
+      "Step into deCave's world of curated luxury events and premium nightlife experiences.",
     images: ["/logo.svg"],
   },
   
