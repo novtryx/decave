@@ -62,6 +62,7 @@ import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 import BackToTop from "@/components/layout/BackToTop";
 import { NewsletterModal } from "@/components/layout/NewsletterModal";
+import Script from "next/script";
 
 const philosopher = Philosopher({
   weight: ['400', '700'],
@@ -146,6 +147,28 @@ export default function RootLayout({
           <NewsletterModal />
         <Footer/>
         </div>
+
+          {/* Smartsupp Live Chat */}
+        <Script id="smartsupp-chat" strategy="afterInteractive">
+          {`
+            var _smartsupp = _smartsupp || {};
+            _smartsupp.key = '49d63661c5dd672bec26141747efd0291e3cd816';
+            window.smartsupp||(function(d) {
+              var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+              s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+              c.type='text/javascript';c.charset='utf-8';c.async=true;
+              c.src='https://www.smartsuppchat.com/loader.js?';
+              s.parentNode.insertBefore(c,s);
+            })(document);
+          `}
+        </Script>
+
+        <noscript>
+          Powered by{" "}
+          <a href="https://www.smartsupp.com" target="_blank">
+            Smartsupp
+          </a>
+        </noscript>
       </body>
     </html>
   );
