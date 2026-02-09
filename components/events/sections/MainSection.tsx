@@ -446,7 +446,7 @@ export default function MainSection({ initialEvents }: MainSectionProps) {
                   event.eventDetails.endDate,
                 )}
                 location={event.eventDetails.venue}
-                // buttonText="View Recap"
+                buttonText="View Recap"
                 buttonVariant="outline"
                 onButtonClick={() => router.push(`/events/${event.id}`)}
               />
