@@ -2,19 +2,19 @@
 
 const cards = [
   "CULTURE",
-  "RHYTHM",
-  "COLOR",
+  "COMMUNITY",
+  "EXPERIENCE",
   "CULTURE",
-  "RHYTHM",
-  "COLOR",
+  "COMMUNITY",
+  "EXPERIENCE",
   "CULTURE",
-  "RHYTHM",
-  "COLOR",
+  "COMMUNITY",
+  "EXPERIENCE",
   "CULTURE",
-  "RHYTHM",
-  "COLOR",
+  "COMMUNITY",
+  "EXPERIENCE",
   "CULTURE",
-  "RHYTHM",
+  "COMMUNITY",
 ];
 
 export default function BottomCards() {

@@ -61,7 +61,7 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
                                 event.eventDetails.endDate,
                             )}
                             location={event.eventDetails.venue}
-                            buttonText="View Event"
+                            buttonText="Secure Your Place"
                             buttonVariant="outline"
                             buttonHref={`/events/${createSlug(event.eventDetails.eventTitle)}`}
                         />

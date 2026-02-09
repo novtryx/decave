@@ -30,18 +30,18 @@ const WhatWeStandFor = () => {
 
     const values: ValueType[] = [
         {
-            title: "Culture",
-            description: "Celebrating African heritage through music, art and community. Every event is a cultural moment",
+            title: "Culture First",
+            description: "We build around identity, creativity, and authenticity — not trends.",
             icon: FaRegHeart
         },
         {
-            title: "Community",
-            description: "Building a movement of like-minded individuals who value experience, expression, and connection",
+            title: "Community Driven",
+            description: "Our spaces are created for belonging, not just attendance.",
             icon: MdOutlinePeopleAlt
         },
         {
-            title: "Expression",
-            description: "Creating spaces where authenticity thrives. Where you can be bold, creative and unapologetically yourself.",
+            title: "Evolution Always",
+            description: "De Cave continues to expand in scale, reach, and creative direction.",
             icon: IoFlashOutline
         }
     ]
@@ -90,7 +90,7 @@ const WhatWeStandFor = () => {
             </div>
 
             {/* Animated counts with Framer Motion */}
-            <div 
+            {/* <div 
                 ref={statsRef} 
                 className='grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8'
             >
@@ -119,7 +119,7 @@ const WhatWeStandFor = () => {
                         </p>
                     </motion.div>
                 ))}
-            </div>
+            </div> */}
 
             <div className='pt-4 sm:pt-6'>
                 <ViewMoreButton href="/about" text='Learn More About deCave'/>

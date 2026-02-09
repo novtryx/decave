@@ -6,17 +6,17 @@ import { motion } from 'framer-motion';
 const ScrollContent = () => {
   const items = [
     'CULTURE',
-    'RHYTHM',
-    'COLOR',
+    'COMMUNITY',
+    'EXPERIENCE',
     'CULTURE',
-    'RHYTHM',
-    'COLOR',
+    'COMMUNITY',
+    'EXPERIENCE',
     'CULTURE',
-    'RHYTHM',
-    'COLOR',
+    'COMMUNITY',
+    'EXPERIENCE',
     'CULTURE',
-    'RHYTHM',
-    'COLOR',
+    'COMMUNITY',
+    'EXPERIENCE',
   ];
 
   return (

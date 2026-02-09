@@ -16,12 +16,12 @@ const CallToActionWrapper = () => {
       title="Ready to Experience the culture?"
       description="Join the movement. Explore our upcoming events or partner with us to create unforgettable movements"
       primaryButton={{
-        text: "Explore events",
+        text: "Experience What’s Next",
         icon: "arrow",
         href: "/events",
       }}
       secondaryButton={{
-        text: "Partner with Us",
+        text: "Join The Movement",
         href: "/partners",
       }}
     />

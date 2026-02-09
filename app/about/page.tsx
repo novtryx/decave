@@ -14,7 +14,7 @@ const page = () => {
     <div>
         <HeaderSection 
             title="About deCave"
-            description="We don’t just host events - we architect expriences that celebrate African culture, ignite community and push the boundaries of what nightlife can be."
+            description="De Cave is a cultural and creative platform dedicated to building immersive experiences rooted in sound, expression, and human connection."
             label="WHO WE ARE"
         />
         <OurIdentity/>
