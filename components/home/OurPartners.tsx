@@ -19,9 +19,9 @@ const OurPartners = () => {
             descriptionColor='#6F6F6F'
         />
 
-        <PartnerLogos/>
+        {/* <PartnerLogos/> */}
         <Button href='/partners' variant='outline'>
-            Become a Partner
+           Join The Movement
         </Button>
     </div>
   )

@@ -4,6 +4,9 @@ import { PiShootingStarBold } from "react-icons/pi";
 import SectionHeader from '../layout/sectionHeader';
 import HoverImage from './ui/HoverImage';
 import ViewMoreButton from '../layout/ViewMoreButton';
+import { useEffect, useState } from "react";
+import { GalleryData, getFeaturedGallery } from "@/app/actions/gallery";
+import Spinner from "../layout/Spinner";
 
 interface ImageArrayType {
     image: string;
@@ -12,38 +15,19 @@ interface ImageArrayType {
 }
 
 const Memories = () => {
-    const imageArray: ImageArrayType[] = [
-        {
-            image: "/memory2.png",
-            title: "PRODUCTION",
-            description: "Stage Production"
-        },
-        {
-            image: "/memory1.png",
-            title: "PERFORMANCE",
-            description: "Stage Performance"
-        },
-        {
-            image: "/memory3.png",
-            title: "PRESENTATION",
-            description: "Stage Presentation"
-        },
-        {
-            image: "/memory2.png",
-            title: "PRODUCTION",
-            description: "Stage Production"
-        },
-        {
-            image: "/memory1.png",
-            title: "PERFORMANCE",
-            description: "Stage Performance"
-        },
-        {
-            image: "/memory3.png",
-            title: "PRESENTATION",
-            description: "Stage Presentation"
+    const [featured, setFeatured] = useState<GalleryData[]>()
+   const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        const fetchData = async() => {
+            setLoading(true)
+           const data =  await getFeaturedGallery()
+           setFeatured(data)
+           setLoading(false)
         }
-    ]
+
+        fetchData()
+    }, [])
 
     return (
         <div className='flex flex-col items-center py-8 sm:py-12 lg:py-16 gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 lg:px-8'>
@@ -56,18 +40,25 @@ const Memories = () => {
             />
 
             <div className='w-full max-w-7xl mx-auto'>
+                {
+                    loading ? 
+                    <div className="w-full flex items-center justify-center">
+                        <Spinner/>
+                    </div>
+                    :
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6'>
                     {
-                        imageArray?.map((item: ImageArrayType, index: number) => (
+                        featured?.map((item: GalleryData, index: number) => (
                             <HoverImage
                                 key={index}
-                                title={item.title}
-                                description={item?.description}
-                                image={item?.image}
+                                title={item.event.eventDetails.eventTitle}
+                                description={item.event.eventDetails.eventTheme}
+                                image={item?.link}
                             />
                         ))
                     }
                 </div>
+                }
             </div>
 
             <div className='pt-2 sm:pt-4'>

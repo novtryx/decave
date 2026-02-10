@@ -518,8 +518,8 @@ export default function EventDetails({ event }: EventDetailsProps) {
     router.push(`/checkout?ticket=${ticket._id}`);
   };
 
-  const handleScrollToTickets = () => {
-    const section = document.getElementById("tickets-section");
+  const handleScrollToTickets = (path: string) => {
+    const section = document.getElementById(path);
     section?.scrollIntoView({ behavior: "smooth" });
   };
 

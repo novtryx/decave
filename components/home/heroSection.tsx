@@ -36,7 +36,7 @@ const HeroSection = () => {
                 {/* Badge */}
                 <div className='bg-[#BC9229]/40 text-[#FFF7E4] border border-[#FFF7E4] w-fit px-4 sm:px-6 py-1 sm:py-1.5 rounded-full flex items-center gap-2 mb-4 sm:mb-6'>
                     <GiDrippingStar color='#FFF7E4' className='w-4 h-4 sm:w-5 sm:h-5' />
-                    <p className='text-xs sm:text-sm md:text-base'>CULTURE. RHYTHM. COLOR</p>
+                    <p className='text-xs sm:text-sm md:text-base'>CULTURE. COMMUNITY. EXPERIENCE</p>
                 </div>
 
                 {/* Title */}
@@ -50,8 +50,7 @@ const HeroSection = () => {
                         <span className='text-[#B3B3B3]'>Where</span> culture <span className='text-[#B3B3B3]'>meets</span> <span className='text-[#CCA33A]'>experience</span>
                     </p>
                     <p className='text-[#B3B3B3] text-sm sm:text-base md:text-lg leading-relaxed px-4 sm:px-0'>
-                        We don't just host events — we create movements. Immersive experiences
-                        that celebrate African culture, elevate community, and redefine nightlife.
+                       We do not simply organize events. We design environments where people, energy, and creativity converge — spaces that are felt, remembered, and lived beyond the moment.
                     </p>
                 </div>
 
@@ -64,7 +63,7 @@ const HeroSection = () => {
                         iconPosition="right"
                         className="w-full sm:w-auto"
                     >
-                        View Event
+                        Enter The Experience
                     </Button>
                
                     <Button 
@@ -72,7 +71,7 @@ const HeroSection = () => {
                         variant="outline"
                         className="w-full sm:w-auto"
                     >
-                        Partner with us
+                        Join The Movement
                     </Button>
                 </div>
             </div>
