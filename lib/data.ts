@@ -212,7 +212,7 @@ export const features = [
     icon: LuSun,
     title: "Day to Night",
     description:
-      "AfroSpook runs from sunset to sunrise. Bring layers, stay hydrated, and prepare for temperature shifts.",
+      "This takes place overnight. Bring layers, stay hydrated, and be ready for temperature shifts.",
   },
 ];
 

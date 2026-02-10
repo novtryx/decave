@@ -33,7 +33,7 @@ const Accordion: React.FC<AccordionProps> = ({
         className="flex cursor-pointer items-center justify-between w-full p-4 bg-[#151515] transition-colors"
         onClick={toggleAccordion}
       >
-        <span className="font-medium text-[#F9F7F4]">{accordionTitle}</span>
+        <span className="font-medium text-left text-[#F9F7F4]">{accordionTitle}</span>
         {isOpen ? <IoChevronUp size={20} /> : <IoChevronDown size={20} />}
       </button>
 

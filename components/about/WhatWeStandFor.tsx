@@ -16,30 +16,52 @@ interface ValueType {
 const WhatWeStandFor = () => {
     const values: ValueType[] = [
             {
-                title: "Community First",
-                description: "Building a movement of like-minded individuals who value experience, expression, and connection",
+                title: "Immersive By Design",
+                description: "Every experience is carefully shaped - from atmosphere and sound to emotional flow and audience connection.",
                 icon: FaRegHeart
             },
             {
-                title: "Cultural Authenticity",
-                description: "Rooted in African heritage, elevated through contemporary expression and innovation.",
+                title: "Culture First",
+                description: "We build around identity, creativity, and authenticity - not trends.",
                 icon: MdOutlinePeopleAlt
             },
             {
-                title: "Curated Excellence",
-                description: "Every detail matters. From artist selection to production, we obsess over quality.",
+                title: "Community Driven",
+                description: "Our spaces are created for belonging, not just attendance.",
                 icon: IoFlashOutline
             },
             {
-                title: "Inclusive Expression",
-                description: "A judgment-free zone where everyone can be their authentic self and celebrate freely.",
+                title: "Evolution Always",
+                description: "De Cave continues to expand in scale, reach, and creative direction.",
                 icon: IoFlashOutline
             }
         ]
+    // const values: ValueType[] = [
+    //         {
+    //             title: "Community First",
+    //             description: "Building a movement of like-minded individuals who value experience, expression, and connection",
+    //             icon: FaRegHeart
+    //         },
+    //         {
+    //             title: "Cultural Authenticity",
+    //             description: "Rooted in African heritage, elevated through contemporary expression and innovation.",
+    //             icon: MdOutlinePeopleAlt
+    //         },
+    //         {
+    //             title: "Curated Excellence",
+    //             description: "Every detail matters. From artist selection to production, we obsess over quality.",
+    //             icon: IoFlashOutline
+    //         },
+    //         {
+    //             title: "Inclusive Expression",
+    //             description: "A judgment-free zone where everyone can be their authentic self and celebrate freely.",
+    //             icon: IoFlashOutline
+    //         }
+    //     ]
   return (
     <div className='px-4 sm:px-6 md:px-10 lg:px-16 py-8 sm:py-10 md:py-12'>
         <SectionHeader
-            title="What We Stand For"
+            title="Our Approach"
             label='OUR VALUES'
             icon={BsStars}
             iconColor='#AD46FF'
