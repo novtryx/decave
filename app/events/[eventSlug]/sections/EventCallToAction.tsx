@@ -17,7 +17,7 @@ interface EventCallToActionProps {
     secondaryColor: string;
   };
   hasTickets: boolean;
-  onScrollToTickets: () => void;
+  onScrollToTickets: (path: string) => void;
 }
 
 export default function EventCallToAction({
@@ -65,7 +65,7 @@ export default function EventCallToAction({
           <Button
             variant="primary"
             icon="arrow"
-            onClick={onScrollToTickets}
+            onClick={() => onScrollToTickets("tickets-section")}
             className="w-fit sm:w-auto mt-2"
           >
             Secure your spot now

@@ -81,12 +81,12 @@ export default function Gallery() {
       >
         <div className="flex flex-col items-center text-center gap-6 sm:gap-8">
           {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-5xl">
+          {/* <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-5xl">
             <AnimatedStat value={10} suffix="K" label="DAILY REACH" />
             <AnimatedStat value={250} suffix="M+" label="MEDIA IMPRESSION" />
             <AnimatedStat value={48} suffix="H" label="BRAND ACTIVATION" />
             <AnimatedStat value={85} suffix="%" label="18 – 35 DEMOGRAPHIC" />
-          </div>
+          </div> */}
 
           {/* CTA Button */}
           <Button
