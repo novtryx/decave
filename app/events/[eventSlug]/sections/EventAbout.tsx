@@ -43,7 +43,7 @@ export default function EventAbout({
         <p className="text-[#b3b3b3] text-sm sm:text-base leading-relaxed">
           {supportingText}
         </p>
-
+{/* 
         {artistLineUp.length > 0 && (
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4">Featured Artists</h3>
@@ -76,7 +76,7 @@ export default function EventAbout({
               ))}
             </div>
           </div>
-        )}
+        )} */}
       </div>
 
       <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-125">
