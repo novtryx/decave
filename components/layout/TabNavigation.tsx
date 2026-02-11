@@ -57,9 +57,9 @@ const TabNavigation = ({
           
           {/* Scrollable tab container on mobile */}
           <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide flex-1">
-            {tabs?.map((tab:any) => (
+            {tabs?.map((tab:any, index:number) => (
               <button
-                key={tab?._id}
+                key={index}
                 onClick={() => handleTabClick(tab)}
                 className={`tracking-wider py-1.5 sm:py-2 px-3 sm:px-4 text-sm sm:text-base lg:text-lg whitespace-nowrap cursor-pointer shrink-0 transition-colors duration-200`}
                 style={{
