@@ -2,16 +2,18 @@ import { IconType } from "react-icons";
 import { LuGift, LuHeart, LuSparkles, LuSun, LuTarget, LuZap } from "react-icons/lu";
 
 
-interface ImageFeatureTimelineProps {
-  image: string;
-  imageAlt?: string;
-  features: FeatureItem[];
-}
+
 
 export interface FeatureItem {
   _id: string;
   title: string;
   body: string;
+}
+
+interface ImageFeatureTimelineProps {
+  image: string;
+  imageAlt?: string;
+  features: FeatureItem[];
 }
 
 // example usage
