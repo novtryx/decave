@@ -54,7 +54,7 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
                                 bgColor: event.eventDetails.brandColor?.primaryColor || "#EEF6FFCC", 
                                 textColor: event.eventDetails.brandColor?.secondaryColor || "#001D3D" 
                             }}
-                            peopleCount="1.8K"
+                            // peopleCount="1.8K"
                             icon={GoPeople}
                             date={formatDate(
                                 event.eventDetails.startDate,

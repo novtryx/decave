@@ -90,7 +90,8 @@ export type Event = {
   published: boolean;
   eventDetails: EventDetails;
   tickets: Ticket[];
-  artistLineUp: Artist[];
+  // artistLineUp: Artist[];
+  artistlineup: Artist[];
   emergencyContact?: EmergencyContact;
   aboutEvent?: AboutEvent; // ✅ ADD THIS
   isEventActive: boolean;
