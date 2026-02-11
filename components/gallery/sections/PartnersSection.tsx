@@ -15,7 +15,7 @@ export default function PartnersSection() {
             titleColor='#001D3D'
             descriptionColor='#6F6F6F'
         />
-        <PartnerLogos />
+        {/* <PartnerLogos /> */}
         </div>
     )
 }

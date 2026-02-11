@@ -83,6 +83,18 @@ export type AboutEvent = {
   content: AboutEventContent[];
 };
 
+export type faqDataType = {
+  _id: string;
+    question: string;
+    answer: string;
+}
+
+export type code = {
+  _id: string;
+  title: string;
+  body: string
+}
+
 export type Event = {
   _id: string;
   id: string;
@@ -90,10 +102,11 @@ export type Event = {
   published: boolean;
   eventDetails: EventDetails;
   tickets: Ticket[];
-  // artistLineUp: Artist[];
-  artistlineup: Artist[];
+  artistLineUp: Artist[];
+  faq: faqDataType[];
+  code:code[];
   emergencyContact?: EmergencyContact;
-  aboutEvent?: AboutEvent; // ✅ ADD THIS
+  aboutEvent?: AboutEvent;
   isEventActive: boolean;
   createdAt: string;
   updatedAt: string;

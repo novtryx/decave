@@ -19,7 +19,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup1.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -29,7 +29,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup2.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -39,7 +39,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup3.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -49,7 +49,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup1.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -59,7 +59,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup2.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -69,7 +69,7 @@ const FullLineUp = () => {
               imageSrc="/artists/lineup3.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
+              // location="Nigeria"
               isHeadliner={false}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"

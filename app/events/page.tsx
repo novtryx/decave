@@ -30,7 +30,7 @@ export default async function Events() {
                 title="Events"
                 description="Discover immersive experiences hosted by deCave. Culture, music, and community - all in one place"
                 label="WHAT WE HAVE FOR YOU"
-                backgroundImage="/events/hero-img.jpg"
+                backgroundImage="/events/hero-img.jpeg"
             />
             <MainSection initialEvents={response.data} />
         </div>

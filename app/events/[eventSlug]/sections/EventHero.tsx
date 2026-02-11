@@ -17,7 +17,7 @@ interface EventHeroProps {
     secondaryColor: string;
   };
   isEventPast: boolean;
-  onBuyTicket: () => void;
+  onBuyTicket: (path: string) => void;
 }
 
 export default function EventHero({
@@ -53,10 +53,10 @@ export default function EventHero({
         description={supportingText}
         dateRange={dateRange}
         location={`${venue}, ${address}`}
-        buttonText={isEventPast ? "Event Has Ended" : "Buy Ticket"}
+        buttonText={isEventPast ? `Glimpse from ${eventTitle}` : "Buy Ticket"}
         onViewDetails={() => {
-          if (isEventPast) return;
-          onBuyTicket();
+          isEventPast ? onBuyTicket("experience") :
+          onBuyTicket("tickets-section");
         }}
       />
     </section>

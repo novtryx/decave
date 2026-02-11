@@ -1,16 +1,19 @@
 import { IconType } from "react-icons";
+import { LuGift, LuHeart, LuSparkles, LuSun, LuTarget, LuZap } from "react-icons/lu";
+
+
+
+
+export interface FeatureItem {
+  _id: string;
+  title: string;
+  body: string;
+}
 
 interface ImageFeatureTimelineProps {
   image: string;
   imageAlt?: string;
   features: FeatureItem[];
-}
-
-export interface FeatureItem {
-  id: number;
-  icon: IconType;
-  title: string;
-  description: string;
 }
 
 // example usage
@@ -25,6 +28,9 @@ const ImageFeatureTimeline = ({
   imageAlt = "",
   features,
 }: ImageFeatureTimelineProps) => {
+
+  const iconMapping: IconType[] = [LuSparkles, LuHeart, LuZap, LuSun, LuTarget, LuGift];
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
       {/* IMAGE */}
@@ -39,11 +45,11 @@ const ImageFeatureTimeline = ({
       {/* FEATURES */}
       <div className="relative flex flex-col">
         {features.map((item, index) => {
-          const Icon = item.icon;
+          const Icon = iconMapping[index] || LuSparkles; // fallback icon
           const isLast = index === features.length - 1;
 
           return (
-            <div key={item.id} className="flex gap-6 relative">
+            <div key={item._id} className="flex gap-6 relative">
               <div className="relative flex flex-col items-center">
                 {/* Icon */}
                 <div className="z-10 flex items-center justify-center w-9 h-9 rounded-full border border-gray-500 bg-[#151515] text-white shrink-0">
@@ -62,7 +68,7 @@ const ImageFeatureTimeline = ({
                   {item.title}
                 </h1>
                 <p className="text-[#b3b3b3] leading-relaxed max-w-md">
-                  {item.description}
+                  {item.body}
                 </p>
               </div>
             </div>

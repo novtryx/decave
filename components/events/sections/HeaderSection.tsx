@@ -31,11 +31,11 @@ interface HeaderSectionProps {
 }
 
 export default function HeaderSection({
-  backgroundImage="/hero-bg.png",
+  backgroundImage="/events/hero-img.jpeg",
   title,
   label,
   description,
-  overlay = 'bg-black/50',
+  overlay = 'bg-black/70',
   height = 'min-h-screen sm:min-h-[70vh] lg:h-[85vh]',
   showTopLine = true,
   align = 'center',

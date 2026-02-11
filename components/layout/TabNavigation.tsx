@@ -1,4 +1,5 @@
 "use client"
+import { GalleryEventType } from '@/app/actions/gallery'
 import React from 'react'
 import { LuFilter } from 'react-icons/lu'
 
@@ -10,7 +11,7 @@ export interface TabItem {
 }
 
 interface TabNavigationProps {
-  tabs: TabItem[]
+  tabs: any
   activeTab: string
   onTabChange: (tabId: string) => void
   showFilter?: boolean
@@ -32,11 +33,12 @@ const TabNavigation = ({
   borderColor = 'rgb(229, 231, 235)',
   containerClassName = ''
 }: TabNavigationProps) => {
-  const handleTabClick = (tab: TabItem) => {
-    onTabChange(tab.id)
-    if (tab.onClick) {
-      tab.onClick()
-    }
+
+  const handleTabClick = (tab: GalleryEventType) => {
+    onTabChange(tab._id)
+    // if (tab.onClick) {
+    //   tab.onClick()
+    // }
   }
 
   return (
@@ -55,18 +57,18 @@ const TabNavigation = ({
           
           {/* Scrollable tab container on mobile */}
           <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide flex-1">
-            {tabs.map((tab) => (
+            {tabs?.map((tab:any, index:number) => (
               <button
-                key={tab.id}
+                key={index}
                 onClick={() => handleTabClick(tab)}
                 className={`tracking-wider py-1.5 sm:py-2 px-3 sm:px-4 text-sm sm:text-base lg:text-lg whitespace-nowrap cursor-pointer shrink-0 transition-colors duration-200`}
                 style={{
-                  backgroundColor: activeTab === tab.id ? activeTabColor : 'transparent',
-                  color: activeTab === tab.id ? 'white' : inactiveTabColor,
-                  border: activeTab === tab.id ? 'none' : `1px solid ${borderColor}`
+                  backgroundColor: activeTab === tab?._id ? activeTabColor : 'transparent',
+                  color: activeTab === tab?._id ? 'white' : inactiveTabColor,
+                  border: activeTab === tab?._id ? 'none' : `1px solid ${borderColor}`
                 }}
               >
-                {tab.label}
+                {tab?.eventDetails?.eventTitle}
               </button>
             ))}
           </div>

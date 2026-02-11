@@ -1,19 +1,14 @@
 import SectionHeader from "@/components/layout/sectionHeader"
 import Accordion from "@/components/partners/ui/Accordion"
 
-export default function EventFAQ() {
-    const questionData = [
-        {
-            id: 1,
-            question: "What is the name of the event?",
-            answer: "DeCave Loud Room"
-        },
-        {
-            id: 2,
-            question: "Who are the sponsors of the event",
-            answer: "DeCave entertainment in partnership with mavin company"
-        }
-    ]
+
+interface faqDataType{
+    _id: string;
+    question: string;
+    answer: string;
+}
+export default function EventFAQ({faqData }: {faqData: faqDataType[] }) {
+    
 
     const eventTitle = "DeCave"
     return (
@@ -26,14 +21,22 @@ export default function EventFAQ() {
             />
 
             <div className="flex flex-col gap-4 items-center justify-center w-full mx-auto max-w-3xl">
-                {questionData.map((item) => (
-                    <Accordion 
-                        key={item.id}
-                        accordionTitle={item.question}
-                        description={item.answer}
-                        className="w-full"
-                    />
-                ))}
+                {faqData?.length > 0 ? (
+                    faqData.map((item) => (
+                        <Accordion 
+                            key={item._id}
+                            accordionTitle={item.question}
+                            description={item.answer}
+                            className="w-full"
+                        />
+                    ))
+                ) : (
+                    <div className="text-center py-12 px-4">
+                        <p className="text-gray-500 text-lg">
+                            No FAQs available at the moment. Check back soon!
+                        </p>
+                    </div>
+                )}
             </div>
 
         </div>

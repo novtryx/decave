@@ -39,12 +39,12 @@ Our work exists at the intersection of music, culture, and experience. From inti
                 description="To create a globally recognized cultural platform where sound, creativity, and expression become a shared language across cities, communities, and generations."
             />
                 
-                <div className='grid grid-cols-2 gap-3 sm:gap-4 md:gap-5'>
+                {/* <div className='grid grid-cols-2 gap-3 sm:gap-4 md:gap-5'>
                     <AnimatedCounter end={10} suffix="K" label="ATTENDEES" />
                     <AnimatedCounter end={50} suffix="+" label="EVENTS HOSTED" />
                     <AnimatedCounter end={15} suffix="+" label="CITY LOCATION" />
                     <AnimatedCounter end={200} suffix="+" label="ARTIST FEATURED" />
-                </div>
+                </div>  */}
             </div>
 
             <div className='relative h-75 sm:h-100 md:h-125 lg:h-150 xl:h-181.5 w-full lg:w-1/2'>

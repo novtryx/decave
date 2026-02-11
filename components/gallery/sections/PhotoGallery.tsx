@@ -3,12 +3,40 @@
 import { MdOutlineCameraAlt } from "react-icons/md";
 import SectionHeader from "../../layout/sectionHeader";
 import { LuFilter } from "react-icons/lu";
-import { act, useState } from "react";
+import { act, useEffect, useState } from "react";
 import TabNavigation from "@/components/layout/TabNavigation";
 import Image from "next/image";
+import { GalleryData, GalleryEventType, getGalleryByEvent, getGalleryEvent } from "@/app/actions/gallery";
 
 export default function PhotoGallery() {
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState("");
+  const [galleryEvents, setGalleryEvents] = useState<GalleryEventType[]>([])
+  const [photoData, setPhotoData] = useState<GalleryData[]>([])
+
+  useEffect(() => {
+    const getEvent = async() => {
+      const res = await getGalleryEvent()
+       setGalleryEvents(res)
+
+      setActiveTab(res[0]._id)
+    }
+
+    getEvent()
+  }, [])
+
+  useEffect(()=>{
+    
+      const fetchGalleryByEvent = async() => {
+        const res = await getGalleryByEvent(activeTab)
+        setPhotoData(res)
+      }
+
+      if(activeTab){
+
+        fetchGalleryByEvent()
+      }
+  }, [activeTab])
+
 
   const images = [
     {id: 1, name: "gallery-img-1.png"}, 
@@ -39,7 +67,7 @@ export default function PhotoGallery() {
 
       {/* Tab Navigation */}
       <TabNavigation 
-        tabs={tabs}
+        tabs={galleryEvents}
         activeTab={activeTab}
         onTabChange={setActiveTab}
         showFilter={false}
@@ -47,10 +75,10 @@ export default function PhotoGallery() {
 
       {/* Pictures */}
       <div className="mt-10 w-full grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {images.map((item) => (
-            <div key={item.id} className="w-full h-100 relative">
+        {photoData.map((item) => (
+            <div key={item._id} className="w-full h-100 relative">
                 <Image 
-                    src={`/gallery/${item.name}`}
+                    src={item.link}
                     alt="image"
                     fill
                 />
