@@ -187,31 +187,27 @@ export const slides = [
 
 export const features = [
   {
-    id: 1,
-    icon: LuSparkles,
+    _id: "1",
     title: "Express Yourself",
-    description:
+    body:
       "Bold prints, vibrant colors, traditional fabrics reimagined. Wear what makes you feel powerful.",
   },
   {
-    id: 2,
-    icon: LuHeart,
+    _id: "2",
     title: "Comfort First",
-    description:
+    body:
       "You will be dancing for hours. Choose breathable fabrics, comfortable shoes and layers for the night.",
   },
   {
-    id: 3,
-    icon: LuZap,
+    _id: "3",
     title: "Cultural Pride",
-    description:
+    body:
       "Represent your roots. Ankara, dashiki, kente, beads – celebrate African heritage through your style.",
   },
   {
-    id: 4,
-    icon: LuSun,
+    _id: "4",
     title: "Day to Night",
-    description:
+    body:
       "This takes place overnight. Bring layers, stay hydrated, and be ready for temperature shifts.",
   },
 ];
