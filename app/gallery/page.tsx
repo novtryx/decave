@@ -62,7 +62,7 @@ export default function Gallery() {
         title="The Pulse of deCave"
         description="Immerse yourself in the moments that define our festival - raw energy, cultural celebration, and unforgettable experiences captured in stunning detail."
         label="MEDIA GALLERY"
-        backgroundImage="/events/hero-img.jpg"
+        backgroundImage="/events/hero-img.jpeg"
       />
 
       {/* Main Content */}
