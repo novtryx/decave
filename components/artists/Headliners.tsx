@@ -21,7 +21,6 @@ const Headliners = () => {
               imageSrc="/artists/lineup1.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
               isHeadliner={true}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -31,7 +30,6 @@ const Headliners = () => {
               imageSrc="/artists/lineup2.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
               isHeadliner={true}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"
@@ -41,7 +39,6 @@ const Headliners = () => {
               imageSrc="/artists/lineup3.jpg"
               artistName="Burna Boy"
               genre="Afrobeats"
-              location="Nigeria"
               isHeadliner={true}
               instagramLink="https://instagram.com/burnaboygram"
               twitterLink="https://twitter.com/burnaboy"

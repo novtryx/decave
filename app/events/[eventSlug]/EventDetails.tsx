@@ -16,6 +16,8 @@ import { features } from "@/lib/data";
 import { recommendedItems, notAllowedItems } from "@/lib/data";
 import { type Event } from "@/app/actions/events";
 import EventFAQ from "./sections/EventFAQ";
+import LineUpImageCard from "@/components/artists/LineUpImageCard";
+import Lineup from "./sections/Lineup";
 
 interface EventDetailsProps {
   event: Event;
@@ -112,6 +114,9 @@ export default function EventDetails({ event }: EventDetailsProps) {
         sections={event.aboutEvent?.content || []}
         eventTheme={event.eventDetails.eventTheme}
       /> */}
+     <Lineup
+      Lineup={event.artistLineUp}
+     />
 
       {/* Tickets Section */}
       <EventTickets
