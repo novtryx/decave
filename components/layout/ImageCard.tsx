@@ -76,13 +76,13 @@ const ImageCard = ({
               </div>
             )}
             
-            {/* Optional People Count (bottom-right) */}
+            {/* Optional People Count (bottom-right)
             {peopleCount && (
               <div className='absolute right-2 bottom-2 xs:right-2.5 xs:bottom-2.5 sm:right-3 sm:bottom-3 flex items-center gap-1 xs:gap-1.5 sm:gap-2 w-fit h-fit rounded-full px-2 xs:px-3 sm:px-4 py-1 xs:py-1.5 sm:py-2 bg-black/60 text-[10px] xs:text-xs sm:text-sm backdrop-blur-sm'>
                 <GoPeople color='#0854A7' size={14} className='xs:w-4 xs:h-4 sm:w-5 sm:h-5' /> 
                 <p>{peopleCount}</p>
               </div>
-            )}
+            )} */}
         </div>
 
         {/* Content Section */}

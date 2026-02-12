@@ -15,6 +15,7 @@ export default async function EventPage({
 
   try {
     const event = await getEventByTitle(eventTitle);
+    console.log("full event is", event)
 
     if (!event) {
       notFound();
