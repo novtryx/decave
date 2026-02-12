@@ -12,11 +12,13 @@ import {
   getGalleryByEvent,
   getGalleryEvent,
 } from "@/app/actions/gallery";
+import Spinner from "@/components/layout/Spinner";
 
 export default function PhotoGallery() {
   const [activeTab, setActiveTab] = useState("");
   const [galleryEvents, setGalleryEvents] = useState<GalleryEventType[]>([]);
   const [photoData, setPhotoData] = useState<GalleryData[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getEvent = async () => {
@@ -31,8 +33,11 @@ export default function PhotoGallery() {
 
   useEffect(() => {
     const fetchGalleryByEvent = async () => {
+      setLoading(true);
       const res = await getGalleryByEvent(activeTab);
       setPhotoData(res);
+
+      setLoading(false);
     };
 
     if (activeTab) {
@@ -58,21 +63,28 @@ export default function PhotoGallery() {
         showFilter={false}
       />
 
-      {photoData.length === 0 && (
-        <div className="flex justify-center items-center py-10">
-          <p className="text-[#6b6b6b]">No photos found for this event.</p>
-        </div>
-      )}
-
 
       {/* Pictures */}
-      <div className="mt-10 w-full grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {photoData.map((item) => (
-          <div key={item._id} className="w-full h-100 relative">
-            <Image src={item.link} alt="image" fill />
+      {loading ? (
+        <div className="w-full flex justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          {photoData.length === 0 && (
+            <div className="flex justify-center items-center py-10">
+              <p className="text-[#6b6b6b]">No photos found for this event.</p>
+            </div>
+          )}
+          <div className="mt-10 w-full grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {photoData.map((item) => (
+              <div key={item._id} className="w-full h-100 relative">
+                <Image src={item.link} alt="image" fill />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }
