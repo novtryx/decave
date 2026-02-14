@@ -55,7 +55,7 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
           src={image} 
           alt={title}
           fill
-          className="object-cover"
+          className="object-contain"
         />
         {attendees && (
           <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 bg-zinc-800/60 backdrop-blur-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2 z-10">
