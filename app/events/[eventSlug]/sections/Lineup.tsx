@@ -19,7 +19,7 @@ interface LineupType{
 
 const Lineup = ({Lineup}: {Lineup: LineupType[]}) => {
 
-
+console.log("lines", Lineup)
     if(Lineup?.length === 0){
         return null
     }
@@ -54,24 +54,7 @@ const Lineup = ({Lineup}: {Lineup: LineupType[]}) => {
 
                 ))
             }
-            <LineUpImageCard 
-              imageSrc="/artists/lineup2.jpg"
-              artistName="Burna Boy"
-              genre="Afrobeats"
-              isHeadliner={true}
-              instagramLink="https://instagram.com/burnaboygram"
-              twitterLink="https://twitter.com/burnaboy"
-              externalLink="https://burnaboy.com"
-            />
-            <LineUpImageCard 
-              imageSrc="/artists/lineup3.jpg"
-              artistName="Burna Boy"
-              genre="Afrobeats"
-              isHeadliner={true}
-              instagramLink="https://instagram.com/burnaboygram"
-              twitterLink="https://twitter.com/burnaboy"
-              externalLink="https://burnaboy.com"
-            />
+           
           </div>
         </div>
     </div>
