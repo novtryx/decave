@@ -390,11 +390,6 @@ export default function Checkout() {
       return;
     }
 
-    const cleanPhone = phoneNumber.trim();
-    if (!/^[0-9]{11}$/.test(cleanPhone)) {
-      alert("Phone number must be exactly 11 digits");
-      return;
-    }
 
     // Validate additional attendees if toggle is ON
     if (addAttendees && qty > 1) {
@@ -403,12 +398,6 @@ export default function Checkout() {
         if (!attendee.firstName?.trim() || !attendee.lastName?.trim() || 
             !attendee.email?.trim() || !attendee.phoneNumber?.trim()) {
           alert(`Please fill all details for Attendee ${i + 2}`);
-          return;
-        }
-        
-        const cleanAttendeePhone = attendee.phoneNumber.trim();
-        if (!/^[0-9]{11}$/.test(cleanAttendeePhone)) {
-          alert(`Phone number for Attendee ${i + 2} must be exactly 11 digits`);
           return;
         }
       }
@@ -437,7 +426,7 @@ export default function Checkout() {
       buyers.push({
         fullName: `${firstName.trim()} ${lastName.trim()}`,
         email: email.trim(),
-        phoneNumber: cleanPhone,
+        phoneNumber,
         quantity: 1
       });
 
@@ -458,7 +447,7 @@ export default function Checkout() {
           buyers.push({
             fullName: `${firstName.trim()} ${lastName.trim()}`,
             email: email.trim(),
-            phoneNumber: cleanPhone,
+            phoneNumber,
             quantity: 1
           });
         }
