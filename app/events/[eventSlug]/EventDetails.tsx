@@ -135,7 +135,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
         experienceSlides={experienceSlides}
       />
 
-      {/* Dress Code & Vibe */}
+      {/* Dress Code & Vibe
       <div className="lg:px-16 py-12 bg-[#151515] px-4">
         <SectionHeader
           title="Come As You Are. Be Yourself Fully."
@@ -148,7 +148,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
           imageAlt="Afrocentric fashion"
           features={event.code}
         />
-      </div>
+      </div> */}
 
       {/* Safety & Contacts */}
       {event.emergencyContact && (
