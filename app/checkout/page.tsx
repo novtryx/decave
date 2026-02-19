@@ -349,7 +349,7 @@ export default function Checkout() {
           console.log("Loaded ticket:", ticket);
 
           const elapsedTime = Date.now() - startTime;
-          const remainingTime = Math.max(0, 3000 - elapsedTime); // 3 seconds minimum
+          const remainingTime = Math.max(0, 3000 - elapsedTime); 
           
           // Wait for remaining time before hiding spinner
           await new Promise(resolve => setTimeout(resolve, remainingTime));
