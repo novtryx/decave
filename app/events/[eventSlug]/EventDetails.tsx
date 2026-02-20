@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -18,6 +17,7 @@ import { type Event } from "@/app/actions/events";
 import EventFAQ from "./sections/EventFAQ";
 import LineUpImageCard from "@/components/artists/LineUpImageCard";
 import Lineup from "./sections/Lineup";
+import VideoFeatureTimeline from "@/components/layout/VideoFeatureTimeline";
 
 interface EventDetailsProps {
   event: Event;
@@ -28,6 +28,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
 
   const startDate = new Date(event.eventDetails.startDate);
   const endDate = new Date(event.eventDetails.endDate);
+  console.log("Event details: ",  event.eventDetails);
 
   // Check if event has passed
   const isEventPast = endDate < new Date();
@@ -73,14 +74,14 @@ export default function EventDetails({ event }: EventDetailsProps) {
     section?.scrollIntoView({ behavior: "smooth" });
   };
 
- const experienceSlides = event.aboutEvent?.content?.map((item, index) => ({
-  id: index,
-  image: item.supportingImage,
-  tag: "Event Experience",
-  title: item.subTitle,
-  description: item.sectionContent,
-})) ?? [];
-
+  const experienceSlides =
+    event.aboutEvent?.content?.map((item, index) => ({
+      id: index,
+      image: item.supportingImage,
+      tag: "Event Experience",
+      title: item.subTitle,
+      description: item.sectionContent,
+    })) ?? [];
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -109,14 +110,8 @@ export default function EventDetails({ event }: EventDetailsProps) {
         artistLineUp={event.artistLineUp}
       />
 
-      {/* Supporting Content Sections
-      <EventContentSections
-        sections={event.aboutEvent?.content || []}
-        eventTheme={event.eventDetails.eventTheme}
-      /> */}
-     <Lineup
-      Lineup={event.artistLineUp}
-     />
+      
+      <Lineup Lineup={event.artistLineUp} />
 
       {/* Tickets Section */}
       <EventTickets
@@ -135,20 +130,23 @@ export default function EventDetails({ event }: EventDetailsProps) {
         experienceSlides={experienceSlides}
       />
 
-      {/* Dress Code & Vibe
+      {/* Vibes & Sound */}
+      {event.eventDetails.eventTitle === "Loud Room" && (
       <div className="lg:px-16 py-12 bg-[#151515] px-4">
         <SectionHeader
-          title="Come As You Are. Be Yourself Fully."
-          label="Dress Code & Vibe"
+          title="Sound Before Status."
+          label="Vibes & Sound"
           labelColor="#0854A7"
-          description="deCave is built on the pillars of music, community, expression, and celebration. We create spaces where:"
+          description="Loud Room is built for those who move when the bass hits - not when the camera turns."
         />
-        <ImageFeatureTimeline
-          image="/event/dress-code-img.png"
-          imageAlt="Afrocentric fashion"
+
+        <VideoFeatureTimeline
+          videoUrl="https://res.cloudinary.com/djy70g2ox/video/upload/v1771586314/decave/videos/sxtrmaq54zw8aozjoxmd.mp4"
+          poster="https://example.com/thumbnail.jpg"
           features={event.code}
         />
-      </div> */}
+      </div>
+      )}
 
       {/* Safety & Contacts */}
       {event.emergencyContact && (
@@ -156,9 +154,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
       )}
 
       {/* Frequently asked questions */}
-      <EventFAQ 
-        faqData={event.faq}
-      />
+      <EventFAQ faqData={event.faq} />
 
       {/* What to Bring */}
       <section className="px-4 sm:px-6 lg:px-16 bg-[#151515] py-10 sm:py-12 lg:py-16">
