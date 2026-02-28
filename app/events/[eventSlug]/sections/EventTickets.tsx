@@ -73,32 +73,36 @@ export default function EventTickets({
         )}
       </div>
 
-      <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 pt-8 sm:pt-10 border-t border-[#2a2a2a] lg:grid-cols-3 gap-4 sm:gap-6">
-        {tickets.map((ticket) => {
-          const soldCount = ticket.initialQuantity - ticket.availableQuantity;
-          const isSoldOut = ticket.availableQuantity === 0;
+    <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 pt-8 sm:pt-10 border-t border-[#2a2a2a] lg:grid-cols-3 gap-4 sm:gap-6">
+  {tickets
+    .slice() // create a copy to avoid mutating props
+    .sort((a, b) => a.price - b.price) // sort by price ascending
+    .map((ticket) => {
+      const soldCount = ticket.initialQuantity - ticket.availableQuantity;
+      const isSoldOut = ticket.availableQuantity === 0;
 
-          return (
-            <TicketCard
-              key={ticket._id}
-              id={ticket._id}
-              name={ticket.ticketName}
-              price={`${ticket.currency} ${ticket.price.toLocaleString()}`}
-              features={ticket.benefits}
-              badge={
-                isEventPast
-                  ? "EVENT ENDED"
-                  : isSoldOut
-                    ? "SOLD OUT"
-                    : `${soldCount} sold`
-              }
-              popular={ticket.ticketName.toLowerCase().includes("vip")}
-              onBuyClick={() => onTicketPurchase(ticket._id)}
-              disabled={isEventPast}
-            />
-          );
-        })}
-      </div>
+      return (
+        <TicketCard
+          key={ticket._id}
+          id={ticket._id}
+          name={ticket.ticketName}
+          price={`${ticket.currency} ${ticket.price.toLocaleString()}`}
+          features={ticket.benefits}
+          badge={
+            isEventPast
+              ? "EVENT ENDED"
+              : isSoldOut
+                ? "UNAVAILABLE"
+                : `${soldCount} sold`
+          }
+          popular={ticket.ticketName.toLowerCase().includes("vip")}
+          onBuyClick={() => !isSoldOut && !isEventPast && onTicketPurchase(ticket._id)}
+          disabled={isEventPast || isSoldOut} // disable button if sold out or event ended
+        />
+      );
+    })}
+</div>
+
     </section>
   );
 }
