@@ -163,13 +163,13 @@ export default function TicketScanner() {
 
   // ─── RENDER ───────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-black text-white px-4 py-10">
+    <div className="min-h-screen bg-black text-white px-4 pt-24 lg:pt-44">
       <div className="max-w-md mx-auto">
 
         {/* HEADER */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold">Decave Scanner</h1>
-          <p className="text-purple-300 text-sm">Fast Ticket Check-In</p>
+          <p className="text-[#CCA33A] text-sm">Fast Ticket Check-In</p>
         </div>
 
         {/*
@@ -189,7 +189,7 @@ export default function TicketScanner() {
         {/* LOADING */}
         {scanState === 'loading' && (
           <div className="text-center py-10">
-            <div className="animate-spin h-10 w-10 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-3" />
+            <div className="animate-spin h-10 w-10 border-4 border-[#CCA33A] border-t-transparent rounded-full mx-auto mb-3" />
             <p>Verifying ticket...</p>
           </div>
         )}
@@ -243,7 +243,7 @@ export default function TicketScanner() {
               <button
                 onClick={handleCheckIn}
                 disabled={checkingIn}
-                className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold disabled:opacity-60"
+                className="w-full bg-[#CCA33A] text-white py-3 rounded-lg font-semibold disabled:opacity-60"
               >
                 {checkingIn ? 'Checking in...' : 'Check In'}
               </button>
