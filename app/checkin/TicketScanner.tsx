@@ -92,7 +92,7 @@ export default function TicketScanner() {
 
       try {
         const res = await fetch(
-          `http://localhost:5000/api/payment/check-in?txnId=${txnId}&ticketId=${ticketId}`
+          `https://decave-demo-server.vercel.app/api/payment/check-in?txnId=${txnId}&ticketId=${ticketId}`
         );
         const data = await res.json();
 
