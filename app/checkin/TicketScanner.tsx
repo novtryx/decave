@@ -1,8 +1,7 @@
-// components/TicketScanner.tsx
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
 
 interface TicketData {
   ticketId: string;
@@ -17,84 +16,105 @@ interface TicketData {
   };
 }
 
+type ScanState = 'scanning' | 'loading' | 'result' | 'success';
+
 export default function TicketScanner() {
-  const [scanning, setScanning] = useState(true);
   const [ticket, setTicket] = useState<TicketData | null>(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [scanState, setScanState] = useState<ScanState>('scanning');
   const [checkingIn, setCheckingIn] = useState(false);
-  const scannerRef = useRef<Html5QrcodeScanner | null>(null);
   const [scannedData, setScannedData] = useState<{ txnId: string; ticketId: string } | null>(null);
 
+  const scannerRef = useRef<Html5Qrcode | null>(null);
+  // Track whether the scanner is currently running so we never double-start it
+  const isScanningRef = useRef(false);
+
+  // ─── START SCANNER ────────────────────────────────────────────────────────
+  const startScanner = useCallback(async () => {
+    if (isScanningRef.current) return; // already running — do nothing
+    try {
+      await scannerRef.current?.start(
+        { facingMode: 'environment' },
+        { fps: 10, qrbox: { width: 260, height: 260 } },
+        onScanSuccess,
+        () => {}
+      );
+      isScanningRef.current = true;
+    } catch {
+      setError('Camera access denied or not supported.');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ─── STOP SCANNER ─────────────────────────────────────────────────────────
+  const stopScanner = useCallback(async () => {
+    if (!isScanningRef.current) return; // not running — nothing to stop
+    try {
+      await scannerRef.current?.stop();
+    } catch {}
+    isScanningRef.current = false;
+  }, []);
+
+  // ─── INIT ON MOUNT ────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!scanning) return;
-
-    const scanner = new Html5QrcodeScanner(
-      'qr-reader',
-      {
-        fps: 10,
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0,
-      },
-      false
-    );
-
-    scannerRef.current = scanner;
-
-    scanner.render(onScanSuccess, onScanFailure);
-
-    function onScanSuccess(decodedText: string) {
-      console.log('Scanned:', decodedText);
-      
-      try {
-        const url = new URL(decodedText);
-        const txnId = url.searchParams.get('txnId');
-        const ticketId = url.searchParams.get('ticketId');
-
-        if (txnId && ticketId) {
-          setScanning(false);
-          scanner.clear();
-          setScannedData({ txnId, ticketId });
-          verifyTicket(txnId, ticketId);
-        } else {
-          setError('Invalid ticket QR code format');
-        }
-      } catch (err) {
-        setError('Invalid QR code. Please scan a valid AFROSPOOK ticket.');
-      }
-    }
-
-    function onScanFailure(error: any) {
-      // Ignore scan failures (normal when camera is searching)
-    }
+    // The #qr-reader div is always in the DOM (just hidden via CSS), so this is safe
+    scannerRef.current = new Html5Qrcode('qr-reader');
+    startScanner();
 
     return () => {
-      scanner.clear().catch(console.error);
+      // Cleanup on unmount
+      scannerRef.current?.stop().catch(() => {});
+      isScanningRef.current = false;
     };
-  }, [scanning]);
+  }, [startScanner]);
 
-  const verifyTicket = async (txnId: string, ticketId: string) => {
-    setLoading(true);
-    setError('');
-
+  // ─── SCAN SUCCESS CALLBACK ────────────────────────────────────────────────
+  // useCallback ensures the scanner always has a stable reference
+  const onScanSuccess = useCallback(async (decodedText: string) => {
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/payment/check-in?txnId=${txnId}&ticketId=${ticketId}`
-      );
-      const data = await res.json();
+      const url = new URL(decodedText);
+      const txnId = url.searchParams.get('txnId');
+      const ticketId = url.searchParams.get('ticketId');
 
-      if (res.ok) {
-        setTicket(data.ticket);
-      } else {
-        setError(data.message || 'Invalid ticket');
+      if (!txnId || !ticketId) {
+        setError('Invalid ticket QR code');
+        return;
       }
-    } catch (err) {
-      setError('Failed to verify ticket. Please check your connection.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
+      navigator.vibrate?.(100);
+      await stopScanner();
+
+      setScannedData({ txnId, ticketId });
+
+      // Verify inline so we don't close over a stale verifyTicket reference
+      setScanState('loading');
+      setError('');
+
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/payment/check-in?txnId=${txnId}&ticketId=${ticketId}`
+        );
+        const data = await res.json();
+
+        if (res.ok) {
+          setTicket(data.ticket);
+          setScanState('result');
+        } else {
+          setError(data.message || 'Invalid ticket');
+          setScanState('scanning');
+          await startScanner();
+        }
+      } catch {
+        setError('Network error. Try again.');
+        setScanState('scanning');
+        await startScanner();
+      }
+    } catch {
+      setError('Invalid QR format');
+    }
+  }, [startScanner, stopScanner]);
+
+  // ─── CHECK-IN ─────────────────────────────────────────────────────────────
   const handleCheckIn = async () => {
     if (!scannedData) return;
 
@@ -105,172 +125,144 @@ export default function TicketScanner() {
       const res = await fetch('http://localhost:5000/api/tickets/check-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          txnId: scannedData.txnId,
-          ticketId: scannedData.ticketId,
-        }),
+        body: JSON.stringify(scannedData),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        // Update ticket state to show checked in
-        setTicket(prev => prev ? { ...prev, checkedIn: true } : null);
-        setTimeout(() => {
-          resetScanner();
-        }, 3000);
+        setTicket(prev => (prev ? { ...prev, checkedIn: true } : null));
+        setScanState('success');
+
+        // Auto-restart after 2.5s
+        setTimeout(async () => {
+          setTicket(null);
+          setScannedData(null);
+          setError('');
+          setScanState('scanning');
+          await startScanner();
+        }, 2500);
       } else {
         setError(data.message || 'Check-in failed');
       }
-    } catch (err) {
-      setError('Failed to check in. Please try again.');
+    } catch {
+      setError('Check-in error');
     } finally {
       setCheckingIn(false);
     }
   };
 
-  const resetScanner = () => {
-    setScanning(true);
+  // ─── MANUAL RESTART (Scan Another / Scan Next buttons) ───────────────────
+  const restartScanner = async () => {
     setTicket(null);
-    setError('');
     setScannedData(null);
+    setError('');
+    setScanState('scanning');
+    await startScanner();
   };
 
+  // ─── RENDER ───────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg- py-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-black text-white px-4 py-10">
       <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Decave</h1>
-          <p className="text-purple-200">Ticket Check-In Scanner</p>
+
+        {/* HEADER */}
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold">Decave Scanner</h1>
+          <p className="text-purple-300 text-sm">Fast Ticket Check-In</p>
         </div>
 
-        {/* Scanner Card */}
-        <div className="bg-white text-black rounded-2xl shadow-2xl overflow-hidden">
-          {scanning && (
-            <div className="p-6">
-              <div className="mb-4 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-3">
-                  <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                  </svg>
-                </div>
-                <h2 className="text-xl font-semibold text-gray-800">Scan Ticket QR Code</h2>
-                <p className="text-sm text-gray-500 mt-1">Position the QR code within the frame</p>
-              </div>
-              
-              <div id="qr-reader" className="w-full rounded-lg overflow-hidden"></div>
-              
-              {error && (
-                <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                  <p className="text-sm">{error}</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Loading State */}
-          {loading && (
-            <div className="p-12 text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600 mb-4"></div>
-              <p className="text-gray-600">Verifying ticket...</p>
-            </div>
-          )}
-
-          {/* Ticket Details */}
-          {ticket && !loading && (
-            <div className="p-6">
-              {/* Status Badge */}
-              <div className="text-center mb-6">
-                {!ticket.checkedIn ? (
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-3">
-                    <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                ) : (
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-orange-100 rounded-full mb-3">
-                    <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                  </div>
-                )}
-                <h2 className={`text-2xl font-bold ${ticket?.checkedIn ? 'text-orange-600' : 'text-green-600'}`}>
-                  {ticket.checkedIn ? 'Already Checked In' : 'Valid Ticket'}
-                </h2>
-              </div>
-
-              {/* Ticket Info */}
-              <div className="space-y-4 mb-6">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Event</p>
-                  <p className="font-semibold text-gray-800">{ticket?.event?.eventDetails?.eventTitle}</p>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Ticket ID</p>
-                  <p className="font-mono font-semibold text-gray-800">{ticket?.ticketId}</p>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Attendee Name</p>
-                  <p className="font-semibold text-gray-800">{ticket?.fullName}</p>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Email</p>
-                  <p className="text-gray-800">{ticket?.email}</p>
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Phone Number</p>
-                  <p className="text-gray-800">{ticket?.phoneNumber}</p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-3">
-                {!ticket.checkedIn ? (
-                  <button
-                    onClick={handleCheckIn}
-                    disabled={checkingIn}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                  >
-                    {checkingIn ? (
-                      <span className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Checking In...
-                      </span>
-                    ) : (
-                      'Check In Attendee'
-                    )}
-                  </button>
-                ) : (
-                  <div className="bg-orange-50 border border-orange-200 text-orange-700 px-4 py-3 rounded-xl text-center">
-                    <p className="font-semibold">This ticket has already been used</p>
-                    <p className="text-sm mt-1">Scanned at a previous time</p>
-                  </div>
-                )}
-
-                <button
-                  onClick={resetScanner}
-                  className="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
-                >
-                  Scan Another Ticket
-                </button>
-              </div>
-
-              {error && (
-                <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                  <p className="text-sm">{error}</p>
-                </div>
-              )}
-            </div>
-          )}
+        {/*
+          The #qr-reader div MUST always stay mounted in the DOM.
+          Html5Qrcode needs the element to exist when .start() is called.
+          We use CSS (hidden) to hide it instead of conditional rendering.
+        */}
+        <div className={scanState === 'scanning' ? 'block' : 'hidden'}>
+          <div className="bg-white rounded-2xl p-4 shadow-xl">
+            <div id="qr-reader" className="w-full rounded-xl overflow-hidden" />
+            {error && (
+              <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
+            )}
+          </div>
         </div>
+
+        {/* LOADING */}
+        {scanState === 'loading' && (
+          <div className="text-center py-10">
+            <div className="animate-spin h-10 w-10 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-3" />
+            <p>Verifying ticket...</p>
+          </div>
+        )}
+
+        {/* ✅ SUCCESS STATE */}
+        {scanState === 'success' && ticket && (
+          <div className="bg-white text-black rounded-2xl p-6 shadow-xl space-y-4 text-center">
+            <div className="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mx-auto">
+              <svg className="w-9 h-9 text-green-600" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-green-600">Checked In Successfully!</h2>
+            <div className="text-sm text-gray-600 space-y-1">
+              <p><strong className="text-black">{ticket.fullName}</strong></p>
+              <p>{ticket.event?.eventDetails?.eventTitle}</p>
+            </div>
+            <p className="text-xs text-gray-400">Restarting scanner...</p>
+          </div>
+        )}
+
+        {/* RESULT — valid ticket or already checked in */}
+        {scanState === 'result' && ticket && (
+          <div className="bg-white text-black rounded-2xl p-6 shadow-xl space-y-4">
+
+            <div className="text-center">
+              {ticket.checkedIn ? (
+                <div className="bg-orange-50 border border-orange-200 rounded-xl px-4 py-3">
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    </svg>
+                    <h2 className="text-lg font-bold text-green-600">Ticket Checked In</h2>
+                  </div>
+                  <p className="text-xs text-green-500">This ticket has been checked in Successfully.</p>
+                </div>
+              ) : (
+                <h2 className="text-xl font-bold text-green-600">Valid Ticket ✓</h2>
+              )}
+            </div>
+
+            <div className="space-y-2 text-sm">
+              <p><strong>Event:</strong> {ticket?.event?.eventDetails?.eventTitle}</p>
+              <p><strong>Name:</strong> {ticket?.fullName}</p>
+              <p><strong>Email:</strong> {ticket?.email}</p>
+              <p><strong>Ticket ID:</strong> {ticket?.ticketId}</p>
+            </div>
+
+            {/* Check In button — only for tickets not yet checked in */}
+            {!ticket.checkedIn && (
+              <button
+                onClick={handleCheckIn}
+                disabled={checkingIn}
+                className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold disabled:opacity-60"
+              >
+                {checkingIn ? 'Checking in...' : 'Check In'}
+              </button>
+            )}
+
+            {/* Scan Another / Scan Next — always visible */}
+            <button
+              onClick={restartScanner}
+              className="w-full bg-gray-100 hover:bg-gray-200 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              {ticket.checkedIn ? 'Scan Another Ticket' : 'Scan Next'}
+            </button>
+
+            {error && (
+              <p className="text-red-500 text-sm text-center">{error}</p>
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   );
