@@ -122,7 +122,7 @@ export default function TicketScanner() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/tickets/check-in', {
+      const res = await fetch('https://decave-demo-server.vercel.app/api/tickets/check-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(scannedData),
