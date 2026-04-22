@@ -93,6 +93,7 @@ export default function TicketScanner() {
       try {
         const res = await fetch(
           `https://decave-demo-server.vercel.app/api/payment/check-in?txnId=${txnId}&ticketId=${ticketId}`
+          
         );
         const data = await res.json();
 
@@ -122,7 +123,7 @@ export default function TicketScanner() {
     setError('');
 
     try {
-      const res = await fetch('https://decave-demo-server.vercel.app/api/tickets/check-in', {
+      const res = await fetch('https://decave-demo-server.vercel.app/api/payment/check-in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(scannedData),

@@ -67,11 +67,12 @@ const HeroSection = () => {
                     </Button>
                
                     <Button 
-                    href='/partners'
+                    href='https://events.decavemgt.com/dashboard/events'
                         variant="outline"
                         className="w-full sm:w-auto"
+                        external
                     >
-                        Join The Movement
+                        Create Your Event
                     </Button>
                 </div>
             </div>

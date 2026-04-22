@@ -1,6 +1,7 @@
 import CallToActionWrapper from "@/components/home/CallToActionWrapper";
 import HeroSection from "@/components/home/heroSection";
 import Memories from "@/components/home/Memories";
+import OtherUpcomingEventsClient from "@/components/home/OtherUpcomingEvent";
 import OurPartners from "@/components/home/OurPartners";
 import ScrollContent from "@/components/home/scrollContent";
 import UpcomingEvents from "@/components/home/UpcomingEvents";
@@ -12,6 +13,7 @@ const page = () => {
       <HeroSection />
       <ScrollContent />
       <UpcomingEvents />
+      <OtherUpcomingEventsClient/>
       <WhatWeStandFor />
       <Memories />
       <OurPartners />

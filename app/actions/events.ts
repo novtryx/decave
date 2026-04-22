@@ -159,14 +159,14 @@ export async function getEventById(eventId: string): Promise<Event> {
  */
 export async function getPublishedEvents(params?: { page?: number; limit?: number }): Promise<EventsResponse> {
   const allEvents = await getEvents(params);
-  const publishedEvents = allEvents.data.filter((event) => event.published);
+  const publishedEvents = allEvents?.data?.filter((event) => event?.published);
 
   return {
     ...allEvents,
     data: publishedEvents,
     pagination: {
-      ...allEvents.pagination,
-      total: publishedEvents.length,
+      ...allEvents?.pagination,
+      total: publishedEvents?.length,
     },
   };
 }
@@ -176,14 +176,14 @@ export async function getPublishedEvents(params?: { page?: number; limit?: numbe
  */
 export async function getActiveEvents(params?: { page?: number; limit?: number }): Promise<EventsResponse> {
   const allEvents = await getEvents(params);
-  const activeEvents = allEvents.data.filter((event) => event.isEventActive);
+  const activeEvents = allEvents?.data?.filter((event) => event?.isEventActive);
 
   return {
     ...allEvents,
     data: activeEvents,
     pagination: {
-      ...allEvents.pagination,
-      total: activeEvents.length,
+      ...allEvents?.pagination,
+      total: activeEvents?.length,
     },
   };
 }

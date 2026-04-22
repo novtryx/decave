@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import React, { useState } from 'react'
+import Button from './Button';
 
 interface NavType{
     name: string;
@@ -63,6 +64,12 @@ const Header = () => {
                             </Link>
                         ))
                     }
+                    <Button
+                        href='https://events.decavemgt.com/dashboard/events'
+                        external
+                    >
+                        Create Event
+                    </Button>
                 </nav>
 
                 {/* Mobile menu button */}
@@ -93,6 +100,12 @@ const Header = () => {
                             </Link>
                         ))
                     }
+                     <Button
+                        href='https://events.decavemgt.com/dashboard/events'
+                        external
+                    >
+                        Create Event
+                    </Button>
                 </div>
             </nav>
         </div>
