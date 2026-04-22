@@ -30,6 +30,8 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
     return `${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${end.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
   };
 
+  if (events?.length === 0) return null
+
   return (
     <div className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-8 sm:gap-10 lg:gap-12'>
         <SectionHeader 
@@ -42,9 +44,9 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
         
         {/* Centered grid container */}
         <div className="w-full max-w-7xl mx-auto">
-            {events.length > 0 ? (
+            {events?.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 place-items-center sm:place-items-stretch">
-                    {events.map((event) => (
+                    {events?.map((event) => (
                         <ImageCard 
                             key={event._id}
                             image={event.eventDetails.eventBanner || "/card-image.png"}
