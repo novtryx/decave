@@ -64,13 +64,13 @@ const OtherUpcomingEventsClient = () => {
   }
 
   return (
-    <div className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-8 sm:gap-10 lg:gap-12">
+    <div className="pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-8 sm:gap-10 lg:gap-12">
       
       {/* HEADER */}
       <SectionHeader
         icon={IoMusicalNotesSharp}
         iconColor="#7B3FE4"
-        label="What's Next?"
+        label="Approved by DeCave"
         title="Discover Events from Other Organizers"
 description="Explore events created by other organizers and find something new to attend."
       />
@@ -106,7 +106,7 @@ description="Explore events created by other organizers and find something new t
       </div>
 
       {/* VIEW MORE */}
-      {/* <ViewMoreButton href="/events" text="View All Events" /> */}
+      <ViewMoreButton href="/events" text="View All Events" />
     </div>
   );
 };

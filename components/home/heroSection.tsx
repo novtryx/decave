@@ -50,7 +50,7 @@ const HeroSection = () => {
                         <span className='text-[#B3B3B3]'>Where</span> culture <span className='text-[#B3B3B3]'>meets</span> <span className='text-[#CCA33A]'>experience</span>
                     </p>
                     <p className='text-[#B3B3B3] text-sm sm:text-base md:text-lg leading-relaxed px-4 sm:px-0'>
-                       We do not simply organize events. We design environments where people, energy, and creativity converge — spaces that are felt, remembered, and lived beyond the moment.
+                       DeCave is a platform for event creators and communities. List your events, sell tickets, and stay in control; with the option to access creative support when needed.
                     </p>
                 </div>
 
@@ -72,7 +72,7 @@ const HeroSection = () => {
                         className="w-full sm:w-auto"
                         external
                     >
-                        Create Your Event
+                        Start Your Event
                     </Button>
                 </div>
             </div>

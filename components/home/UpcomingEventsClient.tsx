@@ -76,7 +76,7 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
             )}
         </div>
         
-        <ViewMoreButton href='/events' text='View All Events'/>
+        {/* <ViewMoreButton href='/events' text='View All Events'/> */}
     </div>
   )
 }
