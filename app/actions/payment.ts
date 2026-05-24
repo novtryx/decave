@@ -14,6 +14,7 @@ export type PurchaseRequest = {
   ticketId: string;
   amount: number;
   buyers: Buyer[]; 
+  referralCode?: string;
 };
 
 
@@ -48,21 +49,45 @@ export async function purchaseTicket(purchaseData: PurchaseRequest): Promise<Pur
 
 // Add this to your actions/payment.ts
 export async function verifyPayment(reference: string): Promise<any> {
-  try {
-    console.log(`Verifying payment with reference: ${reference}`);
-    
-    const response = await publicFetch(`/payment/verify/${reference}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const MAX_RETRIES = 8;
+  const RETRY_DELAY = 2000;
 
-    console.log("Verification response:", response);
-    return response;
-    
-  } catch (error: any) {
-    console.error("Verification error:", error);
-    throw new Error(error?.message || "Failed to verify payment");
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`Attempt ${attempt}: fetching transaction for reference ${reference}`);
+
+      const response: any = await publicFetch(`/payment/transaction/${reference}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Webhook still processing — wait and retry
+      if (response?.status === "pending") {
+        console.log(`Attempt ${attempt}: still pending, retrying in ${RETRY_DELAY}ms...`);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        continue;
+      }
+
+      console.log("Transaction fetched:", response);
+      return response;
+
+    } catch (error: any) {
+      // If it's a 202 or "still processing" error, retry
+      if (error?.statusCode === 202 || error?.message?.includes("processing")) {
+        console.log(`Attempt ${attempt}: processing, retrying...`);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+        continue;
+      }
+
+      // Any other error — throw immediately
+      console.error("Transaction fetch error:", error);
+      throw new Error(error?.message || "Failed to fetch transaction");
+    }
   }
+
+  throw new Error(
+    "Your payment was received but is taking a moment to confirm. Please check your email for your ticket or contact support."
+  );
 }
