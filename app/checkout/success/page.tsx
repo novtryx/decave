@@ -90,12 +90,11 @@ function PaymentSuccessContent() {
           router.push(`/checkout/error?reason=${errorReason}`);
         }
       } catch (err: any) {
-        console.error("Verification error:", err);
-        // Redirect to error page with error message
-        const errorReason = encodeURIComponent(
-          err.message || "Failed to verify payment",
-        );
-        router.push(`/checkout/error?reason=${errorReason}`);
+          console.error("Verification error:", err);
+          const errorReason = encodeURIComponent(
+            err.message || "Failed to fetch transaction"  // updated message
+          );
+          router.push(`/checkout/error?reason=${errorReason}`);
       } finally {
         setIsLoading(false);
       }

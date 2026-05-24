@@ -279,6 +279,8 @@ export default function Checkout() {
   const [ticketData, setTicketData] = useState<TicketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [referralCode, setReferralCode] = useState("");
+const [referralStatus, setReferralStatus] = useState<"idle" | "valid" | "invalid">("idle");
   const [contactInfo, setContactInfo] = useState<ContactInfo>({
     firstName: "",
     lastName: "",
@@ -368,6 +370,16 @@ export default function Checkout() {
     loadTicketData();
   }, [router]);
 
+const handleValidateReferral = async () => {
+  if (!referralCode.trim()) return;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment/validate?code=${referralCode.trim()}`);
+    setReferralStatus(res.ok ? "valid" : "invalid");
+  } catch {
+    setReferralStatus("invalid");
+  }
+};
+
   const handleProceedToPayment = async (qty: number) => {
     console.log("=== PAYMENT PROCESS STARTED ===");
     
@@ -453,12 +465,14 @@ export default function Checkout() {
         }
       }
 
+      
       // Create purchase request
       const purchaseRequest: PurchaseRequest = {
         eventId: ticketData.eventId,
         ticketId: ticketData.id,
         amount: total, // Send TOTAL amount including service fee
-        buyers: buyers
+        buyers: buyers,
+        ...(referralCode.trim() && { referralCode: referralCode.trim() })
       };
 
       console.log("Sending purchase request:", purchaseRequest);
@@ -550,6 +564,37 @@ export default function Checkout() {
             title="Buyer Information"
             description="Fill out your contact details"
           />
+          {/* Referral Code */}
+<div className="mt-6 bg-[#151515] px-4 py-4 rounded-2xl">
+  <h3 className="text-[#F9F7F4] font-semibold text-lg mb-1">Have a referral code?</h3>
+  <p className="text-[#b3b3b3] text-sm mb-3">Enter it to get a discount on your ticket</p>
+  <div className="flex gap-2">
+    <input
+      type="text"
+      value={referralCode}
+      onChange={(e) => {
+        setReferralCode(e.target.value.toUpperCase());
+        setReferralStatus("idle");
+      }}
+      placeholder="e.g. JOHN2024"
+      disabled={isProcessing}
+      className="flex-1 bg-[#0f0f0f] border border-[#2a2a2a] text-[#F9F7F4] rounded-lg px-4 py-2 text-sm placeholder-[#555] focus:outline-none focus:border-[#CCA33A]"
+    />
+    <button
+      onClick={handleValidateReferral}
+      disabled={!referralCode.trim() || isProcessing}
+      className="px-4 py-2 bg-[#CCA33A] text-black text-sm font-semibold rounded-lg disabled:opacity-40"
+    >
+      Apply
+    </button>
+  </div>
+  {referralStatus === "valid" && (
+    <p className="text-green-400 text-sm mt-2">✓ Referral code applied — you'll get 10% off</p>
+  )}
+  {referralStatus === "invalid" && (
+    <p className="text-red-400 text-sm mt-2">✗ Invalid referral code</p>
+  )}
+</div>
 
           {/* Add Attendees Toggle - Only show if quantity > 1 */}
           {quantity > 1 && (
