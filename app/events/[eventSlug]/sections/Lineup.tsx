@@ -19,7 +19,7 @@ interface LineupType{
 
 const Lineup = ({Lineup}: {Lineup: LineupType[]}) => {
 
-console.log("lines", Lineup)
+// console.log("lines", Lineup)
     if(Lineup?.length === 0){
         return null
     }

@@ -32,6 +32,7 @@ interface FeaturedEventCardProps {
   eventDate?: Date;
   buttonText?: string;
   onViewDetails: () => void;
+  color?: string;
 }
 
 export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({ 
@@ -45,10 +46,14 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
   dateRange, 
   location, 
   buttonText,
-  onViewDetails 
+  onViewDetails, 
+  color
 }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-4 sm:gap-6 bg-zinc-900 rounded-lg overflow-hidden max-w-8xl">
+    <div
+      className="flex flex-col md:flex-row gap-4 sm:gap-6 bg-zinc-900 rounded-lg overflow-hidden max-w-8xl"
+      style={{ "--color-accent": color ?? "#cca33a" } as React.CSSProperties}
+    >
       {/* Image Section */}
       <div className="relative md:w-1/2 h-64 sm:h-80 md:h-auto md:min-h-100 lg:min-h-125">
         <Image 
@@ -74,9 +79,9 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
 
       {/* Content Section */}
       <div className="md:w-1/2 py-6 px-4 sm:py-10 sm:px-8 lg:py-20 lg:px-14 flex flex-col justify-center">
-        <div className='bg-[#0854a7] h-0.5 w-12 sm:w-16'></div>
+        <div className='h-0.5 w-12 sm:w-16' style={{ backgroundColor: "var(--color-accent)" }}></div>
         {category && (
-          <div className="text-[#0854a7] mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 sm:mb-3">
+          <div className="mt-1 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 sm:mb-3" style={{ color: "var(--color-accent)" }}>
             {category}
           </div>
         )}
@@ -98,14 +103,14 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
         <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
           {dateRange && (
             <div className="flex items-center gap-2 sm:gap-3 text-zinc-300 text-sm sm:text-base">
-              <MdCalendarMonth className='text-base sm:text-lg text-[#cca33a]' />
+              <MdCalendarMonth className='text-base sm:text-lg' style={{ color: "var(--color-accent)" }} />
               <span>{dateRange}</span>
             </div>
           )}
           
           {location && (
             <div className="flex items-start gap-2 sm:gap-3 text-zinc-300 text-sm sm:text-base">
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 text-[#cca33a] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 shrink-0" style={{ color: "var(--color-accent)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -116,7 +121,10 @@ export const FeaturedEventCard: React.FC<FeaturedEventCardProps> = ({
 
         <button 
           onClick={onViewDetails}
-          className="bg-[#cca33a] cursor-pointer hover:bg-yellow-700 text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-colors duration-200 flex items-center justify-center gap-2 group text-sm sm:text-base w-full sm:w-auto xs:text-base active:scale-95 touch-manipulation select-none"
+          className="cursor-pointer text-white font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-colors duration-200 flex items-center justify-center gap-2 group text-sm sm:text-base w-full sm:w-auto xs:text-base active:scale-95 touch-manipulation select-none"
+          style={{ backgroundColor: "var(--color-accent)" }}
+          onMouseEnter={e => (e.currentTarget.style.filter = "brightness(0.8)")}
+          onMouseLeave={e => (e.currentTarget.style.filter = "brightness(1)")}
         >
           {buttonText}
           <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

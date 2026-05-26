@@ -18,6 +18,7 @@ import EventFAQ from "./sections/EventFAQ";
 import LineUpImageCard from "@/components/artists/LineUpImageCard";
 import Lineup from "./sections/Lineup";
 import VideoFeatureTimeline from "@/components/layout/VideoFeatureTimeline";
+import { color } from "framer-motion";
 
 interface EventDetailsProps {
   event: Event;
@@ -121,10 +122,12 @@ export default function EventDetails({ event }: EventDetailsProps) {
         dateRange={formatDateRange()}
         isEventPast={isEventPast}
         onTicketPurchase={handleTicketPurchase}
+        color={event.eventDetails.brandColor.primaryColor}
       />
 
       {/* Event Experience */}
       <EventExperience
+      color={event.eventDetails.brandColor.primaryColor}
         eventTitle={event.eventDetails.eventTitle}
         venue={event.eventDetails.venue}
         experienceSlides={experienceSlides}
@@ -150,11 +153,11 @@ export default function EventDetails({ event }: EventDetailsProps) {
 
       {/* Safety & Contacts */}
       {event.emergencyContact && (
-        <EventSafetyAndContact emergencyContact={event.emergencyContact} />
+        <EventSafetyAndContact color={event.eventDetails.brandColor.primaryColor} emergencyContact={event.emergencyContact} />
       )}
 
       {/* Frequently asked questions */}
-      <EventFAQ faqData={event.faq} />
+      <EventFAQ  faqData={event.faq} color={event.eventDetails.brandColor.primaryColor} />
 
       {/* What to Bring */}
       <section className="px-4 sm:px-6 lg:px-16 bg-[#151515] py-10 sm:py-12 lg:py-16">

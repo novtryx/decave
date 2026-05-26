@@ -6,8 +6,9 @@ interface faqDataType{
     _id: string;
     question: string;
     answer: string;
+    
 }
-export default function EventFAQ({faqData }: {faqData: faqDataType[] }) {
+export default function EventFAQ({faqData, color }: {faqData: faqDataType[], color: string }) {
     
 
     const eventTitle = "DeCave"
@@ -16,7 +17,7 @@ export default function EventFAQ({faqData }: {faqData: faqDataType[] }) {
             <SectionHeader 
                 align="center"
                 title="Questions? We've got you covered"
-                titleColor="#cca33a"
+                titleColor={color}
                 description={`From tickets to venue details, find answers to the most common questions about ${eventTitle}`}
             />
 
