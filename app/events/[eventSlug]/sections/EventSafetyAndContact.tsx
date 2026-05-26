@@ -12,10 +12,12 @@ interface EventSafetyAndContactProps {
     lostButFound: string;
     supportingInfo: string;
   };
+  color: string
 }
 
 export default function EventSafetyAndContact({
   emergencyContact,
+  color
 }: EventSafetyAndContactProps) {
   return (
     <section className="px-4 sm:px-6 lg:px-16 bg-[#151515] py-10 sm:py-12 lg:py-16">
@@ -34,6 +36,7 @@ export default function EventSafetyAndContact({
                 icon={item.icon}
                 title={item.title}
                 description={item.description}
+                iconColor={color}
               />
             ))}
           </div>
@@ -48,16 +51,19 @@ export default function EventSafetyAndContact({
           </p>
           <div className="mt-4 flex flex-col gap-4 border-b pb-4 border-[#2a2a2a]">
             <ContactCard
+            color={color}
               title="Security"
               content={emergencyContact.security}
               subtext="24/7 Security Support"
             />
             <ContactCard
+            color={color}
               title="Medical"
               content={emergencyContact.medical}
               subtext="Emergency Medical Services"
             />
             <ContactCard
+            color={color}
               title="Lost & Found"
               content={emergencyContact.lostButFound}
               subtext="Lost Items Assistance"

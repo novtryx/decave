@@ -65,6 +65,8 @@ export default function EventCallToAction({
           <Button
             variant="primary"
             icon="arrow"
+            color={brandColor.primaryColor}
+          
             onClick={() => onScrollToTickets("tickets-section")}
             className="w-fit sm:w-auto mt-2"
           >

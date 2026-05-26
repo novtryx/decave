@@ -23,6 +23,7 @@ interface EventTicketsProps {
   dateRange: string;
   isEventPast: boolean;
   onTicketPurchase: (ticketId: string) => void;
+  color:string;
 }
 
 export default function EventTickets({
@@ -32,6 +33,7 @@ export default function EventTickets({
   dateRange,
   isEventPast,
   onTicketPurchase,
+  color
 }: EventTicketsProps) {
   if (!tickets || tickets.length === 0) return null;
 
@@ -98,6 +100,7 @@ export default function EventTickets({
           popular={ticket.ticketName.toLowerCase().includes("vip")}
           onBuyClick={() => !isSoldOut && !isEventPast && onTicketPurchase(ticket._id)}
           disabled={isEventPast || isSoldOut} // disable button if sold out or event ended
+          color={color}
         />
       );
     })}

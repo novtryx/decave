@@ -15,12 +15,14 @@ interface EventExperienceProps {
     title: string;
     description: string;
   }>;
+  color: string
 }
 
 export default function EventExperience({
   eventTitle,
   venue,
   experienceSlides,
+  color
 }: EventExperienceProps) {
   if (!experienceSlides || experienceSlides.length === 0) return null;
 
@@ -36,7 +38,7 @@ export default function EventExperience({
       <div  className="mt-10 sm:mt-12 lg:mt-16">
         <ImageSlider slides={experienceSlides} />
       </div>
-      <ViewMoreButton text="Explore Gallery" href="/gallery"/>
+      <ViewMoreButton color={color} text="Explore Gallery" href="/gallery"/>
     </section>
   );
 }
