@@ -112,7 +112,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
       />
 
       
-      <Lineup Lineup={event.artistLineUp} />
+      
 
       {/* Tickets Section */}
       <EventTickets
@@ -124,6 +124,8 @@ export default function EventDetails({ event }: EventDetailsProps) {
         onTicketPurchase={handleTicketPurchase}
         color={event.eventDetails.brandColor.primaryColor}
       />
+
+      <Lineup Lineup={event.artistLineUp} />
 
       {/* Event Experience */}
       <EventExperience

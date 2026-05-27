@@ -33,8 +33,8 @@ const Header = () => {
             link: "/gallery"
         },
         {
-            name: "Partners",
-            link: "/partners"
+            name: "Influencers",
+            link: "https://events.decavemgt.com/influencers"
         },
         {
             name: "Contact",
