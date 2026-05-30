@@ -33,7 +33,7 @@ export default function EventTickets({
   dateRange,
   isEventPast,
   onTicketPurchase,
-  color
+  color,
 }: EventTicketsProps) {
   if (!tickets || tickets.length === 0) return null;
 

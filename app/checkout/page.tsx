@@ -245,8 +245,8 @@
 
 import ContactInformation from "@/components/checkout/sections/ContactInformation";
 import OrderSummary from "@/components/checkout/sections/OrderSummary";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { BiLock } from "react-icons/bi";
 import { BsArrowLeft } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
@@ -274,7 +274,9 @@ export interface ContactInfo {
   phoneNumber: string;
 }
 
-export default function Checkout() {
+function Checkout() {
+  const searchParams = useSearchParams();
+
   const router = useRouter();
   const [ticketData, setTicketData] = useState<TicketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -293,6 +295,17 @@ const [referralStatus, setReferralStatus] = useState<"idle" | "valid" | "invalid
   const [additionalAttendees, setAdditionalAttendees] = useState<ContactInfo[]>([]);
   
   const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+  const referral = searchParams.get("referral");
+  if (referral) {
+    setReferralCode(referral.toUpperCase());
+    // auto-validate it
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment/validate?code=${referral.trim()}`)
+      .then(res => setReferralStatus(res.ok ? "valid" : "invalid"))
+      .catch(() => setReferralStatus("invalid"));
+  }
+}, [searchParams]);
 
   // Update additional attendees array when quantity changes
   useEffect(() => {
@@ -589,7 +602,7 @@ const handleValidateReferral = async () => {
     </button>
   </div>
   {referralStatus === "valid" && (
-    <p className="text-green-400 text-sm mt-2">✓ Referral code applied — you'll get 10% off</p>
+    <p className="text-green-400 text-sm mt-2">✓ Referral code applied</p>
   )}
   {referralStatus === "invalid" && (
     <p className="text-red-400 text-sm mt-2">✗ Invalid referral code</p>
@@ -666,5 +679,13 @@ const handleValidateReferral = async () => {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Checkout />
+    </Suspense>
   );
 }
