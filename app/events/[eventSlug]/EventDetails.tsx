@@ -22,9 +22,10 @@ import { color } from "framer-motion";
 
 interface EventDetailsProps {
   event: Event;
+  referral?: string;
 }
 
-export default function EventDetails({ event }: EventDetailsProps) {
+export default function EventDetails({ event, referral }: EventDetailsProps) {
   const router = useRouter();
 
   const startDate = new Date(event.eventDetails.startDate);
@@ -67,7 +68,7 @@ export default function EventDetails({ event }: EventDetailsProps) {
       }),
     );
 
-    router.push(`/checkout?ticket=${ticket._id}`);
+router.push(`/checkout?ticket=${ticket._id}${referral ? `&referral=${referral}` : ""}`);
   };
 
   const handleScrollToTickets = (path: string) => {

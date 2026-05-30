@@ -25,6 +25,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   onBuyClick,
   disabled = false,
   color = "#cca33a",
+  
 }) => {
   return (
     <div

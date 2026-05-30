@@ -5,10 +5,15 @@ import { slugToTitle } from "@/utils/slugify";
 
 export default async function EventPage({
   params,
+  searchParams
 }: {
   params: Promise<{ eventSlug: string }>;
+    searchParams: Promise<{ ref?: string }>;
+
 }) {
   const { eventSlug } = await params; 
+    const { ref } = await searchParams;  // your referral code
+
   
   // Convert slug back to title
   const eventTitle = slugToTitle(eventSlug);
@@ -21,7 +26,7 @@ export default async function EventPage({
       notFound();
     }
 
-    return <EventDetails event={event} />;
+    return <EventDetails event={event} referral={ref}/>;
   } catch (error) {
     console.error("Failed to fetch event:", error);
     notFound();
