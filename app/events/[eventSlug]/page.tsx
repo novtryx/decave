@@ -36,8 +36,14 @@ export async function generateMetadata({
   const description =
     event.aboutEvent?.description ??
     `Join us for ${title} — ${eventDetails.eventType} at ${eventDetails.venue}, ${eventDetails.address}.`;
+const rawImage = eventDetails.eventBanner ?? null;
 
-  const image = eventDetails.eventBanner ?? eventDetails.eventBanner ?? null;
+// ensure absolute URL
+const image = rawImage
+  ? rawImage.startsWith("http")
+    ? rawImage
+    : `${process.env.NEXT_PUBLIC_SITE_URL}${rawImage}`
+  : null;
 
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/events/${eventSlug}`;
 
@@ -46,22 +52,18 @@ export async function generateMetadata({
     description,
 
     openGraph: {
-      type: "website",
-      url,
-      title,
-      description,
-      siteName: "deCave",        // ← change to your site name
-      ...(image && {
-        images: [
-          {
-            url: image,
-            width: 1200,
-            height: 630,
-            alt: title,
-          },
-        ],
-      }),
-    },
+  ...(image && {
+    images: [
+      {
+        url: image,
+        width: 1200,
+        height: 630,
+        alt: title,
+        type: "image/jpeg",  // or image/png — match your actual format
+      },
+    ],
+  }),
+},
 
     twitter: {
       card: "summary_large_image",
