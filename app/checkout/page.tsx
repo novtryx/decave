@@ -2,6 +2,7 @@
 
 import ContactInformation from "@/components/checkout/sections/ContactInformation";
 import OrderSummary from "@/components/checkout/sections/OrderSummary";
+import CocktailPicker from "@/components/checkout/sections/CocktailPicker";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { BiLock } from "react-icons/bi";
@@ -9,6 +10,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { MdOutlineShield } from "react-icons/md";
 import { purchaseTicket, PurchaseRequest } from "@/app/actions/payment";
+import { getEventById, Cocktail } from "@/app/actions/events";
 
 export interface TicketData {
   id: string;
@@ -52,6 +54,41 @@ const [referralStatus, setReferralStatus] = useState<"idle" | "valid" | "invalid
   const [additionalAttendees, setAdditionalAttendees] = useState<ContactInfo[]>([]);
   
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Cocktail add-ons — fetched fresh from the event (not cached in
+  // sessionStorage with the ticket) so stock/pricing is always current.
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+  const [cocktailQuantities, setCocktailQuantities] = useState<Record<string, number>>({});
+  const COCKTAIL_DISCOUNT_PERCENT = 20;
+
+  useEffect(() => {
+    if (!ticketData?.eventId) return;
+    getEventById(ticketData.eventId)
+      .then((event) => {
+        console.log("Fetched event for cocktails:", event);
+        console.log("Cocktails on this event:", event.cocktails);
+        setCocktails(event.cocktails || []);
+
+      })
+      .catch((err) => {
+        console.error("Failed to fetch cocktails for event:", ticketData.eventId, err);
+        setCocktails([]);
+      });
+  }, [ticketData?.eventId]);
+
+  const handleCocktailQuantityChange = (cocktailId: string, quantity: number) => {
+    setCocktailQuantities((prev) => ({ ...prev, [cocktailId]: quantity }));
+  };
+
+  const cocktailSelections = Object.entries(cocktailQuantities)
+    .filter(([, qty]) => qty > 0)
+    .map(([cocktailId, quantity]) => ({ cocktailId, quantity }));
+
+  const cocktailSubtotal = cocktailSelections.reduce((sum, sel) => {
+    const cocktail = cocktails.find((c) => c._id === sel.cocktailId);
+    if (!cocktail) return sum;
+    return sum + cocktail.price * (1 - COCKTAIL_DISCOUNT_PERCENT / 100) * sel.quantity;
+  }, 0);
 
   useEffect(() => {
   const referral = searchParams.get("referral");
@@ -245,9 +282,10 @@ const handleValidateReferral = async () => {
       const purchaseRequest: PurchaseRequest = {
         eventId: ticketData.eventId,
         ticketId: ticketData.id,
-        amount: total, // Send TOTAL amount including service fee
+        amount: total, // Send TOTAL amount including service fee (tickets only — cocktails are priced server-side)
         buyers: buyers,
-        ...(referralCode.trim() && { referralCode: referralCode.trim() })
+        ...(referralCode.trim() && { referralCode: referralCode.trim() }),
+        ...(cocktailSelections.length > 0 && { cocktails: cocktailSelections }),
       };
 
       console.log("Sending purchase request:", purchaseRequest);
@@ -330,6 +368,14 @@ const handleValidateReferral = async () => {
               </div>
             </div>
           </div>
+
+          {/* Cocktail Add-Ons */}
+          <CocktailPicker
+            cocktails={cocktails}
+            quantities={cocktailQuantities}
+            onChange={handleCocktailQuantityChange}
+            disabled={isProcessing}
+          />
 
           {/* Main Buyer Contact Information */}
           <ContactInformation 
@@ -437,6 +483,15 @@ const handleValidateReferral = async () => {
             setQuantity={setQuantity}
             onProceedToPayment={handleProceedToPayment}
             isProcessing={isProcessing}
+            hasReferralDiscount={referralStatus === "valid"}
+            cocktailItems={cocktailSelections.map((sel) => {
+              const cocktail = cocktails.find((c) => c._id === sel.cocktailId)!;
+              return {
+                name: cocktail.name,
+                quantity: sel.quantity,
+                discountedUnitPrice: cocktail.price * (1 - COCKTAIL_DISCOUNT_PERCENT / 100),
+              };
+            })}
           />
         </div>
       </div>

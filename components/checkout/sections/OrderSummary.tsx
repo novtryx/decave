@@ -23,21 +23,38 @@ interface OrderSummaryProps {
   setQuantity: (q: number) => void;
   onProceedToPayment: (quantity: number) => Promise<void>;
   isProcessing: boolean;
+  // Whether a valid referral code is currently applied — shown here
+  // purely for buyer clarity. The backend independently recalculates
+  // and enforces this same 10% discount when the payment is created,
+  // so this display can never be spoofed into an actual discount.
+  hasReferralDiscount?: boolean;
+  // Selected cocktail add-ons, already priced (server confirms/enforces
+  // this same 20% discount and stock availability at purchase time —
+  // this is display only, same trust model as the referral discount).
+  cocktailItems?: { name: string; quantity: number; discountedUnitPrice: number }[];
 }
 
 const MAX_QUANTITY = 5;
+const REFERRAL_DISCOUNT_PERCENT = 10;
 
 export default function OrderSummary({ 
   ticketData, 
   onProceedToPayment, 
   quantity, 
   setQuantity,
-  isProcessing 
+  isProcessing,
+  hasReferralDiscount = false,
+  cocktailItems = [],
 }: OrderSummaryProps) {
 
   const subtotal = ticketData.price * quantity;
   const serviceFee = subtotal * 0.00;
-  const total = subtotal + serviceFee;
+  const referralDiscount = hasReferralDiscount ? subtotal * (REFERRAL_DISCOUNT_PERCENT / 100) : 0;
+  const cocktailSubtotal = cocktailItems.reduce(
+    (sum, item) => sum + item.discountedUnitPrice * item.quantity,
+    0
+  );
+  const total = subtotal + serviceFee - referralDiscount + cocktailSubtotal;
 
   const savings =
     ticketData.originalPrice && ticketData.originalPrice > ticketData.price
@@ -124,6 +141,22 @@ export default function OrderSummary({
             </div>
             <p className="text-[#F9F7F4] font-medium">₦{serviceFee.toLocaleString()}</p>
           </div>
+          {hasReferralDiscount && (
+            <div className="flex justify-between">
+              <p className="text-[#22C55E]">Referral discount ({REFERRAL_DISCOUNT_PERCENT}%)</p>
+              <p className="text-[#22C55E] font-medium">-₦{referralDiscount.toLocaleString()}</p>
+            </div>
+          )}
+          {cocktailItems.map((item) => (
+            <div className="flex justify-between" key={item.name}>
+              <p className="text-[#b3b3b3]">
+                {item.name} × {item.quantity}
+              </p>
+              <p className="text-[#F9F7F4] font-medium">
+                ₦{(item.discountedUnitPrice * item.quantity).toLocaleString()}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* Total */}
