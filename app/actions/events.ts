@@ -1,3 +1,5 @@
+"use server";
+
 import { publicFetch } from "@/lib/publicFetch";
 
 // -------------------------
@@ -31,6 +33,16 @@ export type Ticket = {
   initialQuantity: number;
   availableQuantity: number;
   benefits: string[];
+};
+
+export type Cocktail = {
+  _id: string;
+  name: string;
+  description?: string;
+  price: number;
+  currency: string;
+  initialQuantity: number;
+  availableQuantity: number;
 };
 
 export type ArtistSocials = {
@@ -102,6 +114,7 @@ export type Event = {
   published: boolean;
   eventDetails: EventDetails;
   tickets: Ticket[];
+  cocktails?: Cocktail[];
   artistLineUp: Artist[];
   faq: faqDataType[];
   code:code[];

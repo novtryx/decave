@@ -9,12 +9,18 @@ export type Buyer = {
   phoneNumber: string;
 };
 
+export type CocktailSelection = {
+  cocktailId: string;
+  quantity: number;
+};
+
 export type PurchaseRequest = {
   eventId: string;
   ticketId: string;
   amount: number;
   buyers: Buyer[]; 
   referralCode?: string;
+  cocktails?: CocktailSelection[];
 };
 
 
