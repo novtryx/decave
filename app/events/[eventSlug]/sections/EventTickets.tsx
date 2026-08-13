@@ -7,6 +7,7 @@ import { MdEventBusy } from "react-icons/md";
 import SectionHeader from "@/components/layout/sectionHeader";
 import { CountdownTimer } from "@/components/layout/CountdownTimer";
 import { TicketCard } from "@/components/layout/TicketCard";
+import { getTicketAvailability } from "@/lib/ticketAvailability";
 
 interface EventTicketsProps {
   eventTitle: string;
@@ -18,6 +19,8 @@ interface EventTicketsProps {
     initialQuantity: number;
     availableQuantity: number;
     benefits: string[];
+    saleStartDate?: string | null;
+    saleEndDate?: string | null;
   }>;
   startDate: Date;
   dateRange: string;
@@ -36,6 +39,14 @@ export default function EventTickets({
   color,
 }: EventTicketsProps) {
   if (!tickets || tickets.length === 0) return null;
+
+  const sortedTickets = tickets
+    .slice() // create a copy to avoid mutating props
+    .sort((a, b) => a.price - b.price); // sort by price ascending
+
+  const visibleTickets = sortedTickets.filter(
+    (ticket) => getTicketAvailability(ticket) !== "hidden",
+  );
 
   return (
     <section
@@ -73,15 +84,24 @@ export default function EventTickets({
             </p>
           </div>
         )}
+
+        {!isEventPast && visibleTickets.length === 0 && (
+          <div className="mt-6 sm:mt-8 bg-[#1a1a1a] border border-[#3a3a3a] rounded-xl px-6 py-4 max-w-2xl">
+            <p className="text-[#b3b3b3] text-center text-sm sm:text-base">
+              Ticket sales haven&apos;t opened yet. Check back closer to the event.
+            </p>
+          </div>
+        )}
       </div>
 
+    {visibleTickets.length > 0 && (
     <div className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-2 pt-8 sm:pt-10 border-t border-[#2a2a2a] lg:grid-cols-3 gap-4 sm:gap-6">
-  {tickets
-    .slice() // create a copy to avoid mutating props
-    .sort((a, b) => a.price - b.price) // sort by price ascending
-    .map((ticket) => {
+  {visibleTickets.map((ticket) => {
+      const availability = getTicketAvailability(ticket);
       const soldCount = ticket.initialQuantity - ticket.availableQuantity;
-      const isSoldOut = ticket.availableQuantity === 0;
+      const isComingSoon = availability === "coming_soon";
+      const isSoldOut = availability === "sold_out";
+      const isDisabled = isEventPast || isSoldOut || isComingSoon;
 
       return (
         <TicketCard
@@ -94,17 +114,21 @@ export default function EventTickets({
             isEventPast
               ? "EVENT ENDED"
               : isSoldOut
-                ? "UNAVAILABLE"
-                : `${soldCount} sold`
+                ? "SOLD OUT"
+                : isComingSoon
+                  ? "COMING SOON"
+                  : `${soldCount} sold`
           }
+          disabledLabel={isComingSoon ? "Coming Soon" : "No Longer Available"}
           popular={ticket.ticketName.toLowerCase().includes("vip")}
-          onBuyClick={() => !isSoldOut && !isEventPast && onTicketPurchase(ticket._id)}
-          disabled={isEventPast || isSoldOut} // disable button if sold out or event ended
+          onBuyClick={() => !isDisabled && onTicketPurchase(ticket._id)}
+          disabled={isDisabled}
           color={color}
         />
       );
     })}
 </div>
+    )}
 
     </section>
   );
