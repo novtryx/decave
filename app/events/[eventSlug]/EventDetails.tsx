@@ -19,6 +19,12 @@ import LineUpImageCard from "@/components/artists/LineUpImageCard";
 import Lineup from "./sections/Lineup";
 import VideoFeatureTimeline from "@/components/layout/VideoFeatureTimeline";
 import { color } from "framer-motion";
+import { FaWhatsapp } from "react-icons/fa";
+import Button from "@/components/layout/Button";
+import { getTicketAvailability } from "@/lib/ticketAvailability";
+
+const AFROSPOOK_WHATSAPP_LINK =
+  "https://chat.whatsapp.com/F4lSwC5tUOu6KStqUkz19Y?mode=gi_t";
 
 interface EventDetailsProps {
   event: Event;
@@ -54,6 +60,9 @@ export default function EventDetails({ event, referral }: EventDetailsProps) {
     const ticket = event.tickets.find((t) => t._id === ticketId);
     if (!ticket) return;
 
+      if (getTicketAvailability(ticket) !== "available") return;
+
+
     sessionStorage.setItem(
       "selectedTicket",
       JSON.stringify({
@@ -75,6 +84,10 @@ router.push(`/checkout?ticket=${ticket._id}${referral ? `&referral=${referral}` 
     const section = document.getElementById(path);
     section?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const isAfroSpookEvent = event.eventDetails.eventTitle
+    ?.toLowerCase()
+    .includes("afrospook");
 
   const experienceSlides =
     event.aboutEvent?.content?.map((item, index) => ({
@@ -102,6 +115,41 @@ router.push(`/checkout?ticket=${ticket._id}${referral ? `&referral=${referral}` 
         onBuyTicket={handleScrollToTickets}
       />
 
+    {/* AfroSpook WhatsApp Community */}
+{isAfroSpookEvent && (
+  <section className="px-4 sm:px-6 lg:px-16 py-8 sm:py-10 bg-[#151515] border-b border-[#2a2a2a]">
+    <div
+      className="flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 rounded-2xl px-5 sm:px-8 py-6 sm:py-7"
+      style={{
+        background: `linear-gradient(90deg, ${event.eventDetails.brandColor.primaryColor} 0%, ${event.eventDetails.brandColor.secondaryColor} 100%)`,
+      }}
+    >
+      <div className="flex items-center gap-4 text-center sm:text-left">
+        <FaWhatsapp className="text-white text-4xl sm:text-5xl shrink-0" />
+        <div>
+          <p className="text-white font-bold text-lg sm:text-xl">
+            Join the AfroSpook WhatsApp Community
+          </p>
+          <p className="text-white/85 text-sm sm:text-base">
+            Get updates, connect with other attendees, and stay in the loop.
+          </p>
+        </div>
+      </div>
+      <Button
+        variant="primary"
+        icon={FaWhatsapp}
+        iconPosition="left"
+        color={event.eventDetails.brandColor.primaryColor}
+        href={AFROSPOOK_WHATSAPP_LINK}
+        external
+        className="w-full sm:w-auto shadow-lg shadow-black/20 whitespace-nowrap"
+      >
+        Join WhatsApp Community
+      </Button>
+    </div>
+  </section>
+)}
+
       {/* About Section */}
       <EventAbout
         eventTitle={event.eventDetails.eventTitle}
@@ -112,7 +160,6 @@ router.push(`/checkout?ticket=${ticket._id}${referral ? `&referral=${referral}` 
         artistLineUp={event.artistLineUp}
       />
 
-      
       
 
       {/* Tickets Section */}

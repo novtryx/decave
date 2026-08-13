@@ -12,6 +12,7 @@ interface TicketCardProps {
   isPrimary?: boolean;
   onBuyClick?: () => void;
   disabled?: boolean;
+  disabledLabel?: string;
   color?: string;
 }
 
@@ -24,6 +25,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   isPrimary = false,
   onBuyClick,
   disabled = false,
+  disabledLabel = "No Longer Available",
   color = "#cca33a",
   
 }) => {
@@ -44,18 +46,22 @@ export const TicketCard: React.FC<TicketCardProps> = ({
         </div>
       )}
 
-      {/* Sold Out / Badge */}
+      {/* Sold Out / Coming Soon / Badge */}
       {badge && (
         <div
-          className={`absolute top-4 right-4 text-xs px-3 py-1 rounded-full ${
+          className={`absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${
             badge === "SOLD OUT" || badge === "EVENT ENDED"
               ? "bg-red-500 text-white"
-              : "text-black"
+              : badge === "COMING SOON"
+                ? "bg-[#2a2a2a] border"
+                : "text-black"
           }`}
           style={
-            badge !== "SOLD OUT" && badge !== "EVENT ENDED"
-              ? { backgroundColor: "var(--color-accent)" }
-              : undefined
+            badge === "COMING SOON"
+              ? { borderColor: "var(--color-accent)", color: "var(--color-accent)" }
+              : badge !== "SOLD OUT" && badge !== "EVENT ENDED"
+                ? { backgroundColor: "var(--color-accent)" }
+                : undefined
           }
         >
           {badge}
@@ -128,7 +134,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               : undefined
           }
         >
-          {disabled ? "No Longer Available" : "Buy Ticket"}
+          {disabled ? disabledLabel : "Buy Ticket"}
         </button>
       </div>
     </div>

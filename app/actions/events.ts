@@ -33,6 +33,8 @@ export type Ticket = {
   initialQuantity: number;
   availableQuantity: number;
   benefits: string[];
+  saleStartDate?: string | null;
+  saleEndDate?: string | null;
 };
 
 export type Cocktail = {
