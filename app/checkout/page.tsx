@@ -294,7 +294,7 @@ const handleValidateReferral = async () => {
 
       console.log("Payment response:", response);
 
-      if (!response?.authorization_url) {
+      if (!response?.authorization_url) { 
         throw new Error("No payment URL received");
       }
 
