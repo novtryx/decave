@@ -9,15 +9,19 @@ import Button from "./Button"
 interface ImageCardProps {
   image: string
   title: string
+
   badge?: {
     text: string
     bgColor?: string
     textColor?: string
   }
+
   peopleCount?: string | number
+
   icon?: IconType
   iconGradientFrom?: string
   iconGradientTo?: string
+
   date?: string
   location?: string
   description?: string
@@ -47,7 +51,7 @@ const ImageCard = ({
   className = "",
 }: ImageCardProps) => {
   return (
-    <div
+    <article
       className={`
         group
         flex h-full w-full flex-col
@@ -55,55 +59,133 @@ const ImageCard = ({
         rounded-2xl
         border border-[#292929]
         bg-[#111111]
-        shadow-[0_8px_30px_rgba(0,0,0,0.15)]
-        transition-all duration-300
+        shadow-[0_8px_30px_rgba(0,0,0,0.16)]
+        transition-all duration-300 ease-out
+
         hover:-translate-y-1
         hover:border-[#0854A7]
-        hover:shadow-[0_15px_40px_rgba(8,84,167,0.15)]
+        hover:shadow-[0_18px_45px_rgba(8,84,167,0.14)]
+
         ${className}
       `}
     >
-      {/* IMAGE */}
-      <div className="relative h-52 w-full overflow-hidden bg-[#181818] sm:h-60 md:h-64 lg:h-72">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          priority={false}
+      {/* =====================================================
+          IMAGE
+      ====================================================== */}
+
+      <div
+        className="
+          relative
+          w-full
+          overflow-hidden
+          bg-[#0c0c0c]
+          px-3
+          py-3
+
+          sm:px-4
+          sm:py-4
+        "
+      >
+        {/* Background glow / depth */}
+
+        <div
           className="
-            object-contain
-            p-2
-            transition-transform
-            duration-500
-            group-hover:scale-[1.02]
-          "
-          sizes="
-            (max-width: 640px) 100vw,
-            (max-width: 768px) 50vw,
-            (max-width: 1024px) 33vw,
-            424px
+            pointer-events-none
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.055),transparent_65%)]
           "
         />
 
-        {/* Subtle bottom gradient */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent" />
+        {/* Image frame */}
 
-        {/* Badge */}
+        <div
+          className="
+            relative
+            flex
+            min-h-[210px]
+            w-full
+            items-center
+            justify-center
+            overflow-hidden
+            rounded-xl
+            bg-[#151515]
+
+            sm:min-h-[230px]
+            md:min-h-[250px]
+            lg:min-h-[270px]
+          "
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            priority={false}
+            className="
+              object-contain
+              p-3
+
+              transition-transform
+              duration-500
+              ease-out
+
+              group-hover:scale-[1.025]
+            "
+            sizes="
+              (max-width: 640px) 100vw,
+              (max-width: 768px) 50vw,
+              (max-width: 1024px) 33vw,
+              424px
+            "
+          />
+
+          {/* Image overlay */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              rounded-xl
+              bg-gradient-to-t
+              from-black/20
+              via-transparent
+              to-transparent
+            "
+          />
+        </div>
+
+        {/* =================================================
+            BADGE
+        ================================================== */}
+
         {badge && (
           <div
             className="
-              absolute left-3 top-3
+              absolute
+              left-5
+              top-5
+              z-10
+
               rounded-full
-              px-3 py-1.5
-              text-[11px] font-semibold
-              shadow-sm
-              backdrop-blur-md
-              sm:left-4 sm:top-4
-              sm:px-4 sm:py-2
+              px-3
+              py-1.5
+
+              text-[11px]
+              font-semibold
+
+              shadow-lg
+              backdrop-blur-xl
+
+              sm:left-6
+              sm:top-6
+              sm:px-4
+              sm:py-2
               sm:text-xs
             "
             style={{
-              backgroundColor: badge.bgColor || "rgba(238, 246, 255, 0.9)",
+              backgroundColor:
+                badge.bgColor || "rgba(238, 246, 255, 0.92)",
               color: badge.textColor || "#001D3D",
             }}
           >
@@ -112,35 +194,79 @@ const ImageCard = ({
         )}
       </div>
 
-      {/* CONTENT */}
-      <div className="flex flex-1 flex-col p-4 sm:p-5 md:p-6">
+      {/* =====================================================
+          CONTENT
+      ====================================================== */}
+
+      <div
+        className="
+          flex
+          flex-1
+          flex-col
+          p-4
+
+          sm:p-5
+          md:p-6
+        "
+      >
         <div className="flex-1">
-          {/* ICON */}
+
+          {/* =================================================
+              ICON
+          ================================================== */}
+
           {Icon && (
             <div
               className="
                 mb-4
-                flex h-10 w-10 items-center justify-center
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
                 rounded-xl
-                bg-gradient-to-br from-[#197BE8]/30 to-[#FFA500]/20
-                ring-1 ring-white/10
-                sm:h-11 sm:w-11
+
+                bg-gradient-to-br
+                from-[#197BE8]/30
+                to-[#FFA500]/20
+
+                ring-1
+                ring-white/10
+
+                transition-transform
+                duration-300
+
+                group-hover:scale-105
+
+                sm:h-11
+                sm:w-11
               "
             >
               <Icon
                 size={20}
-                className="text-white sm:h-[22px] sm:w-[22px]"
+                className="
+                  text-white
+                  sm:h-[22px]
+                  sm:w-[22px]
+                "
               />
             </div>
           )}
 
-          {/* TITLE */}
+          {/* =================================================
+              TITLE
+          ================================================== */}
+
           <h2
             className="
               line-clamp-2
-              text-lg font-semibold leading-snug
+
+              text-lg
+              font-semibold
+              leading-snug
               tracking-[-0.02em]
               text-white
+
               sm:text-xl
               md:text-2xl
             "
@@ -148,42 +274,93 @@ const ImageCard = ({
             {title}
           </h2>
 
-          {/* DATE / LOCATION */}
+          {/* =================================================
+              DATE / LOCATION
+          ================================================== */}
+
           {(date || location) && (
             <div className="mt-4 space-y-2.5">
+
               {date && (
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#0854A7]/10">
+
+                  <div
+                    className="
+                      flex
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-[#0854A7]/10
+                    "
+                  >
                     <FiCalendar
                       size={15}
                       className="text-[#197BE8]"
                     />
                   </div>
 
-                  <p className="text-xs leading-relaxed text-[#AFAFAF] sm:text-sm">
+                  <p
+                    className="
+                      text-xs
+                      leading-relaxed
+                      text-[#AFAFAF]
+
+                      sm:text-sm
+                    "
+                  >
                     {date}
                   </p>
+
                 </div>
               )}
 
               {location && (
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#0854A7]/10">
+
+                  <div
+                    className="
+                      flex
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-[#0854A7]/10
+                    "
+                  >
                     <SlLocationPin
                       size={15}
                       className="text-[#197BE8]"
                     />
                   </div>
 
-                  <p className="line-clamp-1 text-xs leading-relaxed text-[#AFAFAF] sm:text-sm">
+                  <p
+                    className="
+                      line-clamp-1
+                      text-xs
+                      leading-relaxed
+                      text-[#AFAFAF]
+
+                      sm:text-sm
+                    "
+                  >
                     {location}
                   </p>
+
                 </div>
               )}
+
             </div>
           )}
 
-          {/* DESCRIPTION */}
+          {/* =================================================
+              DESCRIPTION
+          ================================================== */}
+
           {description && !date && !location && (
             <p
               className="
@@ -197,11 +374,16 @@ const ImageCard = ({
               {description}
             </p>
           )}
+
         </div>
 
-        {/* BUTTON */}
+        {/* =================================================
+            BUTTON
+        ================================================== */}
+
         {buttonText && (
           <div className="mt-6">
+
             <Button
               type="button"
               variant={buttonVariant}
@@ -214,17 +396,21 @@ const ImageCard = ({
                 py-2.5
                 text-sm
                 font-medium
+
                 transition-all
                 duration-300
+
                 sm:py-3
               "
             >
               {buttonText}
             </Button>
+
           </div>
         )}
+
       </div>
-    </div>
+    </article>
   )
 }
 
