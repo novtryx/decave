@@ -24,6 +24,11 @@ export interface TicketData {
   eventName: string;
   eventDate: string;
   eventLocation: string;
+  // Carried over from the event page's visit-tracking beat so the
+  // resulting purchase can be attributed to a traffic source. May be
+  // absent (e.g. ticket data set some other way) — purchase still
+  // works fine without it, it's just source data that goes missing.
+  sessionRef?: string;
 }
 
 export interface ContactInfo {
@@ -152,7 +157,8 @@ fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment/validate?code=${code}`)
             eventLocation: rawTicket.eventLocation || "",
             features: rawTicket.features || [],
             originalPrice: rawTicket.originalPrice ? Number(rawTicket.originalPrice) : undefined,
-            personCount: rawTicket.personCount || "1 person"
+            personCount: rawTicket.personCount || "1 person",
+            sessionRef: rawTicket.sessionRef || undefined,
           };
           
           console.log("Loaded ticket:", ticket);
@@ -286,6 +292,7 @@ const handleValidateReferral = async () => {
         buyers: buyers,
         ...(referralCode.trim() && { referralCode: referralCode.trim() }),
         ...(cocktailSelections.length > 0 && { cocktails: cocktailSelections }),
+        ...(ticketData.sessionRef && { sessionRef: ticketData.sessionRef }),
       };
 
       console.log("Sending purchase request:", purchaseRequest);

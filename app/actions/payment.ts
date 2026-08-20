@@ -21,6 +21,10 @@ export type PurchaseRequest = {
   buyers: Buyer[]; 
   referralCode?: string;
   cocktails?: CocktailSelection[];
+  // Ties this purchase back to the page-visit that led to it, for
+  // the traffic-source conversion breakdown (see actions/tracking.ts).
+  // Optional — a missing value just means no source data for this sale.
+  sessionRef?: string;
 };
 
 

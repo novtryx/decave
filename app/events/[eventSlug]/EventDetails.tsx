@@ -22,6 +22,7 @@ import { color } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import Button from "@/components/layout/Button";
 import { getTicketAvailability } from "@/lib/ticketAvailability";
+import { useTrackVisit } from "@/lib/useTrackVisit";
 
 const AFROSPOOK_WHATSAPP_LINK =
   "https://chat.whatsapp.com/F4lSwC5tUOu6KStqUkz19Y?mode=gi_t";
@@ -33,6 +34,12 @@ interface EventDetailsProps {
 
 export default function EventDetails({ event, referral }: EventDetailsProps) {
   const router = useRouter();
+
+  // Fires once per page load and reports where this visitor came
+  // from (utm_source, or the referrer if untagged). The returned id
+  // gets carried into checkout so a resulting sale can be traced
+  // back to its traffic source.
+  const sessionRef = useTrackVisit(event.id);
 
   const startDate = new Date(event.eventDetails.startDate);
   const endDate = new Date(event.eventDetails.endDate);
@@ -74,6 +81,7 @@ export default function EventDetails({ event, referral }: EventDetailsProps) {
         eventName: event.eventDetails.eventTitle,
         eventDate: event.eventDetails.startDate,
         eventLocation: `${event.eventDetails.venue}, ${event.eventDetails.address}`,
+        sessionRef,
       }),
     );
 
