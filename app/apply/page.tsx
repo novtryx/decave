@@ -209,7 +209,7 @@ function ApplyFlow() {
 
   if (submitted) {
     return (
-      <div className="max-w-xl mx-auto px-4 py-44 text-center">
+      <div className="max-w-xl mx-auto px-4 py-24 text-center">
         <div className="w-16 h-16 rounded-full bg-[#CCA33A]/10 border border-[#CCA33A] flex items-center justify-center mx-auto mb-6">
           <span className="text-3xl">✓</span>
         </div>
@@ -229,13 +229,21 @@ function ApplyFlow() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-24  sm:py-40">
-      <h1 className="text-2xl sm:text-3xl font-bold text-[#F9F7F4] mb-1">Afrospook 2026 Open Call</h1>
-      <p className="text-[#8a8a8a] text-sm mb-8">
+    // pt-28/pt-32 clears the fixed floating header (same convention as
+    // checkout/page.tsx's py-20/mt-20) — the header is `fixed`, so it
+    // takes no space in normal flow and anything with too little top
+    // padding renders underneath it instead of below it. Step 0 still
+    // trims the BOTTOM spacing (pb-6) to keep the 8-card grid compact,
+    // but the top offset stays consistent across every step.
+    <div className={`max-w-2xl mx-auto px-4 pt-28 sm:pt-32 ${step === 0 ? "pb-6 sm:pb-10" : "pb-16 sm:pb-24"}`}>
+      <h1 className={`font-bold text-[#F9F7F4] ${step === 0 ? "text-xl sm:text-2xl mb-1" : "text-2xl sm:text-3xl mb-1"}`}>
+        Afrospook 2026 Open Call
+      </h1>
+      <p className={`text-[#8a8a8a] text-sm ${step === 0 ? "mb-4" : "mb-8"}`}>
         Apply to be part of Afrospook 2026 — select a category and tell us about yourself.
       </p>
 
-      <ApplyProgress currentStep={step} />
+      {step !== 0 && <ApplyProgress currentStep={step} />}
 
       {error && (
         <div className="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
@@ -244,10 +252,14 @@ function ApplyFlow() {
       )}
 
       {/* Step 0/1 collapsed together: category first, then personal info,
-          both required before the application can be created server-side. */}
+          both required before the application can be created server-side.
+          Step 0's chrome above is intentionally tighter, and the progress
+          bar is skipped here entirely — the goal is fitting all 8
+          category cards in view without scrolling, and every bit of
+          vertical space saved above the grid helps on shorter screens. */}
       {step === 0 && (
-        <div className="space-y-4">
-          <h2 className="text-[#F9F7F4] font-semibold text-lg mb-2">Select a category</h2>
+        <div className="space-y-3">
+          <h2 className="text-[#F9F7F4] font-semibold text-base sm:text-lg">Select a category</h2>
           <CategoryGrid
             categories={categories}
             selectedSlug={selectedCategory?.slug}
@@ -256,7 +268,7 @@ function ApplyFlow() {
           <button
             disabled={!selectedCategory}
             onClick={() => setStep(1)}
-            className="w-full mt-4 px-6 py-3 bg-[#CCA33A] text-black font-semibold rounded-lg disabled:opacity-40"
+            className="w-full mt-3 px-6 py-3 bg-[#CCA33A] text-black font-semibold rounded-lg disabled:opacity-40"
           >
             Continue
           </button>
