@@ -1,9 +1,8 @@
 "use client"
 
 import { IoMusicalNotesSharp } from 'react-icons/io5'
-import { GoPeople } from 'react-icons/go'
 import SectionHeader from '../layout/sectionHeader'
-import ImageCard from '../layout/ImageCard'
+import EventCard from './EventCard'
 import ViewMoreButton from '../layout/ViewMoreButton'
 import type { Event } from '@/app/actions/events'
 import { createSlug } from '@/utils/slugify'
@@ -47,24 +46,21 @@ const UpcomingEventsClient = ({ events }: UpcomingEventsClientProps) => {
             {events?.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 place-items-center sm:place-items-stretch">
                     {events?.map((event) => (
-                        <ImageCard 
+                        <EventCard 
                             key={event._id}
                             image={event.eventDetails.eventBanner || "/card-image.png"}
                             title={event.eventDetails.eventTitle}
                             badge={{ 
                                 text: "UPCOMING", 
-                                bgColor: event.eventDetails.brandColor?.primaryColor || "#EEF6FFCC", 
-                                textColor: event.eventDetails.brandColor?.secondaryColor || "#001D3D" 
+                                bgColor: event.eventDetails.brandColor?.primaryColor || "#CCA33A", 
+                                textColor: event.eventDetails.brandColor?.secondaryColor || "#111111" 
                             }}
-                            // peopleCount="1.8K"
-                            icon={GoPeople}
                             date={formatDate(
                                 event.eventDetails.startDate,
                                 event.eventDetails.endDate,
                             )}
                             location={event.eventDetails.venue}
                             buttonText="Secure Your Place"
-                            buttonVariant="outline"
                             buttonHref={`/events/${createSlug(event.eventDetails.eventTitle)}`}
                         />
                     ))}

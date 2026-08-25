@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { IoMusicalNotesSharp } from "react-icons/io5";
-import { GoPeople } from "react-icons/go";
 import SectionHeader from "../layout/sectionHeader";
-import ImageCard from "../layout/ImageCard";
+import EventCard from "./EventCard";
 import ViewMoreButton from "../layout/ViewMoreButton";
 
 const fetchApprovedEvents = async () => {
@@ -80,26 +79,23 @@ description="Explore events created by other organizers and find something new t
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8 place-items-center sm:place-items-stretch">
           
           {events.map((event: any) => (
-            <ImageCard
+            <EventCard
               key={event.id}
               image={event.banner || "/card-image.png"}
               title={event.title}
-              
+
               badge={{
                 text: "UPCOMING",
                 bgColor: "#FFD159",
                 textColor: "#0A0A0A",
               }}
 
-              icon={GoPeople}
-              peopleCount={event.attendeesCount || 0}
-
               date={formatDate(event.eventDate)}
               location={event.venue}
 
               buttonText="Secure Your Place"
-              buttonVariant="outline"
               buttonHref={`https://events.decavemgt.com/events/${spaceToUnderscore(event.title)}`}
+              buttonExternal
             />
           ))}
         </div>

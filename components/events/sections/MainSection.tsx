@@ -40,16 +40,31 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
     return true;
   });
 
-  const upcomingEvents = events.filter(isUpcoming);
-  const pastEvents     = events.filter((e) => !isUpcoming(e));
+  // Soonest upcoming event first, so "View Event" naturally surfaces
+  // what's happening next rather than whatever order the API returned.
+  const upcomingEvents = events
+    .filter(isUpcoming)
+    .sort(
+      (a, b) =>
+        new Date(a.eventDetails.startDate).getTime() -
+        new Date(b.eventDetails.startDate).getTime()
+    );
 
-  const featuredEvent = upcomingEvents.length > 0
-    ? [...upcomingEvents].sort(
-        (a, b) =>
-          new Date(a.eventDetails.startDate).getTime() -
-          new Date(b.eventDetails.startDate).getTime()
-      )[0]
-    : events[0];
+  // Most recently-ended event first — the past-events equivalent of
+  // "soonest first": people browsing past events care about the
+  // latest one, not whichever the API happened to list first.
+  const pastEvents = events
+    .filter((e) => !isUpcoming(e))
+    .sort(
+      (a, b) =>
+        new Date(b.eventDetails.startDate).getTime() -
+        new Date(a.eventDetails.startDate).getTime()
+    );
+
+  // Only ever feature something that's actually upcoming — an empty
+  // upcoming list means no featured section at all, rather than
+  // silently falling back to an arbitrary (possibly past) event.
+  const featuredEvent = upcomingEvents.length > 0 ? upcomingEvents[0] : null;
 
   const formatDate = (startDate: string, endDate: string) => {
     const start = new Date(startDate);
@@ -87,7 +102,7 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
       {/* Featured Event */}
       {featuredEvent && (
         <section className="bg-[#0f0f0f] mt-10 px-6 lg:px-16 py-14">
-          <div className="flex gap-3 items-center mb-8 text-[#0854a7]">
+          <div className="flex gap-3 items-center mb-8 text-[#CCA33A]">
             <FaRegStar />
             <h4>FEATURED EVENT</h4>
           </div>
@@ -110,7 +125,7 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
 
       {/* Upcoming Events */}
       {upcomingEvents.length > 0 && (
-        <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-16 py-14">
+        <section className="bg-[#0f0f0f] mt-0 border-t border-[#292929] px-6 lg:px-16 py-14">
           <SectionHeader
             title="DeCave Events"
             description="Don't miss out these upcoming experiences"
@@ -147,7 +162,7 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
 
  {/* ── Other Organizers' Events ── */}
       {approvedEvents.length > 0 && (
-        <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-16 py-14">
+        <section className="bg-[#0f0f0f] mt-0 border-t border-[#292929] px-6 lg:px-16 py-14">
           <SectionHeader
             // icon={IoMusicalNotesSharp}
             iconColor="#7B3FE4"
@@ -156,7 +171,9 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
             description="Explore events created by other organizers and find something new to attend."
           />
           <div className="my-14 grid grid-cols-1 lg:grid-cols-3 items-stretch gap-6">
-            {approvedEvents.map((event: any) => (
+            {[...approvedEvents]
+              .sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime())
+              .map((event: any) => (
               <ImageCard
                 key={event.id}
                 image={event.banner || "/card-image.png"}
@@ -177,7 +194,7 @@ export default function MainSection({ initialEvents, approvedEvents }: MainSecti
 
       {/* Past Events */}
       {pastEvents.length > 0 && (
-        <section className="bg-[#0f0f0f] mt-0 border-t border-[#656161] px-6 lg:px-16 py-14">
+        <section className="bg-[#0f0f0f] mt-0 border-t border-[#292929] px-6 lg:px-16 py-14">
           <SectionHeader
             title="Past Events"
             description="Relive the moments from our previous experiences"
