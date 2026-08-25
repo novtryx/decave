@@ -333,7 +333,7 @@ function ApplyFlow() {
 
       {step === 2 && selectedCategory && (
         <div className="space-y-5">
-          <h2 className="text-[#F9F7F4] font-semibold text-lg mb-2">{selectedCategory.name} Application</h2>
+          <h2 className="text-[#F9F7F4] font-semibold text-lg">{selectedCategory.name} Application</h2>
           <div className="bg-[#151515] rounded-2xl p-5 space-y-5">
             {selectedCategory.fields
               .filter((f) => f.type !== "file")
