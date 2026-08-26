@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import {
   getOpenCallCategories,
   getOpenCallCategory,
+  getOpenCallApplication,
   startOpenCallApplication,
   saveOpenCallProgress,
   submitOpenCallApplication,
@@ -45,18 +46,24 @@ function ApplyFlow() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // ---- Bootstrapping: resume an existing draft, or load categories fresh ----
+  // When a saved draft is found, its data is held here WITHOUT being
+  // applied to the form yet — the client wants an explicit choice
+  // ("continue where you left off?") rather than silently resuming.
+  // Only resolveDraftPrompt(...) actually hydrates the form state.
+  const [pendingDraft, setPendingDraft] = useState<ApplicationState | null>(null);
+
+  // ---- Bootstrapping: detect an existing draft, or load categories fresh ----
   useEffect(() => {
     (async () => {
       const existingToken =
         typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
 
       if (existingToken) {
-        const res = await import("@/app/actions/openCall").then((m) =>
-          m.getOpenCallApplication(existingToken)
-        );
+        const res = await getOpenCallApplication(existingToken);
         if (res.success && res.data.status === "draft") {
-          hydrateFromApplication(res.data);
+          // Don't hydrate yet — surface the choice first and let
+          // resolveDraftPrompt decide what happens next.
+          setPendingDraft(res.data);
           setLoading(false);
           return;
         }
@@ -79,6 +86,38 @@ function ApplyFlow() {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Runs once the applicant answers the "continue where you left off?"
+  // prompt. `continue: true` hydrates the form from the saved draft,
+  // same as the old automatic behavior. `continue: false` forgets the
+  // token locally (the draft itself is untouched server-side — same
+  // non-destructive pattern as the category-switch flow) and loads a
+  // completely fresh category grid, as if they'd never started.
+  const resolveDraftPrompt = async (shouldContinue: boolean) => {
+    if (!pendingDraft) return;
+
+    if (shouldContinue) {
+      hydrateFromApplication(pendingDraft);
+      setPendingDraft(null);
+      return;
+    }
+
+    window.localStorage.removeItem(STORAGE_KEY);
+    setPendingDraft(null);
+    setLoading(true);
+
+    const catRes = await getOpenCallCategories();
+    if (catRes.success) {
+      setCategories(catRes.data);
+      if (preselectedSlug) {
+        const match = catRes.data.find((c) => c.slug === preselectedSlug);
+        if (match) setSelectedCategory(match);
+      }
+    } else {
+      setError(catRes.error);
+    }
+    setLoading(false);
+  };
 
   function hydrateFromApplication(data: ApplicationState) {
     setResumeToken(data.resumeToken);
@@ -203,6 +242,40 @@ function ApplyFlow() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#CCA33A]" />
+      </div>
+    );
+  }
+
+  if (pendingDraft) {
+    return (
+      <div className="max-w-md mx-auto px-4 pt-28 sm:pt-32 pb-16 text-center">
+        <div className="w-14 h-14 rounded-full bg-[#CCA33A]/10 border border-[#CCA33A] flex items-center justify-center mx-auto mb-5">
+          <span className="text-2xl">👋</span>
+        </div>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#F9F7F4] mb-2">Welcome back</h1>
+        <p className="text-[#8a8a8a] text-sm mb-8">
+          You have an application in progress for{" "}
+          <span className="text-[#CCA33A]">{pendingDraft.category.name}</span>. Would you like to
+          continue where you left off, or start a new application?
+        </p>
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={() => resolveDraftPrompt(true)}
+            className="w-full px-6 py-3 bg-[#CCA33A] text-black font-semibold rounded-lg"
+          >
+            Continue where I left off
+          </button>
+          <button
+            onClick={() => resolveDraftPrompt(false)}
+            className="w-full px-6 py-3 bg-[#151515] border border-[#2a2a2a] text-[#F9F7F4] font-medium rounded-lg"
+          >
+            Start a new application
+          </button>
+        </div>
+        <p className="text-[#6F6F6F] text-xs mt-6">
+          Starting a new application won't delete your in-progress one — you can always come back
+          to it later by selecting the same category again.
+        </p>
       </div>
     );
   }
