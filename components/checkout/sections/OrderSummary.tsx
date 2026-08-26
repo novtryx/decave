@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import SectionHeader from "@/components/layout/sectionHeader";
 import { RiLockLine } from "react-icons/ri";
+import PaymentGatewaySelector, { PaymentGateway } from "./PaymentGatewaySelector";
 
 export interface TicketData {
   id: string;
@@ -21,7 +23,7 @@ interface OrderSummaryProps {
   ticketData: TicketData;
   quantity: number;
   setQuantity: (q: number) => void;
-  onProceedToPayment: (quantity: number) => Promise<void>;
+  onProceedToPayment: (quantity: number, gateway: PaymentGateway) => Promise<void>;
   isProcessing: boolean;
   // Whether a valid referral code is currently applied — shown here
   // purely for buyer clarity. The backend independently recalculates
@@ -46,6 +48,10 @@ export default function OrderSummary({
   hasReferralDiscount = false,
   cocktailItems = [],
 }: OrderSummaryProps) {
+  // Monnify pre-selected — it's the one badged "Recommended" in the
+  // picker below, so it should also be what's already chosen by
+  // default rather than requiring an extra tap to match the badge.
+  const [selectedGateway, setSelectedGateway] = useState<PaymentGateway>("monnify");
 
   const subtotal = ticketData.price * quantity;
   const serviceFee = subtotal * 0.00;
@@ -168,9 +174,16 @@ export default function OrderSummary({
           <p className="text-[#EFBD3E] font-bold text-3xl">₦{total.toLocaleString()}</p>
         </div>
 
+        {/* Payment Gateway Selector */}
+        <PaymentGatewaySelector
+          selected={selectedGateway}
+          onSelect={setSelectedGateway}
+          disabled={isProcessing}
+        />
+
         {/* Proceed to Payment Button */}
         <button
-          onClick={() => onProceedToPayment(quantity)}
+          onClick={() => onProceedToPayment(quantity, selectedGateway)}
           disabled={isProcessing}
           className={`w-full p-4 mt-4 rounded-xl flex justify-center items-center gap-3 font-semibold text-lg transition-all ${
             isProcessing

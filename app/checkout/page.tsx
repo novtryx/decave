@@ -198,8 +198,9 @@ const handleValidateReferral = async () => {
   }
 };
 
-  const handleProceedToPayment = async (qty: number) => {
+  const handleProceedToPayment = async (qty: number, gateway: "monnify" | "paystack") => {
     console.log("=== PAYMENT PROCESS STARTED ===");
+    console.log("🔍 GATEWAY TRACE — handleProceedToPayment received gateway argument:", gateway);
     
     if (!ticketData) {
       alert("Ticket data not loaded. Please select a ticket again.");
@@ -293,9 +294,11 @@ const handleValidateReferral = async () => {
         ...(referralCode.trim() && { referralCode: referralCode.trim() }),
         ...(cocktailSelections.length > 0 && { cocktails: cocktailSelections }),
         ...(ticketData.sessionRef && { sessionRef: ticketData.sessionRef }),
+        gateway,
       };
 
       console.log("Sending purchase request:", purchaseRequest);
+      console.log("🔍 GATEWAY TRACE — purchaseRequest.gateway:", purchaseRequest.gateway);
 
       const response = await purchaseTicket(purchaseRequest);
 

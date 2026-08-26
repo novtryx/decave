@@ -25,6 +25,11 @@ export type PurchaseRequest = {
   // the traffic-source conversion breakdown (see actions/tracking.ts).
   // Optional — a missing value just means no source data for this sale.
   sessionRef?: string;
+  // Which payment gateway to charge through. Defaults to "paystack"
+  // server-side if omitted — always sent explicitly from checkout
+  // now that there's a picker, but kept optional here so this type
+  // doesn't force a breaking change on any other caller.
+  gateway?: "monnify" | "paystack";
 };
 
 
@@ -37,6 +42,7 @@ export type PurchaseResponse = {
 export async function purchaseTicket(purchaseData: PurchaseRequest): Promise<PurchaseResponse> {
   try {
     console.log("🚀 Sending payment request via publicFetch...");
+    console.log("🔍 GATEWAY TRACE — purchaseData.gateway received by server action:", purchaseData.gateway);
     
     // DO NOT stringify the body here - fetcher will do it!
     const response = await publicFetch(`/payment/purchase`, {
