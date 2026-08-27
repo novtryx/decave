@@ -40,7 +40,7 @@ function ApplyFlow() {
   const [selectedCategory, setSelectedCategory] = useState<OpenCallCategory | null>(null);
 
   const [resumeToken, setResumeToken] = useState<string | null>(null);
-  const [applicant, setApplicant] = useState({ fullName: "", email: "", phoneNumber: "" });
+  const [applicant, setApplicant] = useState({ fullName: "", email: "", whatsappNumber: "" });
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [files, setFiles] = useState<Record<string, ApplicationFile>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -124,7 +124,7 @@ function ApplyFlow() {
     setApplicant({
       fullName: data.applicant.fullName,
       email: data.applicant.email,
-      phoneNumber: data.applicant.phoneNumber,
+      whatsappNumber: data.applicant.whatsappNumber,
     });
     setSelectedCategory({
       _id: "",
@@ -150,8 +150,8 @@ function ApplyFlow() {
       setError("Please select a category to continue.");
       return;
     }
-    if (!applicant.fullName.trim() || !applicant.email.trim() || !applicant.phoneNumber.trim()) {
-      setError("Please fill in your name, email, and phone number.");
+    if (!applicant.fullName.trim() || !applicant.email.trim() || !applicant.whatsappNumber.trim()) {
+      setError("Please fill in your name, email, and whatsapp number.");
       return;
     }
     setError(null);
@@ -160,7 +160,7 @@ function ApplyFlow() {
       categorySlug: selectedCategory.slug,
       fullName: applicant.fullName.trim(),
       email: applicant.email.trim(),
-      phoneNumber: applicant.phoneNumber.trim(),
+      whatsappNumber: applicant.whatsappNumber.trim(),
     });
     setSaving(false);
 
@@ -377,11 +377,11 @@ function ApplyFlow() {
               </p>
             </div>
             <div>
-              <label className="block text-[#F9F7F4] font-medium text-sm mb-1.5">Phone Number *</label>
+              <label className="block text-[#F9F7F4] font-medium text-sm mb-1.5">Whatsapp Number *</label>
               <input
                 type="tel"
-                value={applicant.phoneNumber}
-                onChange={(e) => setApplicant((p) => ({ ...p, phoneNumber: e.target.value }))}
+                value={applicant.whatsappNumber}
+                onChange={(e) => setApplicant((p) => ({ ...p, whatsappNumber: e.target.value }))}
                 className="w-full bg-[#0f0f0f] border border-[#2a2a2a] text-[#F9F7F4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#CCA33A]"
               />
             </div>
@@ -484,7 +484,7 @@ function ApplyFlow() {
             <h3 className="text-[#CCA33A] text-sm font-semibold uppercase tracking-wide">Personal Info</h3>
             <ReviewRow label="Name" value={applicant.fullName} />
             <ReviewRow label="Email" value={applicant.email} />
-            <ReviewRow label="Phone" value={applicant.phoneNumber} />
+            <ReviewRow label="Phone" value={applicant.whatsappNumber} />
             <ReviewRow label="Category" value={selectedCategory.name} />
           </div>
 

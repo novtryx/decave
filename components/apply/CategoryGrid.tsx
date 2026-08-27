@@ -12,7 +12,7 @@ export default function CategoryGrid({
   onSelect: (category: OpenCallCategory) => void;
 }) {
   return (
-    // 2 columns on mobile, 3 on small tablets, 4 from md up — with 8
+    // 2 columns on mobile, 3 on small tablets, 4 from md up — with 6
     // categories that's always exactly 2 or fewer rows, so the whole
     // grid fits in view without scrolling. Cards are compact (short
     // fixed height, no long description) specifically so density

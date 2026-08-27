@@ -49,7 +49,7 @@ export type ApplicationState = {
   applicant: {
     fullName: string;
     email: string;
-    phoneNumber: string;
+    whatsappNumber: string;
     country?: string;
     city?: string;
     bio?: string;
@@ -85,7 +85,7 @@ export async function startOpenCallApplication(input: {
   categorySlug: string;
   fullName: string;
   email: string;
-  phoneNumber: string;
+  whatsappNumber: string;
 }) {
   return safeFetch<ApplicationState>("/apply/start", {
     method: "POST",
