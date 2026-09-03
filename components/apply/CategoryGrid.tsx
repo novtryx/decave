@@ -11,6 +11,11 @@ export default function CategoryGrid({
   selectedSlug?: string;
   onSelect: (category: OpenCallCategory) => void;
 }) {
+
+
+  function displayCategoryName(name: string) {
+  return name === "Afrospook Crew" ? "Volunteer" : name;
+}
   return (
     // 2 columns on mobile, 3 on small tablets, 4 from md up — with 6
     // categories that's always exactly 2 or fewer rows, so the whole
@@ -37,7 +42,7 @@ export default function CategoryGrid({
                 isSelected ? "text-[#CCA33A]" : "text-[#F9F7F4]"
               }`}
             >
-              {cat.name}
+              {displayCategoryName(cat.name)}
             </h3>
           </button>
         );

@@ -51,6 +51,8 @@ function ApplyFlow() {
   // ("continue where you left off?") rather than silently resuming.
   // Only resolveDraftPrompt(...) actually hydrates the form state.
   const [pendingDraft, setPendingDraft] = useState<ApplicationState | null>(null);
+  
+
 
   // ---- Bootstrapping: detect an existing draft, or load categories fresh ----
   useEffect(() => {
