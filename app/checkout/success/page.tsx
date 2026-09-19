@@ -71,30 +71,34 @@ function PaymentSuccessContent() {
 
         console.log("Verifying payment with reference:", reference);
 
-        const data = await verifyPayment(reference);
-        console.log("Verification response:", data);
+        const result = await verifyPayment(reference);
+        console.log("Verification response:", result);
 
-        if (data.success) {
-          setTransactionData(data);
+        // result is a plain returned value (never thrown), so whatever
+        // message the backend gave — including Paystack's own decline
+        // reason — makes it here intact instead of being replaced by a
+        // generic production error message.
+        if (result.success && result.data.success) {
+          setTransactionData(result.data as TransactionData);
 
           // Store transaction data in sessionStorage for OrderConfirmation and Ticket page
-          sessionStorage.setItem("verifiedOrder", JSON.stringify(data));
+          sessionStorage.setItem("verifiedOrder", JSON.stringify(result.data));
 
           // Mark that payment has been verified to prevent re-verification
           sessionStorage.setItem("paymentVerified", "true");
         } else {
-          // Redirect to error page with error message
-          const errorReason = encodeURIComponent(
-            data.message || "Payment verification failed",
-          );
-          router.push(`/checkout/error?reason=${errorReason}`);
+          // Either the action itself failed (network/backend issue) or
+          // the backend explicitly told us the payment failed — either
+          // way, the message is the real reason.
+          const message = result.success
+            ? result.data.message || "Payment verification failed"
+            : result.message;
+          router.push(`/checkout/error?reason=${encodeURIComponent(message)}`);
         }
       } catch (err: any) {
-          console.error("Verification error:", err);
-          const errorReason = encodeURIComponent(
-            err.message || "Failed to fetch transaction"  // updated message
-          );
-          router.push(`/checkout/error?reason=${errorReason}`);
+          // Only reached for a genuine unexpected bug now.
+          console.error("Unexpected verification error:", err);
+          router.push(`/checkout/error?reason=${encodeURIComponent("Something went wrong confirming your payment.")}`);
       } finally {
         setIsLoading(false);
       }

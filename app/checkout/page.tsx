@@ -297,12 +297,23 @@ const handleValidateReferral = async () => {
 
       console.log("Sending purchase request:", purchaseRequest);
 
-      const response = await purchaseTicket(purchaseRequest);
+          const result = await purchaseTicket(purchaseRequest);
 
-      console.log("Payment response:", response);
+      console.log("Payment response:", result);
 
-      if (!response?.authorization_url) { 
-        throw new Error("No payment URL received");
+      if (!result.success) {
+        // result.message is the real reason (from our backend, which
+        // itself forwards Paystack's own error text) — this is a plain
+        // returned value, not a thrown error, so it survives the trip
+        // back from the server action intact instead of being replaced
+        // by Next.js's generic production error message.
+        alert(`Payment Error: ${result.message}`);
+        return;
+      }
+
+      if (!result.data.authorization_url) {
+        alert("Payment Error: No payment URL was returned. Please try again.");
+        return;
       }
 
       // Store order data
@@ -310,7 +321,7 @@ const handleValidateReferral = async () => {
         "orderData",
         JSON.stringify({
           ...purchaseRequest,
-          txnId: response.txnId,
+          txnId: result.data.txnId,
           quantity: qty,
           subtotal: subtotal,
           serviceFee: serviceFee,
@@ -322,11 +333,13 @@ const handleValidateReferral = async () => {
       );
 
       // Redirect to payment
-      window.location.href = response.authorization_url;
-      
+      window.location.href = result.data.authorization_url;
+
     } catch (err: any) {
-      console.error("Payment error:", err);
-      alert(`Payment Error: ${err.message || "Failed to process payment. Please try again."}`);
+      // Only genuinely unexpected errors (a real bug, not a handled
+      // payment failure) land here now.
+      console.error("Unexpected payment error:", err);
+      alert("Something went wrong starting your payment. Please try again.");
     } finally {
       setIsProcessing(false);
     }
