@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface CountdownTimerProps {
   targetDate: Date;
 }
-
+ 
 interface TimeLeft {
   days: number;
   hours: number;
